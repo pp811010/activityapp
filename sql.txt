@@ -1,0 +1,55 @@
+-- Insert Data into booking_activity
+INSERT INTO booking_activity (name) VALUES
+('Sports Day'),
+('Science Fair'),
+('Art Exhibition'),
+('Cultural Fest'),
+('Hackathon');
+
+-- Insert Data into booking_staff
+INSERT INTO booking_staff (first_name, last_name, email, phone) VALUES
+('John', 'Doe', 'john.doe@example.com', '1234567890'),
+('Jane', 'Smith', 'jane.smith@example.com', '2345678901'),
+('Emily', 'Johnson', 'emily.johnson@example.com', '3456789012'),
+('Michael', 'Brown', 'michael.brown@example.com', '4567890123'),
+('Sarah', 'Davis', 'sarah.davis@example.com', '5678901234');
+
+-- Insert Data into booking_student
+INSERT INTO booking_student (first_name, last_name, department, stu_card, email, phone) VALUES
+('Alice', 'Williams', 'CS', 'CS1001', 'alice.williams@example.com', '6789012345'),
+('Bob', 'Jones', 'ENG', 'ENG1002', 'bob.jones@example.com', '7890123456'),
+('Charlie', 'Garcia', 'BUS', 'BUS1003', 'charlie.garcia@example.com', '8901234567'),
+('Diana', 'Martinez', 'CS', 'CS1004', 'diana.martinez@example.com', '9012345678'),
+('Ethan', 'Lopez', 'ENG', 'ENG1005', 'ethan.lopez@example.com', '0123456789');
+
+-- Insert Data into booking_place
+INSERT INTO booking_place (activity_id, name, location, description, photo) VALUES
+(1, 'Gym A', 'Building A, 1st Floor', 'A spacious gym for various activities.', 'gym_a.jpg'),
+(2, 'Room B', 'Building B, 2nd Floor', 'A classroom for workshops and seminars.', 'room_b.jpg'),
+(3, 'Outdoor Field', 'Campus Grounds', 'An outdoor field for sports activities.', 'outdoor_field.jpg'),
+(4, 'Auditorium', 'Building C', 'A large auditorium for events and gatherings.', 'auditorium.jpg'),
+(5, 'Art Studio', 'Building D', 'A studio equipped for art classes.', 'art_studio.jpg');
+
+-- Insert Data into booking_booking
+INSERT INTO booking_booking (student_id, place_id, booking_date, status, created_at, updated_at) VALUES
+(1, 1, '2024-09-24 10:00:00', 'PENDING', NOW(), NOW()),
+(2, 2, '2024-09-25 12:00:00', 'APPROVED', NOW(), NOW()),
+(3, 3, '2024-09-26 14:00:00', 'PENDING', NOW(), NOW()),
+(4, 4, '2024-09-27 16:00:00', 'REJECTED', NOW(), NOW()),
+(5, 5, '2024-09-28 18:00:00', 'PENDING', NOW(), NOW());
+
+-- Insert Data into booking_report
+INSERT INTO booking_report (student_id, place_id, details, reported_date, photo, status) VALUES
+(1, 1, 'Issues with the projector', NOW(), 'photo1.jpg', 'REPORTED'),
+(2, 2, 'Broken bench in the gym', NOW(), 'photo2.jpg', 'IN_PROGRESS'),
+(3, 3, 'Lights not working in the auditorium', NOW(), 'photo3.jpg', 'DONE'),
+(4, 4, 'Noise from the library', NOW(), 'photo4.jpg', 'REPORTED'),
+(5, 5, 'Unkept garden', NOW(), 'photo5.jpg', 'IN_PROGRESS');
+
+-- Insert Data into booking_bookingfile
+INSERT INTO booking_bookingfile (booking_id, card) VALUES
+(1, 'Card A'),
+(2, 'Card B'),
+(3, 'Card C'),
+(4, 'Card D'),
+(5, 'Card E');
