@@ -6,12 +6,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Report Form</title>
 </head>
-<body class="flex justify-center h-screen w-full pd-10">
-    <div class="flex justify-center item-center h-fit w-6/12 pd-10">
+<body class="flex justify-center h-screen w-full p-10 bg-gray-300">
+    <div class="flex flex-col justify-center item-center h-fit w-6/12 p-4">
+        <h1 class="text-center text-5xl font-bold">Report Form </h1>
         {{ form.non_field_errors }}
-        <form action="" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-full">
-            {{form.student.label}}
-            {{form.student}}
+        <form method="post" action="{% url 'report-form' %}" class="bg-white shadow-lg rounded px-8 pt-6 pb-8 mb-4 w-full">
+            {% csrf_token %}
+            <div class="mb-4 font-bold">
+                {{form.student.errors}}
+                {{form.student.label_tag}}
+                {{form.student}}
+            </div>
+            <div class="mb-4 font-bold">
+                {{form.place.errors}}
+                {{form.place.label}}
+                {{form.place}}
+            </div>
+            <div class="mb-4 font-bold">
+                {{form.details.errors}}
+                {{form.details.label}}
+                {{form.details}}
+            </div>
+            <div class="mb-4 font-bold">
+                {{form.reported_date.label}}
+                {{form.reported_date}}
+            </div>
+            <div class="mb-4 font-bold">
+                {{form.status.errors}}
+                {{form.status.label}}
+                {{form.status}}
+            </div>
+            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+                Submit
+            </button>
         </form>
     </div>
 </body>
