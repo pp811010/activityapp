@@ -20,146 +20,43 @@
 			</div>
 
 			<div class='py-10 px-20'>
-				<p class="text-lg 	">Booking</p>
+				<p class="text-lg">Booking</p>
 				<hr class="my-4 mb-8" >
 				<div id = 'booking' class="grid grid-cols-3 gap-7 justify-center	">
-					<div class="max-w-72 p-6 bg-white rounded-lg shadow-md ">
+					{% for i in booking%}
+						<div class="max-w-72 p-6 bg-white rounded-lg shadow-md">
+						
+							<h2 class="text-lg font-bold text-gray-900">{{i.place}}</h2>
 					
-						<h2 class="text-lg font-bold text-gray-900">Amanda Chavez</h2>
-				
-						
-						<div class="mt-4">
-							<p class="text-sm text-gray-500">Service</p>
-							<p class="text-lg text-gray-900">Physiotherapy</p>
-						</div>
-				
-						
-						<div class="mt-4 flex justify-between">
-							<div>
-								<p class="text-sm text-gray-500">Date</p>
-								<p class="text-lg text-gray-900">25 Jul 2020</p>
+							
+							<div class="mt-4">
+								<p class="text-sm text-gray-500">Service</p>
+								<p class="text-lg text-gray-900">{{i.place.location}}</p>
 							</div>
-							<div>
-								<p class="text-sm text-gray-500">Time</p>
-								<p class="text-lg text-gray-900">11:00 - 12:00</p>
-							</div>
-						</div>
-				
-						
-						<hr class="my-4">
-				
-						
-						<div class="flex justify-between">
-							<button class="text-purple-600 font-semibold">Accept Booking</button>
-							<button class="text-gray-400">ยกเลิก</button>
-						</div>
-
-						
-					</div>
-
-
-					<div class="max-w-72 p-6 bg-white rounded-lg shadow-md">
 					
-						<h2 class="text-lg font-bold text-gray-900">Amanda Chavez</h2>
-				
-						
-						<div class="mt-4">
-							<p class="text-sm text-gray-500">Service</p>
-							<p class="text-lg text-gray-900">Physiotherapy</p>
-						</div>
-				
-						
-						<div class="mt-4 flex justify-between">
-							<div>
-								<p class="text-sm text-gray-500">Date</p>
-								<p class="text-lg text-gray-900">25 Jul 2020</p>
+							
+							<div class="mt-4 flex justify-between">
+								<div>
+									<p class="text-sm text-gray-500">Date</p>
+									<p class="text-lg text-gray-900">{{ i.booking_date|date:"F j, Y" }}</p>
+								</div>
+								<div>
+									<p class="text-sm text-gray-500">Time</p>
+									<p class="text-lg text-gray-900">{{ i.booking_date|time:"H:i" }}</p>
+								</div>
 							</div>
-							<div>
-								<p class="text-sm text-gray-500">Time</p>
-								<p class="text-lg text-gray-900">11:00 - 12:00</p>
-							</div>
-						</div>
-				
-						
-						<hr class="my-4">
-				
-						
-						<div class="flex justify-between">
-							<button class="text-purple-600 font-semibold">Accept Booking</button>
-							<button class="text-gray-400">ยกเลิก</button>
-						</div>
-
-						
-					</div>
-
-
-					<div class="max-w-72 p-6 bg-white rounded-lg shadow-md">
 					
-						<h2 class="text-lg font-bold text-gray-900">Amanda Chavez</h2>
-				
-						
-						<div class="mt-4">
-							<p class="text-sm text-gray-500">Service</p>
-							<p class="text-lg text-gray-900">Physiotherapy</p>
-						</div>
-				
-						
-						<div class="mt-4 flex justify-between">
-							<div>
-								<p class="text-sm text-gray-500">Date</p>
-								<p class="text-lg text-gray-900">25 Jul 2020</p>
-							</div>
-							<div>
-								<p class="text-sm text-gray-500">Time</p>
-								<p class="text-lg text-gray-900">11:00 - 12:00</p>
+							
+							<hr class="my-4">
+			
+							<div class="flex justify-between">
+								<button class="text-purple-600 font-semibold">Accept Booking</button>
+								<button class="text-gray-400">ยกเลิก</button>
 							</div>
 						</div>
-				
-						
-						<hr class="my-4">
-				
-						
-						<div class="flex justify-between">
-							<button class="text-purple-600 font-semibold">Accept Booking</button>
-							<button class="text-gray-400">ยกเลิก</button>
-						</div>
-
-						
-					</div>
+					{% endfor %}
 
 
-					<div class="max-w-72 p-6 bg-white rounded-lg shadow-md">
-					
-						<h2 class="text-lg font-bold text-gray-900">Amanda Chavez</h2>
-				
-						
-						<div class="mt-4">
-							<p class="text-sm text-gray-500">Service</p>
-							<p class="text-lg text-gray-900">Physiotherapy</p>
-						</div>
-				
-						
-						<div class="mt-4 flex justify-between">
-							<div>
-								<p class="text-sm text-gray-500">Date</p>
-								<p class="text-lg text-gray-900">25 Jul 2020</p>
-							</div>
-							<div>
-								<p class="text-sm text-gray-500">Time</p>
-								<p class="text-lg text-gray-900">11:00 - 12:00</p>
-							</div>
-						</div>
-				
-						
-						<hr class="my-4">
-				
-						
-						<div class="flex justify-between">
-							<button class="text-purple-600 font-semibold">Accept Booking</button>
-							<button class="text-gray-400">ยกเลิก</button>
-						</div>
-
-					</div>
 				</div>
 			</div>
 		</div>

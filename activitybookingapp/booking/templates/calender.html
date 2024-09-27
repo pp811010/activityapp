@@ -4,14 +4,59 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        *{
+            margin: 0;
+            padding:0;
+            box-sizing: border-box;
+            
+        }
+        .calender{
+            position: ralative;
+            width:200px;
+            background: #fff;
+            text-align: center;
+            border-radius: 8px;
+            overflow: hidden;
+            -webkit-box-reflect: below 1px linear-gradient
+            {transparent.transparent, #0004}
+        }
+        .calender #dayName{
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: 300;
+            color: #999;
+        }
+        .calender #dayNumber{
+            margin-top: 0px;
+            line-height: 1em
+            font-size: 80px;
+            font-weight: 700;
+            color: #333;
+        }
+    </style>
 </head>
 <body>
-    <div class="px-60 py-20">
-        <h1>Booking</h1>
-        <div>
-            <input type="text" type='date-local' placeholder="เลือกวันที่จอง">
-        </div>
+    <div class = "calender">
+        <p id = 'monthName'></p>
+        <p id = 'dayName'></p>
+        <p id = 'dayNumber'></p>
+        <p id - 'year'></p>
     </div>
 </body>
+<script>
+    const lang = navugator.language
+    let date = Date()
+    let dayNumber = date.getDate()
+    let month = date.getMonth()
+    let dayName = date.toLocaleString(lang, {weekday: 'long'})
+    let monthName = date.toLocaleString(lang, {month: 'long'})
+    let year = date.toFullYear()
+
+    document.getElementById('monthName').innerHtMl = monthName;
+    document.getElementById('dayName').innerHtMl = dayName;
+    document.getElementById('dayNumber').innerHtMl = dayNumber;
+    document.getElementById('year').innerHtMl = year;
+</script>
 </html>

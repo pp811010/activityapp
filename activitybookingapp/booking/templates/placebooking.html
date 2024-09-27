@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activity booking</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <div class="py-16 flex flex-col items-center justify-center gap-10 ">
+        <p class="text-amber-700 text-xl font-medium">Booking Football playground</p>
+        
+
+        <div class="flex ">
+            <form method="post" class="flex flex-col gap-9 " >
+                {% csrf_token %}
+                <div class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                    {{form.booking_date.errors}}
+                    {{form.booking_date.label_tag}}
+                    {{form.booking_date}}
+                </div>
+                <div class = "mr-5">
+                    {{form.student.errors}}
+                    {{form.student.label_tag}}
+                    {{form.student}}
+                </div>
+                <div>
+                    {{form.place.errors}}
+                    {{form.place.label_tag}}
+                    {{form.place}}
+                </div>
+                <div>
+                    {{form.status.errors}}
+                    {{form.status.label_tag}}
+                    {{form.status}}
+                </div>
+                <button type="submit" class="p-2 bg-yellow-400 rounded-lg text-black">Booking</button>
+            </form>
+        </div>
+    </div>
+</body>
+
+<script>
+    
+</script>
+</html>
