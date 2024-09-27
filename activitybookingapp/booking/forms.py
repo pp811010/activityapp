@@ -1,7 +1,7 @@
 from datetime import date
 from django import forms
 from django.forms import ModelForm, ValidationError
-from booking.models import Report
+from booking.models import *
 
 class ReportForm(ModelForm):
     class Meta:
