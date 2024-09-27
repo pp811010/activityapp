@@ -3,60 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-
-    <style>
-        *{
-            margin: 0;
-            padding:0;
-            box-sizing: border-box;
-            
-        }
-        .calender{
-            position: ralative;
-            width:200px;
-            background: #fff;
-            text-align: center;
-            border-radius: 8px;
-            overflow: hidden;
-            -webkit-box-reflect: below 1px linear-gradient
-            {transparent.transparent, #0004}
-        }
-        .calender #dayName{
-            margin-top: 20px;
-            font-size: 20px;
-            font-weight: 300;
-            color: #999;
-        }
-        .calender #dayNumber{
-            margin-top: 0px;
-            line-height: 1em
-            font-size: 80px;
-            font-weight: 700;
-            color: #333;
-        }
-    </style>
+    <title>Calendar</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <div class = "calender">
-        <p id = 'monthName'></p>
-        <p id = 'dayName'></p>
-        <p id = 'dayNumber'></p>
-        <p id - 'year'></p>
+<body class="flex items-center justify-center min-h-screen bg-gray-100">
+    <div class="relative w-52 bg-white text-center rounded-lg overflow-hidden shadow-lg">
+        <div class="p-4">
+            <p id="monthName" class="text-gray-500 text-lg"></p>
+            <p id="dayName" class="mt-4 text-xl font-light text-gray-600"></p>
+            <p id="dayNumber" class="text-6xl font-bold text-gray-800"></p>
+            <p id="year" class="text-xl font-bold text-gray-800"></p>
+        </div>
     </div>
-</body>
-<script>
-    const lang = navugator.language
-    let date = Date()
-    let dayNumber = date.getDate()
-    let month = date.getMonth()
-    let dayName = date.toLocaleString(lang, {weekday: 'long'})
-    let monthName = date.toLocaleString(lang, {month: 'long'})
-    let year = date.toFullYear()
 
-    document.getElementById('monthName').innerHtMl = monthName;
-    document.getElementById('dayName').innerHtMl = dayName;
-    document.getElementById('dayNumber').innerHtMl = dayNumber;
-    document.getElementById('year').innerHtMl = year;
-</script>
+    <script>
+        const lang = navigator.language;
+        let date = new Date();
+        let dayNumber = date.getDate();
+        let month = date.getMonth();
+        let dayName = date.toLocaleString(lang, { weekday: 'long' });
+        let monthName = date.toLocaleString(lang, { month: 'long' });
+        let year = date.getFullYear();
+
+        document.getElementById('monthName').innerHTML = monthName;
+        document.getElementById('dayName').innerHTML = dayName;
+        document.getElementById('dayNumber').innerHTML = dayNumber;
+        document.getElementById('year').innerHTML = year;
+    </script>
+</body>
 </html>

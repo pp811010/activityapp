@@ -10,6 +10,16 @@
     <div class="py-16 flex flex-col items-center justify-center gap-10 ">
         <p class="text-amber-700 text-xl font-medium">Booking Football playground</p>
         
+        <div >
+            <div class="relative w-52 bg-white text-center rounded-lg overflow-hidden shadow-lg">
+                <div class="p-4">
+                    <p id="monthName" class="text-gray-500 text-lg"></p>
+                    <p id="dayName" class="mt-4 text-xl font-light text-gray-600"></p>
+                    <p id="dayNumber" class="text-6xl font-bold text-gray-800"></p>
+                    <p id="year" class="text-xl font-bold text-gray-800"></p>
+                </div>
+            </div>
+        </div>
 
         <div class="flex ">
             <form method="post" class="flex flex-col gap-9 " >
@@ -41,6 +51,17 @@
 </body>
 
 <script>
-    
+    const lang = navigator.language;
+    let date = new Date();
+    let dayNumber = date.getDate();
+    let month = date.getMonth();
+    let dayName = date.toLocaleString(lang, { weekday: 'long' });
+    let monthName = date.toLocaleString(lang, { month: 'long' });
+    let year = date.getFullYear();
+
+    document.getElementById('monthName').innerHTML = monthName;
+    document.getElementById('dayName').innerHTML = dayName;
+    document.getElementById('dayNumber').innerHTML = dayNumber;
+    document.getElementById('year').innerHTML = year;
 </script>
 </html>
