@@ -1,16 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Report Form</title>
-</head>
-<body class="flex justify-center h-screen w-full p-10 bg-gray-300">
+{% extends "layout.html" %}
+{% block title %}Report Form{% endblock %}
+{% block content %}
+<div class="flex flex-col justify-center items-center   h-full w-full bg-gray-300">
     <div class="flex flex-col justify-center item-center h-fit w-6/12 p-4">
-        <h1 class="text-center text-5xl font-bold">Report Form </h1>
         {{ form.non_field_errors }}
-        <form method="post" action="{% url 'report-form' %}" class="bg-white shadow-lg rounded px-8 pt-6 pb-8 mb-4 w-full">
+        <form id="report" method="post" action="{% url 'report-form' %}" class="bg-white shadow-lg rounded-xl px-7 pt-4 pb-5 w-full">
+            <h1 class="text-center text-5xl font-bold h-full w-full pb-5">Report Form </h1>
             {% csrf_token %}
             <div class="mb-4 font-bold">
                 {{form.student.errors}}
@@ -39,7 +34,20 @@
             <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
                 Submit
             </button>
+            <button 
+                class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                type="button"
+                onclick="clearData()"
+            >
+                Clear
+            </button>
         </form>
     </div>
-</body>
-</html>
+{%endblock%}
+{% block script %}
+<script>
+    function clearData() {
+        document.getElementById("report").reset();
+    }
+</script>
+{% endblock  %}
