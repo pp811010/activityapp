@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class = "claender">
+        <p id = 'monthName'></p>
+        <p id = 'dayName'></p>
+        <p id = 'dayNumber'></p>
+        <p id - 'year'></p>
+    </div>
+</body>
+<script>
+    const lang = navugator.language
+    let date = Date()
+    let dayNumber = date.getDate()
+    let month = date.getMonth()
+    let dayName = date.toLocaleString(lang, {weekday: 'long'})
+    let monthName = date.toLocaleString(lang, {month: 'long'})
+    let year = date.toFullYear()
+
+    document.getElementById('monthName').innerHtMl = 
+    month
+</script>
+</html>
