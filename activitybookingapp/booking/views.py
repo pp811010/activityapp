@@ -36,6 +36,10 @@ class ActivityBooking(View):
             "form": form
         })
 
+class CalenderView(View):
+
+    def get(self, request):
+        return render(request, 'calender.html')
 
 class ReportView(View):
 
