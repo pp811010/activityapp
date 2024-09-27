@@ -7,5 +7,5 @@ urlpatterns = [
     path("activity/", views.Activity.as_view(), name="activity"),
     path("placebooking/<int:place_id> ", views.ActivityBooking.as_view(), name="placebooking"),
     path("calender/", views.ActivityBooking.as_view(), name="placebooking"),
-    path("report-form/", views.ReportView.as_view(), name="report_form")
+    path("report-form/", views.ReportView.as_view(), name="report-form"),
 ]
