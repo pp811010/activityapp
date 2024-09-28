@@ -7,28 +7,49 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="flex items-center justify-center min-h-screen bg-gray-100">
-    <div class="relative w-52 bg-white text-center rounded-lg overflow-hidden shadow-lg">
+    <div class="relative w-64 bg-white text-center rounded-lg overflow-hidden shadow-lg">
         <div class="p-4">
-            <p id="monthName" class="text-gray-500 text-lg"></p>
-            <p id="dayName" class="mt-4 text-xl font-light text-gray-600"></p>
-            <p id="dayNumber" class="text-6xl font-bold text-gray-800"></p>
-            <p id="year" class="text-xl font-bold text-gray-800"></p>
+            <div id="calendarContainer"></div>
         </div>
     </div>
 
     <script>
         const lang = navigator.language;
-        let date = new Date();
-        let dayNumber = date.getDate();
-        let month = date.getMonth();
-        let dayName = date.toLocaleString(lang, { weekday: 'long' });
-        let monthName = date.toLocaleString(lang, { month: 'long' });
-        let year = date.getFullYear();
+        const calendarContainer = document.getElementById('calendarContainer');
+        let currentDate = new Date();
 
-        document.getElementById('monthName').innerHTML = monthName;
-        document.getElementById('dayName').innerHTML = dayName;
-        document.getElementById('dayNumber').innerHTML = dayNumber;
-        document.getElementById('year').innerHTML = year;
+        function selectCalendar(dayDiv) {
+            dayDiv.classList.add('bg-gray-400')
+        }
+
+        for (let i = 0; i < 4; i++) {  // 0 is today, and we loop to get the next 3 days
+            let date = new Date(currentDate);
+            date.setDate(currentDate.getDate() + i);
+
+            let dayNumber = date.getDate();
+            let monthName = date.toLocaleString(lang, { month: 'long' });
+            let dayName = date.toLocaleString(lang, { weekday: 'long' });
+            let year = date.getFullYear();
+
+            // Create a new div element for each day
+            let dayDiv = document.createElement('div');
+            
+
+            dayDiv.innerHTML = `
+                <p class="text-gray-500 text-lg">${monthName}</p>
+                <p class="mt-2 text-xl font-light text-gray-600">${dayName}</p>
+                <p class="text-5xl font-bold text-gray-800">${dayNumber}</p>
+                <p class="text-xl font-bold text-gray-800">${year}</p>
+            `;
+
+            dayDiv.className = `mb-4 ${i == 0 ? 'bg-yellow-200': 'bg-white'}`
+
+            dayDiv.onclick = () => {
+                selectCalendar(dayDiv)
+            }
+
+            calendarContainer.appendChild(dayDiv);
+        }
     </script>
 </body>
 </html>

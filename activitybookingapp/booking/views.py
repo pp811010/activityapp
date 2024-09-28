@@ -1,20 +1,28 @@
+from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.views import View
 from booking.forms import *
 from booking.models import *
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
 # Create your views here.
-class MyBooking(View):
+class MyBooking(LoginRequiredMixin, View):
+    login_url = '/authen/'
     def get(self, request):
         booking = Booking.objects.all()
         return render(request, 'mybooking.html', {"booking": booking})
     
+    def delete(self, request, booking_id):
+        booking = Booking.objects.get(pk=booking_id)
+        booking.delete()
+        return HttpResponse(booking_id)
+
 class Activity(View):
     def get(self, request):
         place = Place.objects.all()
         return render(request, 'activity.html', {'place': place})
     
-class ActivityBooking(View):
+class placeBooking(View):
 
     def get(self, request, place_id):
         place = Place.objects.get(pk = place_id)
@@ -24,7 +32,7 @@ class ActivityBooking(View):
             'place': place
         })
 
-    def post(self, request):
+    def post(self, request, place_id):
         form = BookingForm(request.POST)
         if form.is_valid():
             form.save()
@@ -32,7 +40,7 @@ class ActivityBooking(View):
         else:
             print(form.errors)  # แสดงผลข้อผิดพลาดที่เกิดขึ้นกับฟอร์ม
 
-        return render(request, "activitybooking.html", {
+        return render(request, "placebooking.html", {
             "form": form
         })
 

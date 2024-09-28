@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <style>
         #activity:hover {
-            background-color: #ecfffe  ;
+            background-color: #d8fff6 ;
         }
     </style>
 </head>
@@ -19,7 +19,7 @@
             <div class='grid grid-cols-3 gap-x-8 gap-y-3'>
                
                 {% for i in place%}
-                <a href='{% url "placebooking" i.id %}'>
+                <a href='{% url "placebooking" i.id %}' >
                     <div id="activity" class="px-10 py-10 flex flex-col shadow-md rounded-lg">
                         <img class = "rounded-xl" style="width: 400px; height: 170px;" src="https://sport.teenee.com/manu/img6/263787.jpg" alt="">
                         <p class="text-lg text-gray-900 mb-2 mt-4 font-bold">{{i.name}}</p>
