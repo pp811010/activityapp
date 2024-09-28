@@ -10,6 +10,7 @@
     <main class="w-full min-h-screen overflow-hidden bg-blue-500 p-8 flex items-center justify-center">
         <div class='w-full max-w-[1000px] h-[640px] bg-white rounded-3xl '>
             <div class = 'flex flex-col justify-center items-center h-full '>
+                    <img class = 'rounded-full w-60' src="https://www.hr.kmitl.ac.th/wp-content/uploads/2020/09/kmitl-logoThai-800-x-445.png" alt="">
                     <p class='text-emerald-700 text-2xl mb-10 font-semibold'>Hello, <span class='text-black'>Welcome to <span class='text-orange-500'>Activity Zone</span> </span></p>
                     {{ form.non_field_errors }}
                     <form method = 'post' action="{% url 'login' %}" class='flex flex-col gap-15 w-64'>
@@ -19,7 +20,7 @@
                         <input type="text" id="username" name="username" required  class="text-sm rounded-lg p-2.5 border-solid border-2 border-gray-200" placeholder="username">   
                         {{ form.password.errors }}
                         <label for="password" class="block mb-2 text-sm font-medium text-gray-900 mt-3">Password</label>
-                        <input type="password" id="password" name="password" required  class="mb-6 text-sm rounded-lg p-2.5 border-solid border-2 border-gray-200" placeholder="password">
+                        <input type="password" id="password" name="password" required  class="mb-8 text-sm rounded-lg p-2.5 border-solid border-2 border-gray-200" placeholder="password">
 
                         <button type='submit' class='m-auto bg-black text-white p-3 w-56 rounded-3xl'>Log in</button>
                         <p  class='mt-5 ml-2'>Don't have Account <a href="{% url 'register' %}" class='text-pink-500'>Register</a></p>

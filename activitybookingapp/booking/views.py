@@ -1,4 +1,5 @@
-from django.http import HttpResponse
+import json
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
 from django.views import View
 from booking.forms import *
@@ -22,12 +23,12 @@ class Activity(View):
         place = Place.objects.all()
         return render(request, 'activity.html', {'place': place})
     
-class placeBooking(View):
+class PlaceBooking(View):
 
     def get(self, request, place_id):
-        place = Place.objects.get(pk = place_id)
+        place = Place.objects.get(pk=place_id)
         form = BookingForm()
-        return render(request, 'placebooking.html',{
+        return render(request, 'placebooking.html', {
             "form": form,
             'place': place
         })
@@ -41,8 +42,10 @@ class placeBooking(View):
             print(form.errors)  # แสดงผลข้อผิดพลาดที่เกิดขึ้นกับฟอร์ม
 
         return render(request, "placebooking.html", {
-            "form": form
+            "form": form,
+            'place': Place.objects.get(pk=place_id)  # คืนค่า place เพื่อแสดงในฟอร์ม
         })
+
 
 class CalenderView(View):
 
