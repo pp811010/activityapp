@@ -4,111 +4,37 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        nav {
-            display: flex;
-            justify-content: space-around;
-            background-color: #466bff;
-            color: white;
-            padding: 20px;
-        }
-
-        nav a {
-            color: white;
-            text-decoration: none;
-        }
-
-        main {
-            padding: 20px;
-        }
-
-        .head {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .head .action {
-            display: flex;
-            gap: 10px;
-        }
-
-        .itemGroup {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            padding: 10px;
-        }
-
-        .item {
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px;
-            border: 1px solid #ddd;
-        }
-
-        .item .action {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        button,
-        .btn {
-            padding: 10px 15px;
-            background-color: #466bff;
-            color: white;
-            border: none;
-            cursor: pointer;
-            font-size: 13px;
-            text-decoration: none;
-        }
-
-        .btn.edit,
-        button.edit {
-            background-color: #f39c12;
-        }
-
-        .btn.delete,
-        button.delete {
-            background-color: #e74c3c;
-        }
-
-        input,
-        select,
-        textarea {
-            padding: 10px;
-            border: 1px solid #ddd;
-        }
-
-        .form {
-            display: flex;
-            gap: 10px;
-            flex-direction: column;
-            padding: 10px;
-        }
-
-        .form input {
-            width: 100%;
-        }
-    </style>
 </head>
 <div class="w-full">
     <header>
-        <nav>
-            <!-- กำหนด path  -->
-            <a href="{% url 'activity' %}">Activity</a>
-            <a href="{% url 'report-form' %}">Report</a>
-            <a href="{% url 'mybooking' %}">My Booking</a>
-        </nav>
+        <nav class="flex fixed items-center justify-between flex-wrap bg-blue-700 p-4 w-full">
+            <div class="w-full block flex-grow lg:flex lg:items-center lg:w-auto duration-300">
+              <div class="text-sm lg:flex-grow">
+                <a href="{% url 'activity' %}" 
+                class="block mt-4 lg:inline-block lg:mt-0 text-blue-100 hover:text-white mr-4 font-semibold hover:text-xl duration-300"
+                >
+                    Activity
+                </a>
+                <a href="{% url 'report-form' %}" 
+                class="block mt-4 lg:inline-block lg:mt-0 text-blue-100 hover:text-white mr-4 font-semibold hover:text-xl duration-300"
+                >
+                    Report
+                </a>
+                <a href="{% url 'mybooking' %}" 
+                class="block mt-4 lg:inline-block lg:mt-0 text-blue-100 hover:text-white font-semibold hover:text-xl duration-300"
+                >
+                    My Booking
+                </a>
+              </div>
+              <div>
+                <a href="#" 
+                class="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal-500 hover:bg-white mt-4 lg:mt-0 duration-300"
+                >
+                    Log Out
+                </a>
+              </div>
+            </div>
+          </nav>
     </header>
 </div>
 </html>

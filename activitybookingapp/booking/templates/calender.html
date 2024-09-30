@@ -1,50 +1,49 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+{% extends "layout.html" %}
+{% block head %}
+<title>Calender</title>
+<style>
+    *{
+        margin: 0;
+        padding:0;
+        box-sizing: border-box;
+        
+    }
+    .calender{
+        position: ralative;
+        width:200px;
+        background: #fff;
+        text-align: center;
+        border-radius: 8px;
+        overflow: hidden;
+        -webkit-box-reflect: below 1px linear-gradient
+        {transparent.transparent, #0004}
+    }
+    .calender #dayName{
+        margin-top: 20px;
+        font-size: 20px;
+        font-weight: 300;
+        color: #999;
+    }
+    .calender #dayNumber{
+        margin-top: 0px;
+        line-height: 1em
+        font-size: 80px;
+        font-weight: 700;
+        color: #333;
+    }
+</style>
+{% endblock  %}
 
-    <style>
-        *{
-            margin: 0;
-            padding:0;
-            box-sizing: border-box;
-            
-        }
-        .calender{
-            position: ralative;
-            width:200px;
-            background: #fff;
-            text-align: center;
-            border-radius: 8px;
-            overflow: hidden;
-            -webkit-box-reflect: below 1px linear-gradient
-            {transparent.transparent, #0004}
-        }
-        .calender #dayName{
-            margin-top: 20px;
-            font-size: 20px;
-            font-weight: 300;
-            color: #999;
-        }
-        .calender #dayNumber{
-            margin-top: 0px;
-            line-height: 1em
-            font-size: 80px;
-            font-weight: 700;
-            color: #333;
-        }
-    </style>
-</head>
-<body>
-    <div class = "calender">
-        <p id = 'monthName'></p>
-        <p id = 'dayName'></p>
-        <p id = 'dayNumber'></p>
-        <p id - 'year'></p>
-    </div>
-</body>
+{% block content %}
+<div class = "calender">
+    <p id = 'monthName'></p>
+    <p id = 'dayName'></p>
+    <p id = 'dayNumber'></p>
+    <p id = 'year'></p>
+</div>
+{% endblock  %}
+    
+{% block script %}
 <script>
     const lang = navugator.language
     let date = Date()
@@ -59,4 +58,4 @@
     document.getElementById('dayNumber').innerHtMl = dayNumber;
     document.getElementById('year').innerHtMl = year;
 </script>
-</html>
+{% endblock  %}
