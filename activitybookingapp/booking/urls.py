@@ -9,5 +9,4 @@ urlpatterns = [
     path("placebooking/<int:place_id>/", views. PlaceBooking.as_view(), name="placebooking"),
     path("calender/", views.CalenderView.as_view(), name="calender"),
     path("report-form/", views.ReportView.as_view(), name="report-form"),
-    path('get-available-times/', views.get_available_times, name='get_available_times'),
-]
+]       

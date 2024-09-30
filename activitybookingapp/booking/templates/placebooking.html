@@ -1,158 +1,115 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Activity Booking</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body>
-    <div class="py-16 flex flex-col items-center justify-center gap-10 ">
-        <p class="text-amber-800 text-xl font-medium">Booking Football Playground</p>
+{% extends "layout.html" %}
+{% block title %}Activity Booking{% endblock %}
 
-        <div class="p-4 ">
-            <p class="text-xl mb-10">Select Date</p>
-            <div id="calendarContainer" class='flex flex-row gap-16'></div>
+{% block content %}
+<div class="grid grid-cols-3 h-screen">
+    <!-- Left Column -->
+    <div class="col-span-2 p-5 flex flex-col justify-center items-center gap-7 font-semibold bg-white">
+        <p>{{place.name}}</p>
+        <img class='w-[600px] h-[310px] rounded-[10px]' src="https://i2-prod.mirror.co.uk/incoming/article5946137.ece/ALTERNATES/s1227b/Etihad-Stadium-expansion-works.jpg" alt="">
+        <div class='flex flex-cols gap-6'>
+            <div>
+                <p class="text-sm text-gray-500">Location</p>
+                <p class="text-lg text-gray-900">{{place.location}}</p>
+            </div>
 
-            <div class="hidden" id="selecttime">
-                <p class="text-xl mt-10 mb-5">Select Time</p>
-                <div id="timeContainer" class="grid grid-cols-3 gap-7 pt-5"></div>
+            <div>
+                <p class="text-sm text-gray-500">Description</p>
+                <p class="text-lg text-gray-900">{{place.description}}</p>
+            </div>
+
+            <div>
+                <p class="text-sm text-gray-500">Staff</p>
+                <p class="text-lg text-gray-900">{{place.staff}}</p>
             </div>
         </div>
-
-        <div class="flex">
-            <form method="post" class="flex flex-col gap-9">
-                {% csrf_token %}
-                <div class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                    {{form.booking_date.errors}}
-                    {{form.booking_date.label_tag}}
-                    {{form.booking_date}}
-                </div>
-                <div class="mr-5">
-                    {{form.student.errors}}
-                    {{form.student.label_tag}}
-                    {{form.student}}
-                </div>
-                <div>
-                    {{form.place.errors}}
-                    {{form.place.label_tag}}
-                    {{form.place}}
-                </div>
-                <div>
-                    {{form.status.errors}}
-                    {{form.status.label_tag}}
-                    {{form.status}}
-                </div>
-                <button type="submit" class="p-2 bg-yellow-400 rounded-lg text-black">Book Now</button>
-            </form>
-        </div>
     </div>
-</body>
 
-<script>
-    const lang = navigator.language;
-    const calendarContainer = document.getElementById('calendarContainer');
-    let currentDate = new Date();
+    <!-- Right Column -->
+    <div class="col-span-1 bg-[#f9f9f9] p-5 flex flex-col justify-center items-center gap-4">
+        
+        <p class="text-lg font-bold ">SELECT <span>DATE</span></p>
+        <p class='text-gray-500 mb-2'>เลือกวันที่คุณต้องการจองสนาม</p>
+        <div id="calendarContainer" class='grid grid-cols-2 gap-3 justify-center'></div>
+        <div id="selectedDateContainer" class="mt-4 text-lg font-semibold"></div>
+    </div>
+</div>
+{% endblock %}
 
-    let selectedDate = null;
+{% block script %}
+    <script>
+        const lang = navigator.language;
+        const calendarContainer = document.getElementById('calendarContainer');
+        const selectedDateContainer = document.getElementById('selectedDateContainer');
+        let currentDate = new Date();
+        let selectedDate = null;
 
-    function selectCalendar(dayDiv, day, month, year) {
-        if (selectedDate) {
-            selectedDate.classList.remove('bg-yellow-200');
-        }
-
-        dayDiv.classList.add('bg-yellow-200');
-        selectedDate = dayDiv;
-
-        let bookingdate = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-
-        // ส่งวันที่ไปยัง Django view ผ่าน fetch API
-        fetch('/get-available-times/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': '{{ csrf_token }}' // ใช้ csrf token สำหรับ post request
-            },
-            body: JSON.stringify({ booking_date: bookingdate })
-        })
-        .then(response => response.json())
-        .then(data => {
-            displayAvailableTimes(data.times);
-        })
-        .catch(error => {
-            console.error('Error fetching times:', error);
-        });
-    }
-
-    function displayAvailableTimes(times) {
-        const timeContainer = document.getElementById('selecttime');
-        const timeGrid = document.getElementById('timeContainer');
-        timeContainer.classList.remove('hidden');
-
-        // Clear previous times
-        timeGrid.innerHTML = '';
-
-        // รายการช่วงเวลาทั้งหมด
-        const allTimes = ['10.00 - 11.00', '11.00 - 12.00', '12.00 - 13.00',
-            '13.00 - 14.00', '14.00 - 15.00', '15.00 - 16.00',
-            '16.00 - 17.00', '17.00 - 18.00', '18.00 - 19.00',
-            '19.00 - 20.00'];
-
-        allTimes.forEach(time => {
-            let timeDiv = document.createElement('div');
-            timeDiv.className = 'p-2 shadow-md text-center cursor-pointer';
-
-            if (times.includes(time)) {
-                timeDiv.classList.add('bg-green-200'); // ถ้าว่างสีเขียว
-                timeDiv.onclick = () => selectTime(timeDiv);
-            } else {
-                timeDiv.classList.add('bg-red-200'); // ถ้าไม่ว่างสีแดง
+        // Function to handle date selection
+        function selectCalendar(dayDiv, day, month, year) {
+            if (selectedDate) {
+                selectedDate.classList.remove('bg-blue-200');
             }
 
-            timeDiv.textContent = time;
-            timeGrid.appendChild(timeDiv);
-        });
-    }
+            dayDiv.classList.add('bg-blue-200');
+            selectedDate = dayDiv;
 
-    function selectTime(timeDiv) {
-        const previouslySelected = document.querySelector('.bg-green-400');
-        if (previouslySelected) {
-            previouslySelected.classList.remove('bg-green-400');
-            previouslySelected.classList.add('bg-green-200');
+            // Set the selected date for display
+            let bookingDate = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+            selectedDateContainer.innerHTML = `Selected Date: ${bookingDate}`;
+            
+            // Send the selected date to the server
+            sendSelectedDate(bookingDate);
         }
 
-        timeDiv.classList.remove('bg-green-200');
-        timeDiv.classList.add('bg-green-400');
-    }
+        // Function to send the selected date to the server
+        {% comment %} function sendSelectedDate(date) {
+            fetch('{{ url_for("your_view_function") }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token() }}'  // Include CSRF token if using Flask-WTF
+                },
+                body: JSON.stringify({ selected_date: date })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+                // You can also update the UI or notify the user here
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        } {% endcomment %}
 
-    for (let i = 0; i < 4; i++) {  // 0 is today, and we loop to get the next 3 days
-        let date = new Date(currentDate);
-        date.setDate(currentDate.getDate() + i);
+        // Generate calendar for the next 4 days
+        for (let i = 0; i < 4; i++) {
+            let date = new Date(currentDate);
+            date.setDate(currentDate.getDate() + i);
 
-        let dayNumber = date.getDate();
-        let monthName = date.toLocaleString(lang, { month: 'long' });
-        let month = date.getMonth() + 1;
-        let dayName = date.toLocaleString(lang, { weekday: 'long' });
-        let year = date.getFullYear();
+            let dayNumber = date.getDate();
+            let monthName = date.toLocaleString(lang, { month: 'long' });
+            let month = date.getMonth() + 1;
+            let dayName = date.toLocaleString(lang, { weekday: 'long' });
+            let year = date.getFullYear();
 
-        // Create a new div element for each day
-        let dayDiv = document.createElement('div');
-        dayDiv.id = dayNumber;
+            let dayDiv = document.createElement('div');
+            dayDiv.id = dayNumber;
 
-        dayDiv.innerHTML = `
-            <p class="text-xl text-gray-800 text-right">${year}</p>
-            <p class="mt-2 text-xl font-light text-gray-600">${monthName}</p>
-            <p class="mt-2 text-xl font-light text-green-700 text-center">${dayName}</p>
-            <p class="mt-2 text-5xl text-gray-800 text-center">${dayNumber}</p>
-        `;
+            dayDiv.innerHTML = `
+                <p class="text-sm text-right">${year}</p>
+                <p class="mt-2 text-sm font-light text-center">${monthName}</p>
+                <p class="mt-2 text-sm font-light text-center">${dayName}</p>
+                <p class="mt-2 text-3xl text-center">${dayNumber}</p>
+            `;
 
-        dayDiv.className = `mb-4 ${i == 0 ? 'rounded-3xl p-5 bg-blue-200' : 'rounded-3xl p-5 bg-white'}`;
+            // Apply hover effect and cursor style to all days, including the current day
+            dayDiv.className = `w-[120px] transition-transform transform duration-200 shadow-xl rounded-3xl p-6 cursor-pointer ${i == 0 ? 'bg-[#a14242] text-white hover:-translate-y-2 hover:shadow-2xl' : 'bg-white text-black hover:-translate-y-2 hover:shadow-2xl'}`;
 
-        dayDiv.onclick = () => {
-            selectCalendar(dayDiv, dayNumber, month, year);
+            dayDiv.onclick = () => {
+                selectCalendar(dayDiv, dayNumber, month, year);
+            }
+
+            calendarContainer.appendChild(dayDiv);
         }
-
-        calendarContainer.appendChild(dayDiv);
-    }
-</script>
-</html>
+    </script>
+{% endblock %}

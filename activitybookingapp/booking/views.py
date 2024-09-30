@@ -6,12 +6,15 @@ from booking.forms import *
 from booking.models import *
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
+
 # Create your views here.
 class MyBooking(LoginRequiredMixin, View):
     login_url = '/authen/'
     def get(self, request):
-        booking = Booking.objects.all()
-        return render(request, 'mybooking.html', {"booking": booking})
+        user = request.user
+        student = Student.objects.get(user = user)
+        booking = Booking.objects.filter(student = student)
+        return render(request, 'mybooking.html', {"booking": booking, 'student': student})
     
     def delete(self, request, booking_id):
         booking = Booking.objects.get(pk=booking_id)
@@ -26,6 +29,7 @@ class Activity(View):
 class PlaceBooking(View):
 
     def get(self, request, place_id):
+        user = request.user
         place = Place.objects.get(pk=place_id)
         form = BookingForm()
         return render(request, 'placebooking.html', {
@@ -34,18 +38,21 @@ class PlaceBooking(View):
         })
 
     def post(self, request, place_id):
+        user = request.user
+        place = Place.objects.get(pk=place_id)
         form = BookingForm(request.POST)
         if form.is_valid():
-            form.save()
+            booking = form.save(commit=False)
+            booking.student = user.student
+            booking.place = place
+            booking.status = 'PENDING'
+            booking.save()
             return redirect('mybooking')
-        else:
-            print(form.errors)  # แสดงผลข้อผิดพลาดที่เกิดขึ้นกับฟอร์ม
 
         return render(request, "placebooking.html", {
             "form": form,
-            'place': Place.objects.get(pk=place_id)  # คืนค่า place เพื่อแสดงในฟอร์ม
+            'place': place
         })
-
 
 class CalenderView(View):
 
