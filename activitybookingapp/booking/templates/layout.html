@@ -1,14 +1,13 @@
-{% comment %} {% load static %} {% endcomment %}
+
 <!DOCTYPE html>
 <html>
     {% block nav %}{% include "nav.html" %}{% endblock  %}
     <head>
     {% block head %}
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{% block title%} Activity App {% endblock %}</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    {% comment %} <link rel="stylesheet" href="{% static 'style.css' %}"> {% endcomment %}
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        {% comment %} <title>{% block title %} Activity App {% endblock %}</title> {% endcomment %}
+        <script src="https://cdn.tailwindcss.com"></script>
     {% endblock  %}
     </head>
     <body class="w-full h-full">
