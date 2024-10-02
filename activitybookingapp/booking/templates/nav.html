@@ -4,110 +4,56 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        nav {
-            display: flex;
-            justify-content: space-around;
-            background-color: yellow;
-            color: black;
-            padding: 20px;
-        }
-
-        nav a {
-            color: black;
-            text-decoration: none;
-        }
-
-        main {
-            padding: 20px;
-        }
-
-        .head {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .head .action {
-            display: flex;
-            gap: 10px;
-        }
-
-        .itemGroup {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            padding: 10px;
-        }
-
-        .item {
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px;
-            border: 1px solid #ddd;
-        }
-
-        .item .action {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        button,
-        .btn {
-            padding: 10px 15px;
-            background-color: #466bff;
-            color: white;
-            border: none;
-            cursor: pointer;
-            font-size: 13px;
-            text-decoration: none;
-        }
-
-        .btn.edit,
-        button.edit {
-            background-color: #f39c12;
-        }
-
-        .btn.delete,
-        button.delete {
-            background-color: #e74c3c;
-        }
-
-        input,
-        select,
-        textarea {
-            padding: 10px;
-            border: 1px solid #ddd;
-        }
-
-        .form {
-            display: flex;
-            gap: 10px;
-            flex-direction: column;
-            padding: 10px;
-        }
-
-        .form input {
-            width: 100%;
-        }
-    </style>
 </head>
 <div class="w-full">
     <header>
-        <nav>
-            <!-- กำหนด path  -->
-            <a href="{% url 'activity' %}">Activity</a>
-            <a href="{% url 'report-form' %}">Report</a>
-            <a href="{% url 'mybooking' %}">My Booking</a>
+        <nav class="flex fixed items-center justify-center bg-blue-700 p-3 w-full">
+          <div class="flex items-center justify-between flex-wrap bg-blue-700 w-full">
+            <div class="flex w-2/12 justify-start p-1">
+              <h1 class="font-bold text-xl text-white" id="show-title">Page Name</h1>
+            </div>
+            <ul class="flex justify-center gap-2 w-8/12 px-2">
+              <li class="flex">
+                <a href="{% url 'activity' %}" 
+                class="text-center block rounded py-2 px-4 bg-blue-700 hover:bg-blue-500 text-white duration-300" 
+                >
+                  Activity
+                </a>
+              </li>
+              <li class="flex">
+                <a href="{% url 'report-form' %}" 
+                class="text-center block rounded py-2 px-4 bg-blue-700 hover:bg-blue-500 text-white duration-300" 
+                >
+                  Report
+                </a>
+              </li>
+              <li class="flex ">
+                <a href="{% url 'mybooking' %}" 
+                class="text-center block rounded py-2 px-4 bg-blue-700 hover:bg-blue-500 text-white duration-300" 
+                >
+                  My Booking  
+                </a>
+              </li>
+              <li class="flex ">
+                <a href="{% url 'report-list' %}" 
+                class="text-center block rounded py-2 px-4 bg-blue-700 hover:bg-blue-500 text-white duration-300" 
+                >
+                  Reports
+                </a>
+              </li>
+              <li class="text-center">
+                <a class="block py-2 px-4 text-gray-400 cursor-not-allowed" href="#">Disabled Item</a>
+              </li>
+            </ul>
+            <div class="flex w-2/12 justify-end p-1">
+              <a href="#" for='profile'
+              class="flex w-fit gap-2 inline-block items-center leading-none border-2 rounded-full hover:border-transparent hover:bg-white mt-4 lg:mt-0 duration-300"
+              >
+                <img class="w-8 h-8 rounded-full" src="https://i.pinimg.com/736x/d8/1f/e6/d81fe6d70a185a7db799198796b149ff.jpg" alt="Michael Brown">
+                <span class="text-white pr-3 hover:text-black duration-300 ">Nakano Miku</span>
+              </a>
+            </div>
+          </div>
         </nav>
     </header>
 </div>

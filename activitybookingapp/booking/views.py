@@ -125,3 +125,10 @@ class ReportView(View):
         return render(request, 'report-form.html', {
             "form":form
         })
+    
+class ReportList(View):
+    def get(self, request):
+        reports = Report.objects.all()
+        return render(request, 'report-list.html', {
+            "reports":reports
+        })

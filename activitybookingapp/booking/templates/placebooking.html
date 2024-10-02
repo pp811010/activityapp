@@ -1,6 +1,7 @@
 {% extends "layout.html" %}
-{% block title %}Activity Booking{% endblock %}
-
+{% block head %}
+<title>Activity booking</title>
+{% endblock  %}
 {% block content %}
 <div class="grid grid-cols-3 h-screen">
 
@@ -36,7 +37,7 @@
 {% endblock %}
 
 {% block script %}
-    <script>
+    {{block.super}}
         const lang = navigator.language;
         const calendarContainer = document.getElementById('calendarContainer');
         const selectedDateContainer = document.getElementById('selectedDateContainer');
@@ -98,5 +99,5 @@
 
             calendarContainer.appendChild(dayDiv);
         }
-    </script>
+\
 {% endblock %}
