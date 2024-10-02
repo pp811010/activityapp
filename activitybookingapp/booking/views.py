@@ -61,7 +61,7 @@ class PlaceBooking2(View):
         user = request.user
         stu = Student.objects.get(user=user)
         
-        # โหลดข้อมูลจาก body ของ request
+
         data = json.loads(request.body)
         selected_time = data['select_time']  # เช่น [13, 14, 15]
         date_booking = data['date']

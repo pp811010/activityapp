@@ -3,13 +3,13 @@
 <title>Activity booking</title>
 {% endblock  %}
 {% block content %}
-<div class="grid grid-cols-3 h-screen">
+<div class="grid grid-cols-3 h-screen pt-16">
 
     <div class="col-span-2 p-5 flex flex-col justify-center items-center gap-7 font-semibold bg-white">
         <p class='font-medium text-lg'>{{place.name}}</p>
-        <img class='w-[600px] h-[310px] rounded-[10px]' src="https://i2-prod.mirror.co.uk/incoming/article5946137.ece/ALTERNATES/s1227b/Etihad-Stadium-expansion-works.jpg" alt="">
-        <div class='flex flex-cols gap-6'>
-            <div>
+        <img src="{{place.photo}}" alt="Property" class="w-[750px] h-[280px] object-cover rounded-lg mb-4 ">
+        <div class='flex flex-cols'>
+            <div >
                 <p class="text-sm text-gray-500">Location</p>
                 <p class="text-base text-gray-900">{{place.location}}</p>
             </div>
@@ -27,7 +27,7 @@
     </div>
 
 
-    <div class="col-span-1 bg-[#f9f9f9] p-5 flex flex-col justify-center items-center gap-4">
+    <div class="col-span-1  p-5 flex flex-col justify-center items-center gap-4">
         <p class="text-lg font-bold ">SELECT <span>DATE</span></p>
         <p class='text-gray-500 mb-2'>เลือกวันที่คุณต้องการจองสนาม</p>
         <div id="calendarContainer" class='grid grid-cols-2 gap-3 justify-center'></div>
@@ -91,7 +91,7 @@
             `;
 
             // Apply hover effect and cursor style to all days
-            dayDiv.className = `w-[120px] transition-transform transform duration-200 shadow-xl rounded-3xl p-6 cursor-pointer ${i == 0 ? 'bg-[#a14242] text-white hover:-translate-y-2 hover:shadow-2xl' : 'bg-white text-black hover:-translate-y-2 hover:shadow-2xl'}`;
+            dayDiv.className = `w-[120px] transition-transform transform duration-200 shadow-xl rounded-3xl p-6 cursor-pointer ${i == 0 ? 'bg-[#92B4EC]  hover:-translate-y-2 hover:shadow-2xl' : 'bg-white text-black hover:-translate-y-2 hover:shadow-2xl'}`;
 
             dayDiv.onclick = () => {
                 selectCalendar(dayDiv, dayNumber, month, year);
@@ -99,5 +99,5 @@
 
             calendarContainer.appendChild(dayDiv);
         }
-\
+
 {% endblock %}

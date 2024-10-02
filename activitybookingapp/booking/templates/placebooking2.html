@@ -1,9 +1,10 @@
 {% extends "layout.html" %}
-{% block title %}Activity Booking{% endblock %}
-
+{% block head %}
+<title>Activity booking</title>
+{% endblock  %}
 {% block content %}
 
-<div class="grid grid-cols-3 h-screen">
+<div class="grid grid-cols-3 h-screen pt-14">
 
     <div class="col-span-2 px-64 py-20 flex flex-col font-semibold  p-4 shadow-xl ">
         <p class="text-lg mb-6 text-gray-500 text-[13px]">Booking {{place}}</p>
@@ -59,8 +60,8 @@
 {% endblock %}
 
 {% block script %}
+    {{block.super}}
 
-    <script>
             // ใช้ json_script เพื่อสร้างตัวแปร JavaScript จากข้อมูลที่ส่งมา
             const bookingData = {{ booking|safe }} 
             // แสดงข้อมูลใน console
@@ -143,8 +144,5 @@
                 .catch((error) => console.error("Error:", error)); 
             }
             
-
-            
-    </script>
 {% endblock script %}
 

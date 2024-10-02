@@ -2,7 +2,7 @@
 {% block title %}{{Booking }}{{booking.id}}{% endblock %}
 
 {% block content %}
-<div class="flex h-screen p-7 justify-center">
+<div class="flex h-screen p-7 justify-center pt-14">
 
   
     <!-- Right Content -->
@@ -25,16 +25,11 @@
             </div>
           </div>
       </div>
-      <div class='flex justify-end'>
-        <a href="{% url 'placebooking1' place.id %}"><button class="m-4 rounded-md border border-orange-200 py-2 px-4 text-center text-sm transition-all shadow-sm hover:shadow-lg text-slate-600 hover:text-white hover:bg-sky-500 hover:border-slate-800 focus:text-white focus:bg-slate-800 focus:border-slate-800 active:border-slate-800 active:text-white active:bg-slate-800 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none">Booking</button></a>
+      <div class='flex justify-between mt-5'>
+        <a href="{% url 'report-form' %}"><button class="m-4 w-[150px] rounded-md border border-pink-400 py-2 px-4 text-center text-sm transition-all shadow-sm hover:shadow-lg text-slate-600 hover:text-white hover:bg-pink-500 hover:border-pink-400 focus:text-white focus:bg-pink-800 focus:border-slate-800 active:border-slate-800 active:text-white active:bg-slate-800 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none">Report</button></a>
+        <a href="{% url 'placebooking1' place.id %}"><button class="m-4 w-[150px] rounded-md border border-sky-500 py-2 px-4 text-center text-sm transition-all shadow-sm hover:shadow-lg text-slate-600 hover:text-white hover:bg-sky-500 hover:border-sky-500 focus:text-white focus:bg-sky-800 focus:border-slate-800 active:border-slate-800 active:text-white active:bg-slate-800 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none">Booking</button></a>
       </div>
- 
-  
-      <div class="mb-5 ml-3 flex justify-between items-center">
-        <h3 class="text-lg font-semibold">Problem</h3>
-        <a href="" class='text-sm text-red-500'>เเจ้งปัญหา</a>
-      </div>
-      <div class='p-6'>
+      {% comment %} <div class='p-6'>
         <table class="w-full text-left table-auto">
             <thead>
                 <tr class="bg-gray-100 text-gray-700 uppercase text-sm leading-normal text-center">
@@ -55,7 +50,7 @@
                 {% endfor %}
             </tbody>
         </table>
-      </div>
+      </div> {% endcomment %}
     
     
     </div>
