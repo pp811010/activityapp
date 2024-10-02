@@ -1,0 +1,81 @@
+{% extends "layout.html" %}
+{% block title %}Booking {{booking.id}}{% endblock %}
+
+{% block content %}
+    <div class='flex items-center justify-center px-20 py-28 bg-slate-100'>
+        <div class='p-10 rounded-3xl shadow-md w-[600px] bg-white'>
+            <p class='text-lg font-normal'>Booking</p>
+            <p class="text-[10px] text-gray-500">{{booking}}</p>
+            <div class="mt-4 p-3 flex flex-col gap-2">
+                
+                <div class='flex justify-between'>
+                    <p class="text-sm text-gray-500">Place</p>
+			        <p class="text-base text-gray-900">{{booking.place.name}}</p> 
+                    <p class="text-sm text-gray-500">Date Boking</p>
+			        <p class="text-base text-gray-900">{{booking.date}}</p> 
+                </div>
+
+                <div class='flex justify-between'>
+                    <p class="text-sm text-gray-500">Start time</p>
+			        <p class="text-base text-gray-900">{{booking.start_time|time:"H:i"}}</p> 
+                    <p class="text-sm text-gray-500">End time</p>
+			        <p class="text-base text-gray-900">{{booking.end_time|time:"H:i"}}</p> 
+                </div>
+                <p class='font-medium mt-2'>Place Description</p>
+                <div>
+                    <p class="text-sm text-gray-500">Location</p>
+                    <p class="text-base text-gray-900">{{booking.place.location}}</p> 
+                </div>
+
+                <div>
+                    <p class="text-sm text-gray-500">Description</p>
+                    <p class="text-base text-gray-900">{{booking.place.description}}</p> 
+                    
+                </div>
+
+                <div>
+                    <p class="text-sm text-gray-500">Staff</p>
+                    <p class="text-base text-gray-900">{{booking.place.staff}}</p> 
+                    
+                </div>
+
+                <div class='flex justify-end mt-4'>
+                    <button class='p-2 rounded-md text-sm text-red-400' onclick='deleteProject({{booking.id}}, "{{csrf_token}}")' >ยกเลิกการจอง</button>
+                </div>
+                <a href="{% url 'mybooking' %}">
+                    <button  class='bg-yellow-500 p-1 text-white rounded-md text-[15px] w-full'>ย้อนกลับ</button>
+                </a>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+
+
+    <script>
+        function deleteProject(booking_id, csrf_token) {
+
+            fetch(`/booking/mybooking/${booking_id}/`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": csrf_token,
+                },
+            })
+            .then((response) => {
+                if (response.ok) {
+                    console.log("Item deleted successfully");
+                    window.location.href = "{% url 'mybooking' %}";
+                } else {
+                    return response.json().then((data) => {
+                        console.error("Failed to delete:", data);
+                    });
+                }
+            })
+            .catch((error) => console.error("Error:", error));
+        }
+    </script>
+{% endblock script %}
+
