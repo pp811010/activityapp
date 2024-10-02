@@ -62,15 +62,13 @@ class Place(models.Model):
 class Booking(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     place = models.ForeignKey(Place, on_delete=models.CASCADE)
-    start_booking = models.DateTimeField()
-    end_booking = models.DateTimeField()
+    date = models.DateField()
+    start_time = models.TimeField()
+    end_time = models.TimeField()
     status = models.CharField(
         max_length=50,
         choices=[('PENDING', 'Pending'), ('APPROVED', 'Approved'), ('REJECTED', 'Rejected')]
     )
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True) 
-
     def __str__(self):
         return f"Booking by {self.student} for {self.place}"
 
@@ -83,8 +81,6 @@ class Report(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     place = models.ForeignKey(Place, on_delete=models.CASCADE)
     details = models.TextField()
-    reported_date = models.DateTimeField(auto_now_add=True)
-    photo = models.CharField(max_length=256)
     status = models.CharField(max_length=50, choices=STATUS_CHOICES)
 
     def __str__(self):

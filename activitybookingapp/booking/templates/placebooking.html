@@ -3,31 +3,30 @@
 
 {% block content %}
 <div class="grid grid-cols-3 h-screen">
-    <!-- Left Column -->
+
     <div class="col-span-2 p-5 flex flex-col justify-center items-center gap-7 font-semibold bg-white">
-        <p>{{place.name}}</p>
+        <p class='font-medium text-lg'>{{place.name}}</p>
         <img class='w-[600px] h-[310px] rounded-[10px]' src="https://i2-prod.mirror.co.uk/incoming/article5946137.ece/ALTERNATES/s1227b/Etihad-Stadium-expansion-works.jpg" alt="">
         <div class='flex flex-cols gap-6'>
             <div>
                 <p class="text-sm text-gray-500">Location</p>
-                <p class="text-lg text-gray-900">{{place.location}}</p>
+                <p class="text-base text-gray-900">{{place.location}}</p>
             </div>
 
             <div>
                 <p class="text-sm text-gray-500">Description</p>
-                <p class="text-lg text-gray-900">{{place.description}}</p>
+                <p class="text-base text-gray-900">{{place.description}}</p>
             </div>
 
             <div>
                 <p class="text-sm text-gray-500">Staff</p>
-                <p class="text-lg text-gray-900">{{place.staff}}</p>
+                <p class="text-base text-gray-900">{{place.staff}}</p>
             </div>
         </div>
     </div>
 
-    <!-- Right Column -->
+
     <div class="col-span-1 bg-[#f9f9f9] p-5 flex flex-col justify-center items-center gap-4">
-        
         <p class="text-lg font-bold ">SELECT <span>DATE</span></p>
         <p class='text-gray-500 mb-2'>เลือกวันที่คุณต้องการจองสนาม</p>
         <div id="calendarContainer" class='grid grid-cols-2 gap-3 justify-center'></div>
@@ -44,44 +43,32 @@
         let currentDate = new Date();
         let selectedDate = null;
 
-        // Function to handle date selection
+
         function selectCalendar(dayDiv, day, month, year) {
             if (selectedDate) {
-                selectedDate.classList.remove('bg-blue-200');
+                selectedDate.classList.remove('bg-yellow-300');
             }
 
-            dayDiv.classList.add('bg-blue-200');
+            dayDiv.classList.add('bg-yellow-300');
             selectedDate = dayDiv;
 
             // Set the selected date for display
             let bookingDate = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-            selectedDateContainer.innerHTML = `Selected Date: ${bookingDate}`;
-            
-            // Send the selected date to the server
             sendSelectedDate(bookingDate);
         }
 
-        // Function to send the selected date to the server
-        {% comment %} function sendSelectedDate(date) {
-            fetch('{{ url_for("your_view_function") }}', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRFToken': '{{ csrf_token() }}'  // Include CSRF token if using Flask-WTF
-                },
-                body: JSON.stringify({ selected_date: date })
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Success:', data);
-                // You can also update the UI or notify the user here
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
-        } {% endcomment %}
+        function sendSelectedDate(date) {
+            const placeId = {{ place.id }};
+            const url = `/booking/placebooking2/${placeId}/?selected_date=${encodeURIComponent(date)}`;
+            console.log('Redirecting to:', url);
+        
+            // Redirect to the constructed URL
+            window.location.href = url;
+        }
+        
+        
 
-        // Generate calendar for the next 4 days
+        // Create calendar days
         for (let i = 0; i < 4; i++) {
             let date = new Date(currentDate);
             date.setDate(currentDate.getDate() + i);
@@ -102,7 +89,7 @@
                 <p class="mt-2 text-3xl text-center">${dayNumber}</p>
             `;
 
-            // Apply hover effect and cursor style to all days, including the current day
+            // Apply hover effect and cursor style to all days
             dayDiv.className = `w-[120px] transition-transform transform duration-200 shadow-xl rounded-3xl p-6 cursor-pointer ${i == 0 ? 'bg-[#a14242] text-white hover:-translate-y-2 hover:shadow-2xl' : 'bg-white text-black hover:-translate-y-2 hover:shadow-2xl'}`;
 
             dayDiv.onclick = () => {

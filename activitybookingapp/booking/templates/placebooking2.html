@@ -1,0 +1,150 @@
+{% extends "layout.html" %}
+{% block title %}Activity Booking{% endblock %}
+
+{% block content %}
+
+<div class="grid grid-cols-3 h-screen">
+
+    <div class="col-span-2 px-64 py-20 flex flex-col font-semibold  p-4 shadow-xl ">
+        <p class="text-lg mb-6 text-gray-500 text-[13px]">Booking {{place}}</p>
+        <p class='pb-4'>วันที่ : {{date}}</p>
+
+            <p class="text-[13px] mb-6">เลือกช่วงเวลา</p>
+            <div class="flex gap-[2px]">
+                <button type='button' id='7' onclick='div_time(this)' class="px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">7.00</button>
+                <button type='button' id='8' onclick='div_time(this)' class="px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">8.00</button>
+                <button type='button' id='9' onclick='div_time(this)' class="px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">9.00</button>
+                <button type='button' id='10' onclick='div_time(this)' class="px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">10.00</button>
+                <button type='button' id='11' onclick='div_time(this)' class="px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">11.00</button>
+                <button type='button' id='12' onclick='div_time(this)' class="px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">12.00</button>
+                <button type='button' id='13' onclick='div_time(this)' class="px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">13.00</button>
+                <button type='button' id='14' onclick='div_time(this)' class="px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">14.00</button>
+                <button type='button' id='15' onclick='div_time(this)' class="px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">15.00</button>
+                <button type='button' id='16' onclick='div_time(this)' class="px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">16.00</button>
+                <button type='button' id='17' onclick='div_time(this)' class="px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">17.00</button>
+                <button type='button' id='18' onclick='div_time(this)' class="px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">18.00</button>
+                <button type='button' id='19' onclick='div_time(this)' class="px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">19.00</button>
+                <button type='button' id='20' onclick='div_time(this)' class="px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">20.00</button>
+            </div>
+
+        <div class='flex justify-end'>
+            <button onclick='addbooking()' class="w-32 mt-5 text-sm bg-black hover:bg-gray-600 text-white py-2 px-4 border border-blue-700 rounded">
+                Booking
+            </button>
+        </div>
+    </div>
+
+    <div class="col-span-1 bg-[#f9f9f9] p-24 flex flex-col gap-4">
+        <p class='text-lg font-medium'>{{place.name}}</p>
+        <hr class="my-3 border-0 h-[1px] bg-blue-500">
+        <img class='w-[500px] h-[210px] rounded-[10px]' src="https://i2-prod.mirror.co.uk/incoming/article5946137.ece/ALTERNATES/s1227b/Etihad-Stadium-expansion-works.jpg" alt="">
+        <div class='flex flex-col gap-4'>
+            <div>
+                <p class="text-sm text-gray-500">Location</p>
+                <p class="text-base text-gray-900">{{place.location}}</p>
+            </div>
+
+            <div>
+                <p class="text-sm text-gray-500">Description</p>
+                <p class="text-base text-gray-900">{{place.description}}</p>
+            </div>
+
+            <div>
+                <p class="text-sm text-gray-500">Staff</p>
+                <p class="text-base text-gray-900">{{place.staff}}</p>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block script %}
+
+    <script>
+            // ใช้ json_script เพื่อสร้างตัวแปร JavaScript จากข้อมูลที่ส่งมา
+            const bookingData = {{ booking|safe }} 
+            // แสดงข้อมูลใน console
+            console.log(bookingData);
+            
+            for(let booking of bookingData){
+                const start_time = parseInt(booking.start_time.split(':')[0])
+                const end_time = parseInt(booking.end_time.split(':')[0])
+                const gap_time = Math.abs(end_time-start_time)
+                for(let x=0; x<gap_time; ++x){
+                    booking_time = start_time + x
+                    booking_btn = document.getElementById(booking_time)
+                    console.log(booking_btn)
+                    booking_btn.disabled = true
+                    booking_btn.textContent = 'booked'
+                }
+                
+            }
+
+            let selected_time = [];
+        
+            function div_time(e) {
+                const time = parseInt(e.textContent);
+                const timeIndex = selected_time.indexOf(time);
+            
+                if (timeIndex !== -1) {
+                    // ถ้าเวลานั้นมีอยู่แล้ว ให้ลบออก
+                    selected_time.splice(timeIndex, 1);
+                    e.classList.remove('bg-green-200'); // เปลี่ยนกลับไปเป็นสีเดิม
+                } else if (selected_time.length < 3) {
+                    // เช็คว่าต้องเลือกเวลาเรียงต่อกันหรือไม่
+                    if (selected_time.length === 0) {
+                        // ถ้าไม่มีเวลาเลย ให้เพิ่มเวลาได้
+                        selected_time.push(time);
+                        e.classList.add('bg-green-200'); // เปลี่ยนเป็นสีที่เลือก
+                    } else {
+                        // ตรวจสอบว่ามีเวลาเริ่มต้นที่เล็กกว่าหรือไม่
+                        const lastSelectedTime = selected_time[selected_time.length - 1];
+                        if (time === lastSelectedTime + 1) {
+                            selected_time.push(time);
+                            e.classList.add('bg-green-200'); // เปลี่ยนเป็นสีที่เลือก
+                        } else {
+                            // ถ้าไม่เรียงกัน
+                            alert('กรุณาเลือกเวลาในลำดับที่ต่อเนื่องกันเท่านั้น');
+                        }
+                    }
+                }
+            
+                console.log(selected_time);
+            }
+            
+            function addbooking(){
+                console.log(123)
+                const place = '{{place.id}}'
+                const date = '{{date}}'
+                
+                fetch(`/booking/placebooking2/${place}/`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': '{{csrf_token}}'
+                    },
+                    body : JSON.stringify({
+                        'select_time' : selected_time,
+                        'date' : date
+                    })
+                })
+               .then((response) => {
+                    if (response.ok) {
+                        console.log("add booking successfully");
+                        alert('การจองสำเร็จ')
+                        window.location.href = "{% url 'mybooking'%}";
+                    } else {
+                        alert('การจแงไม่สำเร็จ')
+                        return response.json().then((data) => {
+                            console.error("Failed to bookng:", data);
+                        });
+                    }
+                })
+                .catch((error) => console.error("Error:", error)); 
+            }
+            
+
+            
+    </script>
+{% endblock script %}
+

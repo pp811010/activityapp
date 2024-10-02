@@ -12,7 +12,7 @@
 			<div class="flex  items-center justify-end space-y-1">
 				<div>
 					<p>Hello,</p>
-					<p class="text-xl font-bold">{{student}}</p>
+					<p class="text-lg font-bold">{{student}}</p>
 					<p class="text-sm text-gray-500 mt-2">{{student.stu_card}}</p>
 				</div>
 			</div>
@@ -22,36 +22,44 @@
 				<hr class="my-4 mb-8" >
 				<div id = 'booking' class="grid grid-cols-3 gap-7 justify-center	">
 					{% for i in booking %}
-						<div class="max-w-72 p-6 bg-white rounded-lg shadow-md">
+						<a href="{% url 'booking' i.id %}">
+							<div class="max-w-72 p-6 bg-white rounded-lg shadow-md">
 						
-							<h2 class="text-lg font-bold text-gray-900">{{i.place}}</h2>
-					
-							
-							<div class="mt-4">
-								<p class="text-sm text-gray-500">Service</p>
-								<p class="text-lg text-gray-900">{{i.place.location}}</p>
-							</div>
-					
-							
-							<div class="mt-4 flex justify-between">
-								<div>
-									<p class="text-sm text-gray-500">Date</p>
-									<p class="text-lg text-gray-900">{{ i.booking_date|date:"F j, Y" }}</p>
+								<h2 class="text-base font-bold text-gray-900">{{i.place}}</h2>
+						
+								
+								<div class="mt-4">
+									<p class="text-sm text-gray-500">Service</p>
+									<p class="text-base text-gray-900">{{i.place.location}}</p>
 								</div>
-								<div>
-									<p class="text-sm text-gray-500">Time</p>
-									<p class="text-lg text-gray-900">{{ i.booking_date|time:"H:i" }}</p>
+						
+								
+								<div class="mt-4 flex justify-between">
+									<div>
+										<p class="text-sm text-gray-500">Date</p>
+										<p class="text-base text-gray-900">{{ i.date|date:"F j, Y" }}</p>
+									</div>
+									<div>
+										<p class="text-sm text-gray-500">Time</p>
+										<p class="text-base text-gray-900">{{ i.start_time|time:"H:i" }} - {{ i.end_time|time:"H:i" }}</p>
+									</div>
+								</div>
+						
+								
+								<hr class="my-4">
+				
+								<div class="flex justify-between">
+									{% if i.status == 'PENDING' %}
+										<button class="text-yellow-400 font-semibold text-sm">{{i.status}}</button>
+									{% elif i.status == 'APPROVED' %}
+										<button class="text-red-600 font-semibold text-sm">{{i.status}}</button>
+									{% else %}
+										<button class="text-brown-200 font-semibold text-sm">{{i.status}}</button>
+									{% endif%}
+									<button  onclick="deleteProject({{ i.id }}, '{{csrf_token}}')" class="text-gray-400 text-sm text-red-500">ยกเลิก</button>
 								</div>
 							</div>
-					
-							
-							<hr class="my-4">
-			
-							<div class="flex justify-between">
-								<button class="text-purple-600 font-semibold">Penning</button>
-								<button type="submit" onclick="deleteProject({{ i.id }}, '{{csrf_token}}')" class="text-gray-400">ยกเลิก</button>
-							</div>
-						</div>
+						</a>
 					{% endfor %}
 
 
@@ -61,8 +69,8 @@
 	</body>
 	<script>
 		function deleteProject(booking_id, csrf_token) {
-			// กำหนด path ให้ถูกต้อง
-			fetch(`/authen/mybooking/${booking_id}/`, {
+
+			fetch(`/booking/mybooking/${booking_id}/`, {
 			method: "DELETE",
 			headers: {
 				"Content-Type": "application/json",
@@ -75,5 +83,7 @@
 			})
 			.catch((error) => console.error("Error:", error));
 		}
+
+		
 	</script>
 </html>

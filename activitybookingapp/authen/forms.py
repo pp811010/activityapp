@@ -34,7 +34,7 @@ class RegisterForm(forms.ModelForm):
             'email': forms.EmailInput(attrs={
                 'class': "mb-8 text-xs rounded-lg p-2.5 border-solid border-2 border-gray-200 w-64",
                 'placeholder': 'Email'}),
-            'password': forms.EmailInput(attrs={
+            'password': forms.TextInput(attrs={
                 'class': "mb-8 text-xs rounded-lg p-2.5 border-solid border-2 border-gray-200 w-64",
                 'placeholder': 'Password'}),
 
