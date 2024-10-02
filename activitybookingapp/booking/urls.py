@@ -8,4 +8,5 @@ urlpatterns = [
     path("placebooking/<int:place_id>/ ", views.ActivityBooking.as_view(), name="placebooking"),
     path("calender/", views.ActivityBooking.as_view(), name="placebooking"),
     path("report-form/", views.ReportView.as_view(), name="report-form"),
+    path("report-list/", views.ReportList.as_view(), name="report-list"),
 ]

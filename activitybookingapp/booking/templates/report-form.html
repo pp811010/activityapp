@@ -3,7 +3,7 @@
 <title>Report Form</title>
 {% endblock  %}
 {% block content %}
-<div class="flex flex-col justify-center items-center px-20 py-20 h-full w-full bg-gray-300">
+<div class="flex flex-col justify-center items-center px-20 pt-20 pb-10 h-full w-full min-h-screen bg-gray-200">
     <div class="flex flex-col justify-center item-center h-fit w-6/12 p-4">
         {{ form.non_field_errors }}
         <form id="report" method="post" action="{% url 'report-form' %}" class="bg-white shadow-lg rounded-xl px-7 pt-4 pb-5 w-full">
@@ -45,11 +45,12 @@
             </button>
         </form>
     </div>
+</div>    
 {%endblock%}
 {% block script %}
-<script>
+    {{ block.super }}
     function clearData() {
         document.getElementById("report").reset();
     }
-</script>
+
 {% endblock  %}

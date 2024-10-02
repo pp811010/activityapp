@@ -10,12 +10,22 @@
         <script src="https://cdn.tailwindcss.com"></script>
     {% endblock  %}
     </head>
-    <body class="w-full h-full">
+    <body class="w-full h-full min-h-screen">
         {% block content %}
         {% endblock  %}
     </body>
-    {% block script %}
     <script>
+        {% block script %}
+        // Get the content of the <title> tag
+        const titleText = document.title;
+
+        // Find the element where you want to display the title
+        const navbarTitle = document.getElementById('show-title');
+
+        // Set the text inside the navbar
+        navbarTitle.textContent = titleText;
+
+        
+        {% endblock %}
     </script>
-    {% endblock %}
 </html>
