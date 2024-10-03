@@ -1,21 +1,37 @@
-
 <!DOCTYPE html>
-<html>
-    {% block nav %}{% include "nav.html" %}{% endblock  %}
+<html lang="en">
     <head>
-    {% block head %}
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        {% comment %} <title>{% block title %} Activity App {% endblock %}</title> {% endcomment %}
         <script src="https://cdn.tailwindcss.com"></script>
-    {% endblock  %}
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@100..900&display=swap" rel="stylesheet">
+        <script>
+            tailwind.config = {
+                theme: {
+                    extend: {
+                        fontFamily: {
+                            'noto-thai': ['Noto Sans Thai', 'sans-serif'],
+                        },
+                    },
+                }
+            }
+        </script>
+        {% block head %}
+        {% endblock %}
     </head>
-    <body class="w-full h-full min-h-screen ">
+    <body class="w-full h-full min-h-screen font-noto-thai">
+        <!-- Navbar -->
+        {% block nav %}{% include "nav.html" %}{% endblock %}
+
+        <!-- Main Content -->
         {% block content %}
-        {% endblock  %}
+        {% endblock %}
+
     </body>
     <script>
-        {% block script %}
+    {% block script %}
         // Get the content of the <title> tag
         const titleText = document.title;
 
@@ -23,9 +39,9 @@
         const navbarTitle = document.getElementById('show-title');
 
         // Set the text inside the navbar
-        navbarTitle.textContent = titleText;
-
-        
-        {% endblock %}
+        if (navbarTitle) {
+            navbarTitle.textContent = titleText;
+        }
+    {% endblock %}
     </script>
 </html>

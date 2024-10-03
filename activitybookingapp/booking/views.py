@@ -117,8 +117,6 @@ class ReportView(View):
         form = ReportForm(request.POST)
 
         if form.is_valid():
-            student = form.cleaned_data.get('student')
-            print(f"Student: {student}")
             form.save()
             return redirect('report-form')
         
@@ -131,4 +129,24 @@ class ReportList(View):
         reports = Report.objects.all()
         return render(request, 'report-list.html', {
             "reports":reports
+        })
+    
+class ReportDetail(View):
+    def get(self, request, id):
+        form = ReportForm()
+        report = Report.objects.get(pk=id)
+        return render(request, 'report-detail.html', {
+            "form":form,
+            "report":report
+        })
+    
+    def put(self, request):
+        form = ReportForm(request.PUT)
+
+        if form.is_valid():
+            form.save()
+            return redirect('report-form')
+        
+        return render(request, 'report-form.html', {
+            "form":form
         })
