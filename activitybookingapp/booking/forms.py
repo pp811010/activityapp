@@ -1,7 +1,8 @@
-from datetime import date
+
 from django import forms
 from django.forms import ModelForm, ValidationError
 from booking.models import *
+from django.utils import timezone
 
 class ReportForm(ModelForm):
     class Meta:
@@ -17,21 +18,24 @@ class ReportForm(ModelForm):
         cleaned_data = super().clean()
         return cleaned_data
 
-class BookingForm(ModelForm):
-    from django import forms
-from django.utils import timezone
+# class BookingForm(forms.ModelForm):
+#     class Meta:
+#         model = Booking
+#         fields = ['start_booking', 'end_booking']
+#         widgets = {
+#             "start_booking": forms.DateTimeInput(attrs={"type": "datetime-local"}),
+#             "end_booking": forms.DateTimeInput(attrs={"type": "datetime-local"}),
+#         }
 
-class BookingForm(forms.ModelForm):
-    class Meta:
-        model = Booking
-        fields = "__all__"
-        widgets = {
-            "booking_date": forms.DateTimeInput(attrs={"type": "datetime-local"})
-        }
+#     def clean(self):
+#         cleaned_data = super().clean()
+#         start_booking = cleaned_data.get("start_booking")
+#         end_booking = cleaned_data.get("end_booking")
 
-    def clean_booking_date(self):
-        booking_date = self.cleaned_data.get("booking_date")
-        if booking_date and booking_date < timezone.now():
-            raise forms.ValidationError("Booking date cannot be in the past.")
-        return booking_date
+#         if start_booking and end_booking:
+#             if start_booking.date() != end_booking.date():
+#                 raise forms.ValidationError("Start and End bookings must be on the same day.")
+#             if end_booking <= start_booking:
+#                 raise forms.ValidationError("End booking time must be after Start booking time.")
 
+#         return cleaned_data

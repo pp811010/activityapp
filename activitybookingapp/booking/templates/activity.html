@@ -4,41 +4,46 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 <style>
     #activity:hover {
-        background-color: #ecfffe  ;
+        background-color: #e8e8e8;
     }
 </style>
 {% endblock %}
 
 {% block content %}
-<body >
-    <div class='px-80 py-20'>
-         <p class='text-3xl font-bold mb-16 text-right ' >FOOTBALL</p>
-         <p class="text-2xl font-bold mb-5" >Studium</p>
-             <div class='grid grid-cols-3 gap-x-8 gap-y-3'>
-                
-                 {% for i in place%}
-                 <a href='{% url "placebooking" i.id %}'>
-                     <div id="activity" class="px-10 py-10 flex flex-col shadow-md rounded-lg">
-                         <img class = "rounded-xl" style="width: 400px; height: 170px;" src="https://sport.teenee.com/manu/img6/263787.jpg" alt="">
-                         <p class="text-lg text-gray-900 mb-2 mt-4 font-bold">{{i.name}}</p>
-                         <p class="text-sm text-gray-500 mb-2 ">Location : {{i.location}}</p>
-                         <p class="text-sm text-gray-500 mb-2 ">Deception : {{ i.description|truncatewords:3 }}</p>
-                         <hr class="my-4">
-                         <p class="text-sm text-amber-500 mb-2 text-purple-600">Manage by : <span style="color: black;">{{i.staff}}</span> </p>
-                     </div>
-                 </a>
-                 {% endfor %}
- 
-             </div>
- 
-        <div class='mb-5 mt-16'>
-             <p class="text-2xl font-bold ">Booking</p>
-             <div>
-                 <p class='ml-20 text-4xl mt-8' style = "color: #48ee2b "><i class="fa-solid fa-check"></i> <span class='text-base text-black mb-2 ml-2'>ใช้จองได้ไม่เกิน 2 ชม</span> </p>
-                 <p class='ml-20 text-4xl mt-5' style = "color: #eea42b "><i class="fa-solid fa-person"></i> <span class='text-base text-black mb-2 ml-2'>ใช้บัตรประจำจอง 3 ใบ</span> </p>
-                 <p class='ml-20 text-4xl mt-5' style = "color: #2b51ee "><i class="fa-regular fa-clock"></i> <span class='text-base text-black mb-2 ml-2'>มาก่อนเวลา 15 นาที</span> </p>
-             </div>
+
+   <div class='pt-16'>
+        <div class=" flex flex-col text-center text-5xl font-semibold justify-center bg-cover bg-center h-80 w-full text-white" style="background-image: url('https://images.unsplash.com/photo-1503198129995-3f110c24aaa0?q=80&w=1934&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D ');">
+            Football
         </div>
+        
+
+        <div class='px-80 py-20'>
+            <p class="text-2xl font-bold mb-10">Stadium</p>
+            <div class='grid grid-cols-3 gap-x-20 gap-y-3'>
+                
+                {% for i in place%}
+                <a href='{% url "place" i.id %}' >
+                    <div id="activity" class="w-[300px] p-5 flex flex-col shadow-md rounded-[18px] ">
+                        <img class = "rounded-[16px]" style="width: 400px; height: 170px;" src="{{i.photo}}" alt="">
+                        <p class="text-base text-gray-900 mb-2 mt-4 font-bold">{{i.name}}</p>
+                        <p class="text-sm text-gray-500 mb-2 ">Location : {{i.location}}</p>
+                        <p class="text-sm text-gray-500 mb-2 ">Deception : {{ i.description|truncatewords:3 }}</p>
+                        <hr class="my-4">
+                        <p class="text-sm  mb-2 text-[#F86F03]">Manage by <span style="color: black;">:   {{i.staff}}</span> </p>
+                    </div>
+                </a>
+                {% endfor %}
+
+            </div>
+            {% comment %} <div class='mb-24 mt-16 text-center'>
+                <p class="text-2xl font-bold text-left">Booking</p>
+                <div>
+                    <p class='ml-20 text-6xl mt-8' style = "color: #48ee2b "><i class="fa-solid fa-check"></i> <span class='text-base text-black mb-2'>ใช้จองได้ไม่เกิน 2 ชม</span> </p>
+                    <p class='ml-20 text-6xl mt-5' style = "color: #eea42b "><i class="fa-solid fa-person"></i> <span class='text-base text-black mb-2'>ใช้บัตรประจำจอง 3 ใบ</span> </p>
+                    <p class='ml-20 text-6xl mt-5' style = "color: #2b51ee "><i class="fa-regular fa-clock"></i> <span class='text-base text-black mb-2'>มาก่อนเวลา 15 นาที</span> </p>
+                </div>
+        </div> {% endcomment %}
+        
     </div>
- </body>
+   </div>
 {% endblock %}

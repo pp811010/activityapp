@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'booking'
+    'booking',
+    'authen',
 ]
 
 MIDDLEWARE = [
@@ -79,7 +80,7 @@ DATABASES = {
         "ENGINE": "django.db.backends.postgresql",
         "NAME": "activitybooking",
         "USER": "postgres",
-        "PASSWORD": "wanzaza123",
+        "PASSWORD": "pp811010_Za",
         "HOST": "localhost",
         "PORT": "5432",
     }
