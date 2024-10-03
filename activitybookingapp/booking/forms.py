@@ -18,24 +18,8 @@ class ReportForm(ModelForm):
         cleaned_data = super().clean()
         return cleaned_data
 
-# class BookingForm(forms.ModelForm):
+
+# class BookingFiledForm(forms.ModelForm):
 #     class Meta:
-#         model = Booking
-#         fields = ['start_booking', 'end_booking']
-#         widgets = {
-#             "start_booking": forms.DateTimeInput(attrs={"type": "datetime-local"}),
-#             "end_booking": forms.DateTimeInput(attrs={"type": "datetime-local"}),
-#         }
-
-#     def clean(self):
-#         cleaned_data = super().clean()
-#         start_booking = cleaned_data.get("start_booking")
-#         end_booking = cleaned_data.get("end_booking")
-
-#         if start_booking and end_booking:
-#             if start_booking.date() != end_booking.date():
-#                 raise forms.ValidationError("Start and End bookings must be on the same day.")
-#             if end_booking <= start_booking:
-#                 raise forms.ValidationError("End booking time must be after Start booking time.")
-
-#         return cleaned_data
+#         model = BookingFile
+#         fields = ('image')

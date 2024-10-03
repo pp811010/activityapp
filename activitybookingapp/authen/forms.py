@@ -1,12 +1,13 @@
 from django import forms
 from django.contrib.auth.models import User
+from django.contrib.auth.hashers import make_password
 
 from booking.models import Student
 
 class RegisterForm(forms.ModelForm):
-    department = forms.CharField(widget=forms.Select(
+    faculty = forms.CharField(widget=forms.Select(
         attrs={'class': "mb-8 text-xs rounded-lg p-2.5 border-solid border-2 border-gray-200 w-64"},
-        choices=Student.DEPARTMENTS
+        choices=Student.FACULTIES
     ))
     
     phone = forms.CharField(widget=forms.TextInput(
@@ -34,8 +35,14 @@ class RegisterForm(forms.ModelForm):
             'email': forms.EmailInput(attrs={
                 'class': "mb-8 text-xs rounded-lg p-2.5 border-solid border-2 border-gray-200 w-64",
                 'placeholder': 'Email'}),
-            'password': forms.TextInput(attrs={
+            'password': forms.PasswordInput(attrs={
                 'class': "mb-8 text-xs rounded-lg p-2.5 border-solid border-2 border-gray-200 w-64",
                 'placeholder': 'Password'}),
 
         }
+
+    def save(self):
+        user = super().save(commit=False)
+        user.password = make_password(self.cleaned_data['password'])
+        user.save()
+        return user
