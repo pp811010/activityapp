@@ -1,38 +1,48 @@
-
 <!DOCTYPE html>
-<html>
-    {% block nav %}{% include "nav.html" %}{% endblock  %}
+<html lang="en">
     <head>
-    {% block head %}
+        {% block head %}
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@100..900&display=swap" rel="stylesheet">
+        
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <script src="https://cdn.tailwindcss.com"></script>
-        <style>
-            header, body{
-                font-family: "Noto Sans Thai", sans-serif;
+        <script>
+            tailwind.config = {
+                theme: {
+                    extend: {
+                        fontFamily: {
+                            'noto-thai': ['Noto Sans Thai', 'sans-serif'],
+                        },
+                    },
+                }
             }
-        </style>
-    {% endblock  %}
-    </head>
-    <body class="w-full h-full min-h-screen ">
-        {% block content %}
-        {% endblock  %}
-    </body>
-    <script>
-        {% block script %}
-        // Get the content of the <title> tag
-        const titleText = document.title;
-
-        // Find the element where you want to display the title
-        const navbarTitle = document.getElementById('show-title');
-
-        // Set the text inside the navbar
-        navbarTitle.textContent = titleText;
-
-        
+        </script>
         {% endblock %}
-    </script>
+    </head>
+    <body class="w-full h-full min-h-screen font-noto-thai">
+        <!-- Navbar -->
+        {% block nav %}{% include "nav.html" %}{% endblock %}
+
+        <!-- Main Content -->
+        {% block content %}
+        {% endblock %}
+
+        <script>
+        {% block script %}
+            // Get the content of the <title> tag
+            const titleText = document.title;
+
+            // Find the element where you want to display the title
+            const navbarTitle = document.getElementById('show-title');
+
+            // Set the text inside the navbar
+            if (navbarTitle) {
+                navbarTitle.textContent = titleText;
+            }
+        {% endblock %}
+        </script>
+    </body>
 </html>
