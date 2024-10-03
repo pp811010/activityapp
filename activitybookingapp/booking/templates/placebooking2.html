@@ -1,32 +1,56 @@
 {% extends "layout.html" %}
 {% block head %}
 <title>Activity booking</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 {% endblock  %}
 {% block content %}
 
 <div class="grid grid-cols-3 h-screen pt-14">
 
     <div class="col-span-2 px-64 py-20 flex flex-col font-semibold  p-4 shadow-xl ">
-        <p class="text-lg mb-6 text-gray-500 text-[13px]">Booking {{place}}</p>
-        <p class='pb-4'>วันที่ : {{date}}</p>
+        <p class="text-xl mb-6 text-gray-500 text-[13px]">Booking {{place}}</p>
+        <p class='pb-4 text-base'>วันที่ : {{date}}</p>
 
-            <p class="text-[13px] mb-6">เลือกช่วงเวลา</p>
-            <div class="flex gap-[2px]">
-                <button type='button' id='7' onclick='div_time(this)' class="px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">7.00</button>
-                <button type='button' id='8' onclick='div_time(this)' class="px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">8.00</button>
-                <button type='button' id='9' onclick='div_time(this)' class="px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">9.00</button>
-                <button type='button' id='10' onclick='div_time(this)' class="px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">10.00</button>
-                <button type='button' id='11' onclick='div_time(this)' class="px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">11.00</button>
-                <button type='button' id='12' onclick='div_time(this)' class="px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">12.00</button>
-                <button type='button' id='13' onclick='div_time(this)' class="px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">13.00</button>
-                <button type='button' id='14' onclick='div_time(this)' class="px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">14.00</button>
-                <button type='button' id='15' onclick='div_time(this)' class="px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">15.00</button>
-                <button type='button' id='16' onclick='div_time(this)' class="px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">16.00</button>
-                <button type='button' id='17' onclick='div_time(this)' class="px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">17.00</button>
-                <button type='button' id='18' onclick='div_time(this)' class="px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">18.00</button>
-                <button type='button' id='19' onclick='div_time(this)' class="px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">19.00</button>
-                <button type='button' id='20' onclick='div_time(this)' class="px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">20.00</button>
+        <p class="text-[16px] mb-6 mt-4">Select Time</p>
+        <div class="grid grid-cols-4 gap-[2px]">
+            <button type='button' id='7' onclick='div_time(this)' class="px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">7.00</button>
+            <button type='button' id='8' onclick='div_time(this)' class="px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">8.00</button>
+            <button type='button' id='9' onclick='div_time(this)' class="px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">9.00</button>
+            <button type='button' id='10' onclick='div_time(this)' class="px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">10.00</button>
+            <button type='button' id='11' onclick='div_time(this)' class="px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">11.00</button>
+            <button type='button' id='12' onclick='div_time(this)' class="px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">12.00</button>
+            <button type='button' id='13' onclick='div_time(this)' class="px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">13.00</button>
+            <button type='button' id='14' onclick='div_time(this)' class="px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">14.00</button>
+            <button type='button' id='15' onclick='div_time(this)' class="px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">15.00</button>
+            <button type='button' id='16' onclick='div_time(this)' class="px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">16.00</button>
+            <button type='button' id='17' onclick='div_time(this)' class="px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">17.00</button>
+            <button type='button' id='18' onclick='div_time(this)' class="px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">18.00</button>
+            <button type='button' id='19' onclick='div_time(this)' class="px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">19.00</button>
+            <button type='button' id='20' onclick='div_time(this)' class="px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">20.00</button>
+        </div>
+
+        <p class=" mt-6  text-[16px]">Upload student card</p> 
+        
+        <div class ='p-5 grid grid-cols-2'>
+
+
+            <div class='flex flex-col justify-center items-center gap-1 text-xs'>
+                <p>Student 1</p>
+                <figcaption class='rounded-[20px] p-2 max-w-[400px] w-[200px] h-[200px]'>
+                    <img  style='position: relative; max-width: 100%;' alt="">
+                    <figcaption class='text-center'>
+                        Demo File name
+                    </figcaption>
+                </figcaption>
+                
+                <input type="file" id='upload-button' accept='image/*' style='display : none;'>
+                <label for="upload-button" class="text-xs bg-[#025bee] text-white text-center w-[150px] py-2 block relative rounded-md mx-auto cursor-pointer">
+                    <i class="fa-solid fa-cloud-arrow-up"></i>
+                    Choose a photo
+                </label>
             </div>
+            
+        </div>
 
         <div class='flex justify-end'>
             <button onclick='addbooking()' class="w-32 mt-5 text-sm bg-black hover:bg-gray-600 text-white py-2 px-4 border border-blue-700 rounded">
@@ -56,6 +80,9 @@
             </div>
         </div>
     </div>
+
+
+</div>
 
 {% endblock %}
 
