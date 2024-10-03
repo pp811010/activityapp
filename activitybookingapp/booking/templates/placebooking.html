@@ -91,7 +91,7 @@
             `;
 
             // Apply hover effect and cursor style to all days
-            dayDiv.className = `w-[120px] transition-transform transform duration-200 shadow-xl rounded-3xl p-6 cursor-pointer ${i == 0 ? 'bg-[#92B4EC]  hover:-translate-y-2 hover:shadow-2xl' : 'bg-white text-black hover:-translate-y-2 hover:shadow-2xl'}`;
+            dayDiv.className = `w-[120px] transition-transform transform duration-200 shadow-xl rounded-3xl p-6 cursor-pointer ${i == 0 ? 'bg-sky-500 text-white hover:-translate-y-2 hover:shadow-2xl' : 'bg-white text-black hover:-translate-y-2 hover:shadow-2xl'}`;
 
             dayDiv.onclick = () => {
                 selectCalendar(dayDiv, dayNumber, month, year);
