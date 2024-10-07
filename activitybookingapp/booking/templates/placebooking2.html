@@ -1,35 +1,55 @@
 {% extends "layout.html" %}
 {% block head %}
 <title>Activity booking</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 {% endblock  %}
 {% block content %}
 
 <div class="grid grid-cols-3 h-screen pt-14">
 
     <div class="col-span-2 px-64 py-20 flex flex-col font-semibold  p-4 shadow-xl ">
-        <p class="text-lg mb-6 text-gray-500 text-[13px]">Booking {{place}}</p>
-        <p class='pb-4'>วันที่ : {{date}}</p>
+        <p class="text-xl mb-6 text-gray-500 text-[13px]">Booking {{place}}</p>
+        <p class='pb-4 text-base'>วันที่ : {{date}}</p>
 
-            <p class="text-[13px] mb-6">เลือกช่วงเวลา</p>
-            <div class="flex gap-[2px]">
-                <button type='button' id='7' onclick='div_time(this)' class="px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">7.00</button>
-                <button type='button' id='8' onclick='div_time(this)' class="px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">8.00</button>
-                <button type='button' id='9' onclick='div_time(this)' class="px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">9.00</button>
-                <button type='button' id='10' onclick='div_time(this)' class="px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">10.00</button>
-                <button type='button' id='11' onclick='div_time(this)' class="px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">11.00</button>
-                <button type='button' id='12' onclick='div_time(this)' class="px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">12.00</button>
-                <button type='button' id='13' onclick='div_time(this)' class="px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">13.00</button>
-                <button type='button' id='14' onclick='div_time(this)' class="px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">14.00</button>
-                <button type='button' id='15' onclick='div_time(this)' class="px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">15.00</button>
-                <button type='button' id='16' onclick='div_time(this)' class="px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">16.00</button>
-                <button type='button' id='17' onclick='div_time(this)' class="px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">17.00</button>
-                <button type='button' id='18' onclick='div_time(this)' class="px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">18.00</button>
-                <button type='button' id='19' onclick='div_time(this)' class="px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">19.00</button>
-                <button type='button' id='20' onclick='div_time(this)' class="px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">20.00</button>
+        <p class="text-[16px] mb-6 mt-4">Select Time</p>
+        <div class="grid grid-cols-4 gap-[2px]">
+            <button type='button' id='7' onclick='div_time(this)' class="bg-slate-100 shadow-md px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">7.00</button>
+            <button type='button' id='8' onclick='div_time(this)' class="bg-slate-100 shadow-md px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">8.00</button>
+            <button type='button' id='9' onclick='div_time(this)' class="bg-slate-100 shadow-md px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">9.00</button>
+            <button type='button' id='10' onclick='div_time(this)' class="bg-slate-100  shadow-md px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">10.00</button>
+            <button type='button' id='11' onclick='div_time(this)' class="bg-slate-100  shadow-md px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">11.00</button>
+            <button type='button' id='12' onclick='div_time(this)' class="bg-slate-100  shadow-md px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">12.00</button>
+            <button type='button' id='13' onclick='div_time(this)' class="bg-slate-100  shadow-md px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">13.00</button>
+            <button type='button' id='14' onclick='div_time(this)' class="bg-slate-100  shadow-md px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">14.00</button>
+            <button type='button' id='15' onclick='div_time(this)' class="bg-slate-100  shadow-md px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">15.00</button>
+            <button type='button' id='16' onclick='div_time(this)' class="bg-slate-100  shadow-md px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">16.00</button>
+            <button type='button' id='17' onclick='div_time(this)' class="bg-slate-100  shadow-md px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">17.00</button>
+            <button type='button' id='18' onclick='div_time(this)' class="bg-slate-100  shadow-md px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">18.00</button>
+            <button type='button' id='19' onclick='div_time(this)' class="bg-slate-100  shadow-md px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">19.00</button>
+            <button type='button' id='20' onclick='div_time(this)' class="bg-slate-100  shadow-md px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">20.00</button>
+        </div>
+
+        <p class=" mt-6  text-[16px]">Upload student card</p> 
+        
+  
+
+
+        <div class='flex flex-col justify-center items-center gap-1 text-xs'>
+            <div id="preview-container" class="grid grid-cols-2 gap-x-3 gap-y-3 mt-4">
+
             </div>
+            
+            <input multiple id="upload-button" type="file" name="image" accept="image/*" class="hidden " onchange="loadFiles(event)">
+            
+            <label for="upload-button" class="mt-7 text-xs bg-[#FFE69A] text-black text-center w-[150px] py-2 block relative rounded-md mx-auto cursor-pointer">
+                <i class="fa-solid fa-cloud-arrow-up"></i>
+                Choose a photo
+            </label>
+        </div>
+            
 
         <div class='flex justify-end'>
-            <button onclick='addbooking()' class="w-32 mt-5 text-sm bg-black hover:bg-gray-600 text-white py-2 px-4 border border-blue-700 rounded">
+            <button onclick='addbooking()' class="w-32 mt-5 text-sm bg-black hover:bg-gray-600 text-white py-2 px-4 border border-black rounded">
                 Booking
             </button>
         </div>
@@ -38,7 +58,7 @@
     <div class="col-span-1 bg-[#f9f9f9] p-24 flex flex-col gap-4">
         <p class='text-lg font-medium'>{{place.name}}</p>
         <hr class="my-3 border-0 h-[1px] bg-blue-500">
-        <img class='w-[500px] h-[210px] rounded-[10px]' src="https://i2-prod.mirror.co.uk/incoming/article5946137.ece/ALTERNATES/s1227b/Etihad-Stadium-expansion-works.jpg" alt="">
+        <img class='w-[500px] h-[210px] rounded-[10px]' src="{{place.photo.url}}" alt="">
         <div class='flex flex-col gap-4'>
             <div>
                 <p class="text-sm text-gray-500">Location</p>
@@ -57,14 +77,34 @@
         </div>
     </div>
 
+
+</div>
+
 {% endblock %}
 
 {% block script %}
     {{block.super}}
 
+            const pendingData = {{ pending|safe }} 
+            console.log(pendingData);
+            
+            for(let pending of pendingData){
+                const start_time = parseInt(pending.start_time.split(':')[0])
+                const end_time = parseInt(pending.end_time.split(':')[0])
+                const gap_time = Math.abs(end_time-start_time)
+                for(let x=0; x<gap_time; ++x){
+                    pending_time = start_time + x
+                    pending_btn = document.getElementById(pending_time)
+                    console.log(pending_btn)
+                    pending_btn.disabled = true
+                    pending_btn.textContent = 'Pending'
+                    pending_btn.className = 'px-2 h-8 text-center  text-xs rounded-md text-gray-700 bg-purple-400';
+                }
+                
+            }
+
             // ใช้ json_script เพื่อสร้างตัวแปร JavaScript จากข้อมูลที่ส่งมา
             const bookingData = {{ booking|safe }} 
-            // แสดงข้อมูลใน console
             console.log(bookingData);
             
             for(let booking of bookingData){
@@ -76,7 +116,8 @@
                     booking_btn = document.getElementById(booking_time)
                     console.log(booking_btn)
                     booking_btn.disabled = true
-                    booking_btn.textContent = 'booked'
+                    booking_btn.textContent = 'Booked'
+                    booking_btn.className = 'px-2 h-8 text-center  text-xs rounded-md text-gray-700 bg-red-400';
                 }
                 
             }
@@ -92,9 +133,8 @@
                     selected_time.splice(timeIndex, 1);
                     e.classList.remove('bg-green-200'); // เปลี่ยนกลับไปเป็นสีเดิม
                 } else if (selected_time.length < 3) {
-                    // เช็คว่าต้องเลือกเวลาเรียงต่อกันหรือไม่
                     if (selected_time.length === 0) {
-                        // ถ้าไม่มีเวลาเลย ให้เพิ่มเวลาได้
+                        // ถ้าไม่มีเวลาเลย เพิ่มอะไรก้ได้
                         selected_time.push(time);
                         e.classList.add('bg-green-200'); // เปลี่ยนเป็นสีที่เลือก
                     } else {
@@ -113,36 +153,59 @@
                 console.log(selected_time);
             }
             
-            function addbooking(){
-                console.log(123)
-                const place = '{{place.id}}'
-                const date = '{{date}}'
-                
+            function addbooking() {
+                const place = '{{place.id}}';
+                const date = '{{date}}';
+            
+                const formData = new FormData();
+                formData.append('select_time', JSON.stringify(selected_time));
+                formData.append('date', date);
+                const files = document.getElementById('upload-button').files;
+                for (let i = 0; i < files.length; i++) {
+                    formData.append('image', files[i]);
+                }
+            
                 fetch(`/booking/placebooking2/${place}/`, {
                     method: 'POST',
+                    body: formData,
                     headers: {
-                        'Content-Type': 'application/json',
                         'X-CSRFToken': '{{csrf_token}}'
-                    },
-                    body : JSON.stringify({
-                        'select_time' : selected_time,
-                        'date' : date
-                    })
+                    }
                 })
-               .then((response) => {
+                .then((response) => {
                     if (response.ok) {
                         console.log("add booking successfully");
-                        alert('การจองสำเร็จ')
+                        alert('การจองสำเร็จ');
                         window.location.href = "{% url 'mybooking'%}";
                     } else {
-                        alert('การจแงไม่สำเร็จ')
+                        alert('การจองไม่สำเร็จ');
                         return response.json().then((data) => {
-                            console.error("Failed to bookng:", data);
+                            console.error("Failed to booking:", data);
                         });
                     }
                 })
                 .catch((error) => console.error("Error:", error)); 
-            }
+            }            
+            
+            
+            var loadFiles = function(event) {
+                var outputContainer = document.getElementById('preview-container');
+                outputContainer.innerHTML = '';
+            
+                Array.from(event.target.files).forEach(file => {
+                    var img = document.createElement('img');
+                    img.style.Width = '200px'; // ปรับขนาดภาพที่แสดง
+                    img.style.height = '200px';
+                    img.src = URL.createObjectURL(file);
+                    
+                    img.onload = function() {
+                        URL.revokeObjectURL(img.src); // free memory
+                    };
+            
+                    outputContainer.appendChild(img);
+                });
+            };
+            
             
 {% endblock script %}
 

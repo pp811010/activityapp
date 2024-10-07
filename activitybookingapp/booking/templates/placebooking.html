@@ -7,7 +7,7 @@
 
     <div class="col-span-2 p-5 flex flex-col justify-center items-center gap-7 font-semibold bg-white">
         <p class='font-medium text-lg'>{{place.name}}</p>
-        <img src="{{place.photo}}" alt="Property" class="w-[750px] h-[280px] object-cover rounded-lg mb-4 ">
+        <img src="{{place.photo.url}}" alt="Property" class="w-[750px] h-[280px] object-cover rounded-lg mb-4 ">
         <div class='flex flex-cols'>
             <div >
                 <p class="text-sm text-gray-500">Location</p>
@@ -91,7 +91,7 @@
             `;
 
             // Apply hover effect and cursor style to all days
-            dayDiv.className = `w-[120px] transition-transform transform duration-200 shadow-xl rounded-3xl p-6 cursor-pointer ${i == 0 ? 'bg-[#92B4EC]  hover:-translate-y-2 hover:shadow-2xl' : 'bg-white text-black hover:-translate-y-2 hover:shadow-2xl'}`;
+            dayDiv.className = `w-[120px] transition-transform transform duration-200 shadow-xl rounded-3xl p-6 cursor-pointer ${i == 0 ? 'bg-sky-500 text-white hover:-translate-y-2 hover:shadow-2xl' : 'bg-white text-black hover:-translate-y-2 hover:shadow-2xl'}`;
 
             dayDiv.onclick = () => {
                 selectCalendar(dayDiv, dayNumber, month, year);
