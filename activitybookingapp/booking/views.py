@@ -126,7 +126,7 @@ class ReportView(View):
     
 class ReportList(View):
     def get(self, request):
-        reports = Report.objects.all()
+        reports = Report.objects.all().order_by("id")
         return render(request, 'report-list.html', {
             "reports":reports
         })
@@ -141,7 +141,8 @@ class ReportDetail(View):
         })
     
     def post(self, request, report_id):
-        form = ReportForm(request.POST)
+        report = Report.objects.get(pk=report_id)
+        form = ReportForm(request.POST, instance=report)
 
         if form.is_valid():
             form.save()
