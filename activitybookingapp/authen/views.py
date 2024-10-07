@@ -40,23 +40,19 @@ class RegisterView(View):
     def post(self, request):
         form = RegisterForm(request.POST)
         if form.is_valid():
-            user = form.save(commit=False)  # Save form but don't commit to DB yet
-            user.set_password(form.cleaned_data['password'])  # Hash the password
-            user.save()
+            user = form.save()
 
-            # Assuming you're saving extra data (like department, phone) from your form
             student = Student.objects.create(
-                user = user,
-                first_name = user.first_name,
-                last_name = user.last_name,
-                email = user.email,
+                user=user,
+                first_name=user.first_name,
+                last_name=user.last_name,
+                email=user.email,
                 stu_card=form.cleaned_data['student_ID'],
-                department=form.cleaned_data['department'],  # Save department
-                phone=form.cleaned_data['phone'],  # Save phone number
+                faculty=form.cleaned_data['faculty'],
+                phone=form.cleaned_data['phone'],
             )
             student.save()
 
-            # login(request, user)  # Log the user in immediately
             return redirect('login')
 
         return render(request, 'register.html', {'form': form})

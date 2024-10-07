@@ -1,0 +1,60 @@
+{% extends "layout.html" %}
+{% block head %} 
+<title>Add place</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+{% endblock %}
+
+{% block content %}
+    <div class='pt-24 px-96 flex flex-col items-center justify-center'>
+        <p class='font-medium text-lg mt-2 self-start ml-32'>Add New Place</p>
+        <p class='font-medium text-gray-500 text-[10px] mb-2 ml-32 self-start'>Activity / Add New Place</p>
+
+        <div class='flex flex-col mt-5 px-8'>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div>
+                    {{ form.name.errors }}
+                    <label>Name place : </label>
+                    {{ form.name }}
+                </div>
+                <div>
+                    {{ form.activity.errors }}
+                    <label>Activity : </label>
+                    {{ form.activity }}
+                </div>
+                <div>
+                    {{ form.location.errors }}
+                    <label>Location : </label>
+                    {{ form.location }}
+                </div>
+                <div class='flex items-center '>
+                    {{ form.description.errors }}
+                    <label class='mr-1'>Description : </label>
+                    {{ form.description }}
+                </div>
+                <div>
+                    {{ form.card.errors }}
+                    <label>Card : </label>
+                    {{ form.card }}
+                </div>
+                <div>
+                    {{ form.staff.errors }}
+                    <label>Staff : </label>
+                    {{ form.staff }}
+                </div>
+                <div>
+                    {{ form.photo.errors }}
+                    <label>Photo : </label>
+                    {{ form.photo }}
+                </div>
+            
+                <button type="submit" class="m-4 w-[350px] rounded-md border border-sky-500 py-2 px-4 text-center text-sm transition-all shadow-sm hover:shadow-lg text-slate-600 hover:text-white hover:bg-sky-500 hover:border-sky-500 focus:text-white focus:bg-sky-800 focus:border-slate-800 active:border-slate-800 active:text-white active:bg-slate-800 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none">
+                    Addd
+                </button>
+            </form>
+            
+        </div>
+        <p></p> 
+    </div>
+{% endblock %}

@@ -12,16 +12,19 @@
         <div class="mb-5 ml-3">
           <h3 class="text-lg font-semibold">{{place.name}}</h3>
         </div>
-        <img src="{{place.photo}}" alt="Property" class="w-full h-[300px] object-cover rounded-lg mb-4">
+        <img src="{{place.photo.url}}" alt="Property" class="w-full h-[300px] object-cover rounded-lg mb-4">
         <div class=" rounded-lg px-20">
           <h3 class="text-base font-semibold mb-4">Description</h3>
           <p class='text-sm'>Location : {{place.location}}</p>
           <p class='text-sm'>Location : {{place.location}}</p>
           <p class='text-sm'>Description : {{place.description}}</p>
           <div class="space-y-4 mt-3">
-            <div class="flex justify-between">
-              <p class="text-gray-700">Staff</p>
-              <p class="font-medium">{{place.staff}}</p>
+            <div class="flex flex-col">
+              <p class="text-gray-700 text-base font-semibold">Staff</p>
+                {% for staff in place.staff.all %}
+                  <p class="text-sm">{{staff}}</p>
+                {% endfor %}
+
             </div>
           </div>
       </div>
