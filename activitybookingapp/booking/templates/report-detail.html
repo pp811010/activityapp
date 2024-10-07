@@ -29,17 +29,19 @@
                 {{form.status.label_tag}}
                 {{form.status}}
             </div>
-            <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
-                Save
-            </button>
-            <a href="{% url 'report-list' %}">
-            <button 
-                class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                type="button"
-            >
-                Back
-            </button>
-            </a>
+            <div class="flex w-full justify-end gap-1">
+                <a href="{% url 'report-list' %}">
+                    <button 
+                        class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                        type="button"
+                    >
+                    Back
+                    </button>
+                </a>
+                <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+                    Save
+                </button>
+            </div>   
         </form>
     </div>
 </div>    

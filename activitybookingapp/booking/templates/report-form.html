@@ -6,7 +6,7 @@
 <div class="flex flex-col justify-center items-center px-20 pt-20 pb-10 h-full w-full min-h-screen bg-gray-200">
     <div class="flex flex-col justify-center item-center h-fit w-6/12 p-4">
         {{ form.non_field_errors }}
-        <form id="report" method="post" action="{% url 'report-form' %}" class="bg-white shadow-lg rounded-xl px-7 pt-4 pb-5 w-full">
+        <form id="report" method="post" action="{% url 'report-form' %}" class="bg-white shadow-lg rounded-xl px-7 pt-5 pb-5 w-full">
             <h1 class="text-center text-5xl font-bold h-full w-full pb-5">Report Form </h1>
             {% csrf_token %}
             <div class="mb-4 font-bold">
@@ -33,16 +33,28 @@
                 {{form.status.label_tag}}
                 {{form.status}}
             </div>
-            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
-                Submit
-            </button>
-            <button 
-                class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                type="button"
-                onclick="clearData()"
-            >
-                Clear
-            </button>
+            <div class="flex w-full justify-between">
+                <a href="{% url 'report-list' %}">
+                    <button 
+                        class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                        type="button"
+                    >
+                        Back
+                    </button>
+                </a>
+                <div>
+                    <button 
+                        class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                        type="button"
+                        onclick="clearData()"
+                    >
+                        Clear
+                    </button>
+                    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+                        Submit
+                    </button>
+                </div>
+            </div>
         </form>
     </div>
 </div>    
