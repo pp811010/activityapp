@@ -11,5 +11,6 @@ urlpatterns = [
     path("placebooking/<int:place_id>/", views.PlaceBooking.as_view(), name="placebooking1"),
     path('placebooking2/<int:place_id>/', views.PlaceBooking2.as_view(), name='placebooking2'),
     path("report-form/", views.ReportView.as_view(), name="report-form"),
-    path("report-list/", views.ReportList.as_view(), name="report-list")
+    path("report-list/", views.ReportList.as_view(), name="report-list"),
+    path("report/<int:report_id>/", views.ReportDetail.as_view(), name="report-detail"),
 ]
