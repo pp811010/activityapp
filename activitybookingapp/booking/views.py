@@ -144,11 +144,32 @@ class ReportView(View):
     
 class ReportList(View):
     def get(self, request):
-        reports = Report.objects.all()
+        reports = Report.objects.all().order_by("id")
         return render(request, 'report-list.html', {
             "reports":reports
         })
     
+class ReportDetail(View):
+    def get(self, request, report_id):
+        report = Report.objects.get(pk=report_id)
+        form = ReportForm(instance=report)
+        return render(request, 'report-detail.html', {
+            "form":form,
+            # "report":report
+        })
+    
+    def post(self, request, report_id):
+        report = Report.objects.get(pk=report_id)
+        form = ReportForm(request.POST, instance=report)
+
+        if form.is_valid():
+            form.save()
+            return redirect('report-list')
+        
+        return render(request, 'report-form.html', {
+            "form":form
+        })
+
 # ผู้จัดการสนาม
 class Addplace(View):
     def get(self, request):
@@ -161,3 +182,4 @@ class Addplace(View):
             form.save()
             return redirect('activity')
         return render(request, 'addplace.html', {"form": form})
+

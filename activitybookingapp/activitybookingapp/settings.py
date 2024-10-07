@@ -86,6 +86,17 @@ DATABASES = {
     }
 }
 
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.postgresql",
+#         "NAME": "activitybooking",
+#         "USER": "postgres",
+#         "PASSWORD": "pp811010_Za",
+#         "HOST": "localhost",
+#         "PORT": "5432",
+#     }
+# }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators

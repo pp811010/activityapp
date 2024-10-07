@@ -70,10 +70,14 @@ class Booking(models.Model):
         return f"Booking by {self.student} for {self.place}"
 
 class Report(models.Model):
+    REPORTED = 'REPORTED'
+    IN_PROGRESS = 'IN_PROGRESS'
+    DONE = 'DONE'
+
     STATUS_CHOICES = [
-        ('REPORTED', 'Reported'),
-        ('IN_PROGRESS', 'In Progress'),
-        ('DONE', 'Done'),
+        (REPORTED, 'Reported'),
+        (IN_PROGRESS, 'In Progress'),
+        (DONE, 'Done'),
     ]
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     place = models.ForeignKey(Place, on_delete=models.CASCADE)
