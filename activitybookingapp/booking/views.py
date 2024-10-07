@@ -41,55 +41,72 @@ class PlaceBooking(View):
     
 class PlaceBooking2(View):
     def get(self, request, place_id):
+        bookingfile = BookingFile()
         date = request.GET.get('selected_date')
         place = Place.objects.get(pk=place_id)
-        booking = Booking.objects.filter(date = date).values()
-        for b in booking:
+
+        bookingpending = Booking.objects.filter(place = place,date = date, status = 'PENDING').values()
+        for b in bookingpending:
             b['date'] = str(b['date'])
             b['start_time'] = str(b['start_time'])
             b['end_time'] = str(b['end_time'])
-        booking_json = json.dumps(list(booking))
+        bookingpending_json = json.dumps(list(bookingpending))
+
+        #ิbooking confirm status booked
+        bookingconfirm = Booking.objects.filter(place = place,date = date, status = 'APPROVED').values()
+        for b in bookingconfirm:
+            b['date'] = str(b['date'])
+            b['start_time'] = str(b['start_time'])
+            b['end_time'] = str(b['end_time'])
+        bookingconfirm_json = json.dumps(list(bookingconfirm))
 
 
         return render(request, 'placebooking2.html', {
             'date': date,
             'place': place,
-            'booking': booking_json
+            'booking': bookingconfirm_json,
+            'pending' : bookingpending_json,
+            'form' : bookingfile 
         })
     
     def post(self, request, place_id):
         user = request.user
         stu = Student.objects.get(user=user)
+
+        # เข้าถึงข้อมูล POST
+        selected_time = json.loads(request.POST.get('select_time'))
+        date_booking = request.POST.get('date')
+        date_booking = datetime.strptime(date_booking, "%Y-%m-%d").date()
         
 
-        data = json.loads(request.body)
-        selected_time = data['select_time']  # เช่น [13, 14, 15]
-        date_booking = data['date']
-        date_booking = datetime.strptime(date_booking, "%Y-%m-%d").date()
+        print(selected_time)
+        print(len(selected_time))
+
 
         selected_time.sort()
         start_time = time(selected_time[0], 0, 0)
-        end_time = time(selected_time[-1]+1, 0, 0)
+        end_time = time(selected_time[-1] + 1, 0, 0)
 
         place = Place.objects.get(id=place_id)
     
-        # สร้างรายการจอง (Booking)
+        # สร้าง Booking
         booking = Booking.objects.create(
             student=stu,
             place=place,
-            date=date_booking,  # ต้องตรวจสอบว่า date เป็นรูปแบบวันที่ (เช่น '2024-10-02')
+            date=date_booking,
             start_time=start_time,
             end_time=end_time,
-            status = 'PENDING'
+            status='PENDING'
         )
 
-        if booking:
-            print('dsada')
-        else:
-            print('ควย')
-        
+        # ตรวจสอบและบันทึกไฟล์
+        image_files = request.FILES.getlist('image')
+        if (len(image_files) != place.card):
+            return redirect()        
+        for file in image_files:
+            BookingFile.objects.create(booking=booking, image=file)
+
         return JsonResponse({"status": "success"})
-    
 
 class BookingView(View):
     def get(self, request, booking_id):
@@ -104,7 +121,6 @@ class PlaceView(View):
             'place': place,
             'report' : report
         }) 
-        
 
 
 class ReportView(View):
@@ -132,3 +148,16 @@ class ReportList(View):
         return render(request, 'report-list.html', {
             "reports":reports
         })
+    
+# ผู้จัดการสนาม
+class Addplace(View):
+    def get(self, request):
+        form = PlaceForm()
+        return render(request, 'addplace.html', {'form': form})
+    
+    def post(self, request):
+        form = PlaceForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('activity')
+        return render(request, 'addplace.html', {"form": form})
