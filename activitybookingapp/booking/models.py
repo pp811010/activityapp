@@ -73,15 +73,19 @@ class Booking(models.Model):
         return f"Booking by {self.student} for {self.place}"
 
 class Report(models.Model):
+    REPORTED = 'REPORTED'
+    IN_PROGRESS = 'IN_PROGRESS'
+    DONE = 'DONE'
+
     STATUS_CHOICES = [
-        ('REPORTED', 'Reported'),
-        ('IN_PROGRESS', 'In Progress'),
-        ('DONE', 'Done'),
+        (REPORTED, 'Reported'),
+        (IN_PROGRESS, 'In Progress'),
+        (DONE, 'Done'),
     ]
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     place = models.ForeignKey(Place, on_delete=models.CASCADE)
     details = models.TextField()
-    status = models.CharField(max_length=50, choices=STATUS_CHOICES)
+    status = models.CharField(max_length=50, choices=STATUS_CHOICES, default=REPORTED)
 
     def __str__(self):
         return f"Report by {self.student} for {self.place}"
