@@ -1,5 +1,7 @@
+from datetime import datetime, timezone
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils import timezone
 
 class Staff(models.Model):
     first_name = models.CharField(max_length=100)
@@ -47,7 +49,7 @@ class Place(models.Model):
     location = models.TextField()
     description = models.TextField(blank=True, null=True)
     card = models.IntegerField()
-    photo = models.ImageField(upload_to = 'place/') 
+    photo = models.ImageField(upload_to = 'place/')
 
     def __str__(self):
         return self.name
@@ -59,6 +61,7 @@ class Booking(models.Model):
     date = models.DateField()
     start_time = models.TimeField()
     end_time = models.TimeField()
+    created_at = models.DateTimeField(default=timezone.now)
     status = models.CharField(
         max_length=50,
         choices=[('PENDING', 'Pending'), ('APPROVED', 'Approved'), ('REJECTED', 'Rejected')]
@@ -77,6 +80,7 @@ class Report(models.Model):
     details = models.TextField()
     image = models.ImageField(upload_to = 'report/', blank=True, null=True)
     status = models.CharField(max_length=50, choices=STATUS_CHOICES)
+    created_at = models.DateTimeField(default=timezone.now)
 
 class BookingFile(models.Model):
     booking = models.ForeignKey(Booking, on_delete=models.CASCADE)
