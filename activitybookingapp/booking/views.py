@@ -42,7 +42,6 @@ class PlaceBooking(View):
     
 class PlaceBooking2(View):
     def get(self, request, place_id):
-        bookingfile = BookingFile()
         date = request.GET.get('selected_date')
         place = Place.objects.get(pk=place_id)
 
@@ -51,6 +50,7 @@ class PlaceBooking2(View):
             b['date'] = str(b['date'])
             b['start_time'] = str(b['start_time'])
             b['end_time'] = str(b['end_time'])
+            b['created_at'] = str(b['created_at'])
         bookingpending_json = json.dumps(list(bookingpending))
 
         #ิbooking confirm status booked
@@ -59,6 +59,7 @@ class PlaceBooking2(View):
             b['date'] = str(b['date'])
             b['start_time'] = str(b['start_time'])
             b['end_time'] = str(b['end_time'])
+            b['created_at'] = str(b['created_at'])
         bookingconfirm_json = json.dumps(list(bookingconfirm))
 
 
@@ -67,7 +68,6 @@ class PlaceBooking2(View):
             'place': place,
             'booking': bookingconfirm_json,
             'pending' : bookingpending_json,
-            'form' : bookingfile 
         })
     
     def post(self, request, place_id):
