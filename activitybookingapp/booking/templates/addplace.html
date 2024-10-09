@@ -6,11 +6,12 @@
 {% endblock %}
 
 {% block content %}
-    <div class='pt-24 px-96 flex flex-col items-center justify-center'>
-        <p class='font-medium text-lg mt-2 self-start ml-32'>Add New Place</p>
-        <p class='font-medium text-gray-500 text-[10px] mb-2 ml-32 self-start'>Activity / Add New Place</p>
-
-        <div class='flex flex-col mt-5 px-8'>
+    <div class='pt-28 px-96 pb-8 flex flex-col items-center justify-center '>
+        <div class='flex flex-col mt-2 px-8 '>
+            <div class='items-start mb-6 ml-[-70px]'>
+                <p class='font-bold text-lg mt-2 self-start'>Add New Place</p>
+                <p class='font-medium text-gray-500 text-xs mb-2 self-start'>Activity / Add New Place</p>
+            </div>
             <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div>
@@ -28,10 +29,14 @@
                     <label>Location : </label>
                     {{ form.location }}
                 </div>
-                <div class='flex items-center '>
-                    {{ form.description.errors }}
-                    <label class='mr-1'>Description : </label>
-                    {{ form.description }}
+                <div class='flex flex-col items-center '>
+                    <div class="w-full mb-2 ">
+                        <label class="block text-sm font-semibold text-gray-700">Description:</label>
+                    </div>
+                    <div class="w-full">
+                        {{ form.description.errors }}
+                        {{ form.description }}
+                    </div>
                 </div>
                 <div>
                     {{ form.card.errors }}
@@ -43,18 +48,39 @@
                     <label>Staff : </label>
                     {{ form.staff }}
                 </div>
+
+                <div id="preview-container" class="my-4 ">
+                    <img id="image-preview" class="object-cover rounded-md shadow-lg hidden w-[400px] h-[250px]">
+                </div>
+
                 <div>
                     {{ form.photo.errors }}
                     <label>Photo : </label>
                     {{ form.photo }}
                 </div>
+
+
             
                 <button type="submit" class="m-4 w-[350px] rounded-md border border-sky-500 py-2 px-4 text-center text-sm transition-all shadow-sm hover:shadow-lg text-slate-600 hover:text-white hover:bg-sky-500 hover:border-sky-500 focus:text-white focus:bg-sky-800 focus:border-slate-800 active:border-slate-800 active:text-white active:bg-slate-800 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none">
-                    Addd
+                    Add
                 </button>
             </form>
             
         </div>
-        <p></p> 
     </div>
 {% endblock %}
+
+
+{% block script%}
+    {{ block.super }}
+    document.getElementById('photo-input').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const imgPreview = document.getElementById('image-preview');
+            imgPreview.src = URL.createObjectURL(file);
+            imgPreview.classList.remove('hidden');
+        }
+    });
+
+{% endblock %}
+
