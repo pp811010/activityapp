@@ -1,3 +1,4 @@
+from django.contrib.auth.models import Group
 from django.shortcuts import render, redirect
 from django.contrib.auth import logout, login
 from django.contrib import messages
@@ -20,7 +21,7 @@ class LoginView(View):
         if form.is_valid():
             user = form.get_user() 
             login(request,user)
-            return redirect('mybooking')
+            return redirect('activity')
 
         return render(request,'login.html', {"form":form})
 
@@ -41,6 +42,8 @@ class RegisterView(View):
         form = RegisterForm(request.POST)
         if form.is_valid():
             user = form.save()
+            usergroup = Group.objects.get(name='user')  # ดึงกลุ่มชื่อ "user"
+            user.groups.add(usergroup)
 
             student = Student.objects.create(
                 user=user,

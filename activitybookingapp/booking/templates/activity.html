@@ -18,25 +18,38 @@
         
 
         <div class='px-80 py-20'>
-            <div class='flex justify-between items-center'>
-                <p class="text-2xl font-bold mb-10 text-center">Stadium</p>
-                {% if perms.blogs.add_place %}
-                    <button class="m-4 w-[60px] rounded-md border border-green-400 py-2 px-4 text-center text-sm transition-all shadow-sm hover:shadow-lg  hover:text-white hover:bg-green-500 hover:border-green-400 focus:text-white focus:bg-green-800 focus:border-slate-800 active:border-slate-800 active:text-white active:bg-slate-800 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none text-gray-500"><i class="fa-solid fa-plus"></i></button>
+            <div class='flex justify-between items-center '>
+                <p class='text-[20px] font-semibold ml-14'>Stadium</p>
+                {% if perms.booking.add_place %}
+                    <a href="{% url 'addplace' %}"><button class="m-4 w-[50px] rounded-md border border-green-400 py-1 items-center text-[13px] transition-all shadow-sm hover:shadow-lg  hover:text-white hover:bg-green-500 hover:border-green-400 focus:text-white focus:bg-green-800 focus:border-slate-800 active:border-slate-800 active:text-white active:bg-slate-800 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none text-gray-500"><i class="fa-solid fa-plus"></i></button></a>
                 {% endif %}
             </div>
             <div class='grid grid-cols-3 gap-x-20 gap-y-3'>
                 
                 {% for i in place%}
-                <a href='{% url "place" i.id %}' >
-                    <div id="activity" class="w-[300px] p-5 flex flex-col shadow-md rounded-[18px] ">
-                        <img class = "rounded-[16px]" style="width: 400px; height: 170px;" src="{{i.photo.url}}" alt="">
-                        <p class="text-base text-gray-900 mb-2 mt-4 font-bold">{{i.name}}</p>
-                        <p class="text-sm text-gray-500 mb-2 ">Location : {{i.location}}</p>
-                        <p class="text-sm text-gray-500 mb-2 ">Deception : {{ i.description|truncatewords:3 }}</p>
-                        <hr class="my-4">
-                        <p class="text-sm  mb-2 text-[#F86F03]">Manage by <span style="color: black;">:   {{i.staff}}</span> </p>
-                    </div>
-                </a>
+                    {% if perms.booking.change_place %}
+                        <a href='{% url "editplace" i.id %}' >
+                            <div id="activity" class="w-[300px] p-5 flex flex-col shadow-md rounded-[18px] ">
+                                <img class = "rounded-[16px]" style="width: 400px; height: 170px;" src="{{i.photo.url}}" alt="">
+                                <p class="text-base text-gray-900 mb-2 mt-4 font-bold">{{i.name}}</p>
+                                <p class="text-sm text-gray-500 mb-2 ">Location : {{i.location}}</p>
+                                <p class="text-sm text-gray-500 mb-2 ">Deception : {{ i.description|truncatewords:3 }}</p>
+                                <hr class="my-4">
+                                <p class="text-sm  mb-2 text-[#F86F03]">Manage by <span style="color: black;">:   {{i.staff}}</span> </p>
+                            </div>
+                        </a>
+                    {% else %}
+                        <a href='{% url "place" i.id %}' >
+                            <div id="activity" class="w-[300px] p-5 flex flex-col shadow-md rounded-[18px] ">
+                                <img class = "rounded-[16px]" style="width: 400px; height: 170px;" src="{{i.photo.url}}" alt="">
+                                <p class="text-base text-gray-900 mb-2 mt-4 font-bold">{{i.name}}</p>
+                                <p class="text-sm text-gray-500 mb-2 ">Location : {{i.location}}</p>
+                                <p class="text-sm text-gray-500 mb-2 ">Deception : {{ i.description|truncatewords:3 }}</p>
+                                <hr class="my-4">
+                                <p class="text-sm  mb-2 text-[#F86F03]">Manage by <span style="color: black;">:   {{i.staff}}</span> </p>
+                            </div>
+                        </a>
+                    {% endif %}
                 {% endfor %}
 
             </div>

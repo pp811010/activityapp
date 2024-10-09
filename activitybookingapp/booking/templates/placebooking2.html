@@ -13,12 +13,6 @@
 
         <p class="text-[16px] mb-6 mt-4">Select Time</p>
         <div class="grid grid-cols-4 gap-[2px]">
-            <button type='button' id='7' onclick='div_time(this)' class="bg-slate-100 shadow-md px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">7.00</button>
-            <button type='button' id='8' onclick='div_time(this)' class="bg-slate-100 shadow-md px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">8.00</button>
-            <button type='button' id='9' onclick='div_time(this)' class="bg-slate-100 shadow-md px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">9.00</button>
-            <button type='button' id='10' onclick='div_time(this)' class="bg-slate-100  shadow-md px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">10.00</button>
-            <button type='button' id='11' onclick='div_time(this)' class="bg-slate-100  shadow-md px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">11.00</button>
-            <button type='button' id='12' onclick='div_time(this)' class="bg-slate-100  shadow-md px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">12.00</button>
             <button type='button' id='13' onclick='div_time(this)' class="bg-slate-100  shadow-md px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">13.00</button>
             <button type='button' id='14' onclick='div_time(this)' class="bg-slate-100  shadow-md px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">14.00</button>
             <button type='button' id='15' onclick='div_time(this)' class="bg-slate-100  shadow-md px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">15.00</button>
@@ -29,21 +23,21 @@
             <button type='button' id='20' onclick='div_time(this)' class="bg-slate-100  shadow-md px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">20.00</button>
         </div>
 
-        <p class=" mt-6  text-[16px]">Upload student card</p> 
+        <p class=" mt-6  text-[16px]">Upload {{place.card}} Student Card</p> 
         
   
 
 
         <div class='flex flex-col justify-center items-center gap-1 text-xs'>
             <div id="preview-container" class="grid grid-cols-2 gap-x-3 gap-y-3 mt-4">
-
+                
             </div>
             
             <input multiple id="upload-button" type="file" name="image" accept="image/*" class="hidden " onchange="loadFiles(event)">
             
             <label for="upload-button" class="mt-7 text-xs bg-[#FFE69A] text-black text-center w-[150px] py-2 block relative rounded-md mx-auto cursor-pointer">
                 <i class="fa-solid fa-cloud-arrow-up"></i>
-                Choose a photo
+                Choose a photo 
             </label>
         </div>
             
@@ -85,6 +79,27 @@
 {% block script %}
     {{block.super}}
 
+            document.addEventListener('DOMContentLoaded', (event) => {
+                const today = new Date(); // วันที่และเวลาปัจจุบัน
+                const selectedDate = new Date('{{ date }}'); // วันที่ที่เลือกจาก template
+            
+                if (today.toDateString() === selectedDate.toDateString()) {
+                    const currentHour = today.getHours();
+                    for (let i = 13; i <= 20; i++) {
+                        if (i <= currentHour) {
+                            const timeButton = document.getElementById(i);
+                            if (timeButton) {
+                                timeButton.disabled = true;
+                                timeButton.textContent = 'Unavailable'; // แสดงข้อความว่าไม่สามารถเลือกได้
+                                timeButton.className = 'px-2 h-8 text-center text-xs rounded-md text-gray-700 bg-gray-300';
+                            }
+                        }
+                    }
+                }
+            });
+    
+
+
             const pendingData = {{ pending|safe }} 
             console.log(pendingData);
             
@@ -123,7 +138,8 @@
             }
 
             let selected_time = [];
-        
+            
+            //ฟัวชั่นเพิ่ม เช้า select_time
             function div_time(e) {
                 const time = parseInt(e.textContent);
                 const timeIndex = selected_time.indexOf(time);
@@ -158,7 +174,7 @@
                 const date = '{{date}}';
             
                 const formData = new FormData();
-                formData.append('select_time', JSON.stringify(selected_time));
+                formData.append('select_time', JSON.stringify(selected_time)); //แปลงให้อยู่ในรูป JSON
                 formData.append('date', date);
                 const files = document.getElementById('upload-button').files;
                 for (let i = 0; i < files.length; i++) {
@@ -173,19 +189,20 @@
                     }
                 })
                 .then((response) => {
-                    if (response.ok) {
-                        console.log("add booking successfully");
+                    return response.json(); // อ่านข้อมูลเป็น JSON ก่อน
+                }).then((data) => {
+                    if (data.status === "success") {
                         alert('การจองสำเร็จ');
-                        window.location.href = "{% url 'mybooking'%}";
-                    } else {
-                        alert('การจองไม่สำเร็จ');
-                        return response.json().then((data) => {
-                            console.error("Failed to booking:", data);
-                        });
+                        window.location.href = "{% url 'mybooking'%}"; // เปลี่ยนไปที่หน้าการจองของฉัน
+                    } else if (data.status === "error") {
+                        alert(data.message);
                     }
                 })
-                .catch((error) => console.error("Error:", error)); 
-            }            
+                .catch((error) => {
+                    console.error("Error:", error);
+                    alert('เกิดข้อผิดพลาด โปรดจองใหม่อีกครั้ง');
+                });
+            }
             
             
             var loadFiles = function(event) {
@@ -194,7 +211,7 @@
             
                 Array.from(event.target.files).forEach(file => {
                     var img = document.createElement('img');
-                    img.style.Width = '200px'; // ปรับขนาดภาพที่แสดง
+                    img.style.Width = '200px';
                     img.style.height = '200px';
                     img.src = URL.createObjectURL(file);
                     

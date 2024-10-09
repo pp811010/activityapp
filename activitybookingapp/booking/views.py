@@ -4,6 +4,7 @@ from datetime import datetime, time
 
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
+from django.contrib import messages
 from django.views import View
 from booking.forms import *
 from booking.models import *
@@ -16,12 +17,12 @@ class MyBooking(LoginRequiredMixin, View):
     def get(self, request):
         user = request.user
         student = Student.objects.get(user = user)
-        booking = Booking.objects.filter(student = student).order_by('-id')
+        booking = Booking.objects.filter(student = student).order_by('-date')
         return render(request, 'mybooking.html', {"booking": booking, 'student': student})
     
     def delete(self, request, booking_id):
         print(booking_id)
-        booking = Booking.objects.get(pk=booking_id)
+        booking = Booking.objects.get(id=booking_id)
         booking.delete()
         return HttpResponse(booking_id)
 
@@ -74,13 +75,13 @@ class PlaceBooking2(View):
         stu = Student.objects.get(user=user)
 
         # เข้าถึงข้อมูล POST
-        selected_time = json.loads(request.POST.get('select_time'))
+        selected_time = json.loads(request.POST.get('select_time', '[]'))  # ตั้งค่าเริ่มต้นเป็น list ว่าง
         date_booking = request.POST.get('date')
         date_booking = datetime.strptime(date_booking, "%Y-%m-%d").date()
-        
 
-        print(selected_time)
-        print(len(selected_time))
+        # ตรวจสอบว่า selected_time ว่างไหม
+        if not selected_time:
+            return JsonResponse({"status": "error", "message": "โปรดเลือกเวลา"}, status=400)
 
 
         selected_time.sort()
@@ -88,8 +89,12 @@ class PlaceBooking2(View):
         end_time = time(selected_time[-1] + 1, 0, 0)
 
         place = Place.objects.get(id=place_id)
-    
-        # สร้าง Booking
+
+        # ตรวจสอบ
+        image_files = request.FILES.getlist('image')
+        if (len(image_files) != place.card):
+            return JsonResponse({"status": "error", "message": f"กรุณาอัปโหลดไฟล์ให้ตรงกับจำนวนที่กำหนด (จำนวนบัตรนักเรียนต้องเป็น {place.card} ไฟล์)"}, status=400)
+
         booking = Booking.objects.create(
             student=stu,
             place=place,
@@ -99,10 +104,6 @@ class PlaceBooking2(View):
             status='PENDING'
         )
 
-        # ตรวจสอบและบันทึกไฟล์
-        image_files = request.FILES.getlist('image')
-        if (len(image_files) != place.card):
-            return redirect()        
         for file in image_files:
             BookingFile.objects.create(booking=booking, image=file)
 
@@ -111,7 +112,9 @@ class PlaceBooking2(View):
 class BookingView(View):
     def get(self, request, booking_id):
         booking = Booking.objects.get(id = booking_id)
-        return render(request, 'booking.html', {'booking': booking})
+        bookingfile = BookingFile.objects.filter(booking = booking)
+        print(bookingfile)
+        return render(request, 'booking.html', {'booking': booking, 'bookingfile': bookingfile})
 
 class PlaceView(View):
     def get(self, request, place_id) :
@@ -182,4 +185,24 @@ class Addplace(View):
             form.save()
             return redirect('activity')
         return render(request, 'addplace.html', {"form": form})
+    
 
+class EditPlace(View):
+    def get(self, request, place_id):
+        place = Place.objects.get(pk = place_id)
+        form = PlaceForm(instance=place)
+        return render(request, 'editplace.html', {'form': form, 'place': place})
+    
+    def post(self, request, place_id):
+        place = Place.objects.get(pk = place_id)
+        form = PlaceForm(request.POST, request.FILES, instance=place)
+        if form.is_valid():
+            form.save()
+            return redirect('activity')
+        return render(request, 'editplace.html', {"form": form})
+    
+    def delete(self, request, place_id):
+        place = Place.objects.get(pk = place_id)
+        place.delete()
+        print('sasasa')
+        return HttpResponse(status=200)

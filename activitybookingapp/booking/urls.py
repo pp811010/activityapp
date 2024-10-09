@@ -17,4 +17,5 @@ urlpatterns = [
 
     # ผู้จัดการสนาม
     path("addplace/", views.Addplace.as_view(), name = 'addplace'),
+    path("editplace/<int:place_id>/", views.EditPlace.as_view(), name='editplace')
 ]
