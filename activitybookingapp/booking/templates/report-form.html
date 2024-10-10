@@ -6,7 +6,8 @@
 <div class="flex flex-col justify-center items-center px-20 pt-20 pb-10 h-full w-full min-h-screen bg-gray-200">
     <div class="flex flex-col justify-center item-center h-fit w-6/12 p-4">
         {{ form.non_field_errors }}
-        <form id="report" method="post" action="{% url 'place-report' place.id user.id %}" 
+        <form id="report" method="post" action="{% url 'place-report-list' place.id %}" 
+            enctype="multipart/form-data"
             class="bg-white shadow-lg rounded-xl px-7 pt-5 pb-5 w-full"
         >
             <h1 class="text-center text-5xl font-bold h-full w-full pb-5">Report Form </h1>
@@ -21,11 +22,11 @@
                 {{form.student.label_tag}}
                 {{form.student}}
             </div>
-            {% comment %} <div class="mb-4 font-bold">
-                {{form.photo.errors}}
-                {{form.photo.label_tag}}
-                {{form.photo}}
-            </div> {% endcomment %}
+            <div class="mb-4 font-bold">
+                {{form.image.errors}}
+                {{form.image.label_tag}}
+                {{form.image}}
+            </div>
             <div class="mb-4 font-bold">
                 {{form.details.errors}}
                 {{form.details.label_tag}}
@@ -41,7 +42,7 @@
                 {{form.status}}
             </div>
             <div class="flex w-full justify-between">
-                <a href="{% url 'report-list' %}">
+                <a href="{% url 'place-report-list' place.id %}">
                     <button 
                         class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                         type="button"

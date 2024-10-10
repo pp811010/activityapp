@@ -122,45 +122,54 @@ class PlaceView(View):
             'report' : report
         }) 
 
-
+# get form
 class ReportView(View):
     def get(self, request, place_id, user_id):
         form = ReportForm()
-        form.fields['student'].initial = Student.objects.get(pk=user_id )
+        student = Student.objects.get(pk=user_id )
+        form.fields['student'].initial = student
         place = Place.objects.get(pk=place_id)
         form.fields['place'].initial = place
         return render(request, 'report-form.html',{
             "form": form,
+            "place":place,
+            "user_id":user_id,
+        })
+
+
+# get list of report in this place and save form
+class PlaceReport(View):
+    def get(self, request, place_id):
+        place = Place.objects.get(pk=place_id)
+        reports = Report.objects.filter(place=place).order_by('-created_at')
+        return render(request, 'report-list.html', {
+            "reports":reports,
             "place":place
         })
-    def post(self, request, place_id, user_id):
-        form = ReportForm(request.POST)
-        student = Student.objects.get(pk=user_id )
-        
-        place = Place.objects.get(pk=place_id)
-        if form.is_valid():
-            report = form.save(commit=False)
-
-            # Assign place and student to the report
-            report.place = place
-            report.student = student
-
-            # Save the report to the database
-            report.save()
-            return redirect('report-list')
-        
-        reports = Report.objects.all().order_by("id")
-        return render(request, 'report-list.html', {
-            "reports":reports
-        })
     
+    def post(self, request, place_id):
+        form = ReportForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('place-report-list' , place_id=place_id)
+        place = Place.objects.get(pk=place_id)
+        reports = Report.objects.filter(place=place)
+        return render(request, 'report-list.html', {
+            "reports":reports,
+            "place":place,
+        })
+
+
+# get report list    
 class ReportList(View):
     def get(self, request):
         reports = Report.objects.all().order_by("id")
-        return render(request, 'report-list.html', {
+        return render(request, 'report-list-staff.html', {
             "reports":reports
         })
-    
+
+
+# get form and edit 
 class ReportDetail(View):
     def get(self, request, report_id):
         report = Report.objects.get(pk=report_id)
@@ -181,6 +190,7 @@ class ReportDetail(View):
         return render(request, 'report-form.html', {
             "form":form
         })
+
 
 # ผู้จัดการสนาม
 class Addplace(View):

@@ -3,29 +3,12 @@
 <title>Reports</title>
 {% endblock  %}
 {% block content %}
-<div class="container flex flex-col pt-16 px-10 gap-3 justify-center items-center w-full h-full">
-    <div class="flex w-full justify-between py-4">
-        <a href="{% url 'place' place.id  %}">
-            <button 
-                class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline "
-                type="button"
-            >
-            Back
-            </button>
-        </a>
-        <a href="{% url 'place-report-form' place.id user.id %}">
-            <button 
-                class="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                type="button"
-            >
-            Add
-            </button>
-        </a>
-    </div>
-    <div class="overflow-x-auto overflow-y-auto max-h-[500px] h-3/4 rounded-xl w-full">
+<div class="container flex flex-col h-full pt-20 px-10 justify-center items-center">
+    <div class="overflow-x-auto overflow-y-auto max-h-[600px] h-3/4 rounded-xl w-full">
         <table class="min-w-full bg-white border border-gray-200 rounded-xl shadow-md">
             <thead>
                 <tr class="bg-blue-500 text-white sticky top-0 z-10">
+                    <th class="py-3 px-4 text-left">ID</th>
                     <th class="py-3 px-4 text-left">Student</th>
                     <th class="py-3 px-4 text-left">Image</th>
                     <th class="py-3 px-4 text-left">Report Date</th>
@@ -36,6 +19,7 @@
             <tbody>
             {% for data in reports %}
                 <tr class="hover:bg-gray-100 pt-1">
+                    <td class="py-3 px-4">{{data.id}}</td>
                     <td class="py-3 px-4">{{data.student}}</td>
                     <td class="py-3 px-4">
                         {% if data.image %}
@@ -49,7 +33,7 @@
                         <span class="py-1 px-3 rounded-full text-sm status-cell">{{data.status}}</span>
                     </td>
                     <td class="py-3 px-4">
-                        {{data.details|slice:":80"}}...
+                        <a href="{% url 'report-detail' data.id %}" class="text-blue-500 hover:text-blue-700">View</a>
                     </td>
                 </tr>
             {% endfor %}

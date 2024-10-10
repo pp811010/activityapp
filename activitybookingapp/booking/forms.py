@@ -8,41 +8,47 @@ class ReportForm(forms.ModelForm):
     class Meta:
         model = Report
         fields = "__all__"
-        # widgets = {
-        #     "place": forms.Select(
-        #         attrs={
-        #             'class':"shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight font-normal"
-        #         }
-        #     ),
-        #     "student": forms.TextInput(
-        #         attrs={
-        #             'class':"shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight font-normal"
-        #         }
-        #     ),
-        #     "details": forms.Textarea(
-        #         attrs={
-        #             'class':"shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight font-normal"
-        #         }
-        #     ),
-        #     "created_at": forms.DateTimeField(
-        #         attrs={
-        #             'class':"shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight font-normal"
-        #         }
-        #     ),
-        #     "status":forms.Select(
-        #         attrs={
-        #             'class':"shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight font-normal"
-        #         }
-        #     )
-        # }
+        widgets = {
+            'image': forms.ClearableFileInput(
+                attrs={
+                    'class':"shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight font-normal",
+                    'accept':'image/*',
+                }
+            ),
+            "place": forms.Select(
+                attrs={
+                    'class':"shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight font-normal"
+                }
+            ),
+            "student": forms.Select(
+                attrs={
+                    'class':"shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight font-normal"
+                }
+            ),
+            "details": forms.Textarea(
+                attrs={
+                    'class':"shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight font-normal"
+                }
+            ),
+            "created_at": forms.TextInput(
+                attrs={
+                    'class':"shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight font-normal"
+                }
+            ),
+            "status":forms.Select(
+                attrs={
+                    'class':"shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight font-normal"
+                }
+            )
+        }
     
     def __init__(self, *args, **kwargs):
         is_edit = kwargs.get('instance') is not None
         super(ReportForm, self).__init__(*args, **kwargs)
-        for visible in self.visible_fields():
-            visible.field.widget.attrs['class'] = 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight font-normal'
+        # for visible in self.visible_fields():
+        #     visible.field.widget.attrs['class'] = 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight font-normal'
         
-        self.fields['student'].disabled = True
+        # self.fields['student'].disabled = True
         # self.fields['place'].disabled = True
         self.fields['created_at'].disabled = True
 
