@@ -124,22 +124,34 @@ class PlaceView(View):
 
 
 class ReportView(View):
-    def get(self, request):
+    def get(self, request, place_id, user_id):
         form = ReportForm()
+        form.fields['student'].initial = Student.objects.get(pk=user_id )
+        place = Place.objects.get(pk=place_id)
+        form.fields['place'].initial = place
         return render(request, 'report-form.html',{
-            "form": form
+            "form": form,
+            "place":place
         })
-    def post(self, request):
+    def post(self, request, place_id, user_id):
         form = ReportForm(request.POST)
-
-        if form.is_valid():
-            student = form.cleaned_data.get('student')
-            print(f"Student: {student}")
-            form.save()
-            return redirect('report-form')
+        student = Student.objects.get(pk=user_id )
         
-        return render(request, 'report-form.html', {
-            "form":form
+        place = Place.objects.get(pk=place_id)
+        if form.is_valid():
+            report = form.save(commit=False)
+
+            # Assign place and student to the report
+            report.place = place
+            report.student = student
+
+            # Save the report to the database
+            report.save()
+            return redirect('report-list')
+        
+        reports = Report.objects.all().order_by("id")
+        return render(request, 'report-list.html', {
+            "reports":reports
         })
     
 class ReportList(View):

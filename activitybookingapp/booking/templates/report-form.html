@@ -6,27 +6,34 @@
 <div class="flex flex-col justify-center items-center px-20 pt-20 pb-10 h-full w-full min-h-screen bg-gray-200">
     <div class="flex flex-col justify-center item-center h-fit w-6/12 p-4">
         {{ form.non_field_errors }}
-        <form id="report" method="post" action="{% url 'report-form' %}" class="bg-white shadow-lg rounded-xl px-7 pt-5 pb-5 w-full">
+        <form id="report" method="post" action="{% url 'place-report' place.id user.id %}" 
+            class="bg-white shadow-lg rounded-xl px-7 pt-5 pb-5 w-full"
+        >
             <h1 class="text-center text-5xl font-bold h-full w-full pb-5">Report Form </h1>
             {% csrf_token %}
-            <div class="mb-4 font-bold">
-                {{form.student.errors}}
-                {{form.student.label_tag}}
-                {{form.student}}
-            </div>
             <div class="mb-4 font-bold">
                 {{form.place.errors}}
                 {{form.place.label_tag}}
                 {{form.place}}
             </div>
             <div class="mb-4 font-bold">
+                {{form.student.errors}}
+                {{form.student.label_tag}}
+                {{form.student}}
+            </div>
+            {% comment %} <div class="mb-4 font-bold">
+                {{form.photo.errors}}
+                {{form.photo.label_tag}}
+                {{form.photo}}
+            </div> {% endcomment %}
+            <div class="mb-4 font-bold">
                 {{form.details.errors}}
                 {{form.details.label_tag}}
                 {{form.details}}
             </div>
             <div class="mb-4 font-bold">
-                {{form.reported_date.label_tag}}
-                {{form.reported_date}}
+                {{form.created_at.label_tag}}
+                {{form.created_at}}
             </div>
             <div class="mb-4 font-bold">
                 {{form.status.errors}}

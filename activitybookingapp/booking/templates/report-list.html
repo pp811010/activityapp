@@ -11,7 +11,7 @@
                     <th class="py-3 px-4 text-left">ID</th>
                     <th class="py-3 px-4 text-left">Student</th>
                     <th class="py-3 px-4 text-left">Image</th>
-                    {% comment %} <th class="py-3 px-4 text-left">Report Date</th> {% endcomment %}
+                    <th class="py-3 px-4 text-left">Report Date</th>
                     <th class="py-3 px-4 text-left">Status</th>
                     <th class="py-3 px-4 text-left">Details</th>
                 </tr>
@@ -24,7 +24,7 @@
                     <td class="py-3 px-4">
                         <img class="w-12 h-12 rounded-full" src="https://via.placeholder.com/48" alt="Michael Brown">
                     </td>
-                    {% comment %} <td class="py-3 px-4">{{data.reported_date}}</td> {% endcomment %}
+                    <td class="py-3 px-4">{{data.created_at}}</td>
                     <td class="py-3 px-4">
                         <span class="py-1 px-3 rounded-full text-sm status-cell">{{data.status}}</span>
                     </td>
