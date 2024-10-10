@@ -45,16 +45,17 @@ class PlaceBooking2(View):
         date = request.GET.get('selected_date')
         place = Place.objects.get(pk=place_id)
 
-        bookingpending = Booking.objects.filter(place = place,date = date, status = 'PENDING').values()
+        bookingpending = Booking.objects.filter(place = place,date = date, status = 'PENDING').values() # ทำเป็น dictionary
         for b in bookingpending:
             b['date'] = str(b['date'])
             b['start_time'] = str(b['start_time'])
             b['end_time'] = str(b['end_time'])
             b['created_at'] = str(b['created_at'])
+        print(list(bookingpending))
         bookingpending_json = json.dumps(list(bookingpending))
 
         #ิbooking confirm status booked
-        bookingconfirm = Booking.objects.filter(place = place,date = date, status = 'APPROVED').values()
+        bookingconfirm = Booking.objects.filter(place = place,date = date, status = 'APPROVED').values() 
         for b in bookingconfirm:
             b['date'] = str(b['date'])
             b['start_time'] = str(b['start_time'])
