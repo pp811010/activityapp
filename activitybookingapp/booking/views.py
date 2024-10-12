@@ -3,7 +3,7 @@ import json
 from datetime import datetime, time
 
 from django.http import HttpResponse, JsonResponse
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib import messages
 from django.views import View
 from booking.forms import *
@@ -26,7 +26,7 @@ class MyBooking(LoginRequiredMixin, View):
         booking.delete()
         return HttpResponse(booking_id)
 
-class Activity(View):
+class ActivityView(View):
     def get(self, request):
         place = Place.objects.all()
         return render(request, 'activity.html', {'place': place})
@@ -163,7 +163,8 @@ class PlaceReport(View):
         })
 
 
-# get report list    
+
+# for staff
 class ReportList(View):
     def get(self, request):
         reports = Report.objects.all().order_by("id")
@@ -171,8 +172,7 @@ class ReportList(View):
             "reports":reports
         })
 
-
-# get form and edit 
+  
 class ReportDetail(View):
     def get(self, request, report_id):
         report = Report.objects.get(pk=report_id)
@@ -193,6 +193,39 @@ class ReportDetail(View):
         return render(request, 'report-form.html', {
             "form":form
         })
+
+
+class PlaceList(View):
+    def get(self, request):
+        activities = Activity.objects.all()
+        return render(request, 'activity-place.html', {
+            'activities':activities
+        })
+
+
+class BookingList(View):
+    def get(self, request, place_id):
+        place=Place.objects.get(pk=place_id)
+        bookings = Booking.objects.filter(place__id=place_id)
+        return render(request, 'approve-booking.html',{
+            'bookings':bookings,
+            "place":place,
+        })
+
+class ChangeBookingStatus(View):
+    def post(self, request, booking_id):
+        booking = get_object_or_404(Booking, id=booking_id)
+        action = request.POST.get('action')
+
+        if action == 'approve':
+            booking.status = 'APPROVED'
+        elif action == 'reject':
+            booking.status = 'REJECTED'
+        
+        booking.save()
+        return redirect('booking-list', place_id=booking.place.pk)
+
+
 
 
 # ผู้จัดการสนาม
