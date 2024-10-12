@@ -13,6 +13,13 @@
             <h1 class="text-center text-5xl font-bold h-full w-full pb-5">Report Form </h1>
             {% csrf_token %}
             <div class="mb-4 font-bold">
+                {{form.image.errors}}
+                {{form.image.label_tag}}
+                <div class="flex justify-center w-full" id="image-preview-container">
+                </div>
+                {{form.image}}
+            </div>
+            <div class="mb-4 font-bold">
                 {{form.place.errors}}
                 {{form.place.label_tag}}
                 {{form.place}}
@@ -21,11 +28,6 @@
                 {{form.student.errors}}
                 {{form.student.label_tag}}
                 {{form.student}}
-            </div>
-            <div class="mb-4 font-bold">
-                {{form.image.errors}}
-                {{form.image.label_tag}}
-                {{form.image}}
             </div>
             <div class="mb-4 font-bold">
                 {{form.details.errors}}
@@ -71,6 +73,38 @@
     {{ block.super }}
     function clearData() {
         document.getElementById("report").reset();
+        const imagePreviewContainer = document.getElementById("image-preview-container");
+        imagePreviewContainer.innerHTML = ''; // Clear the appended image
     }
+
+    const imageInput = document.getElementById('{{ form.image.id_for_label }}');
+
+    // Listen for the change event on the image input field
+    imageInput.addEventListener('change', function(event) {
+        const file = event.target.files[0]; // Get the selected file
+        const imagePreviewContainer = document.getElementById("image-preview-container");
+
+        // Clear any previous preview
+        imagePreviewContainer.innerHTML = '';
+
+        if (file && file.type.startsWith('image/')) {
+            // Create a FileReader to read the file and show the preview
+            const reader = new FileReader();
+
+            // Once the file is read, create the img tag and append it
+            reader.onload = function(e) {
+                const img = document.createElement('img');
+                img.src = e.target.result;
+                img.alt = 'Selected image preview';
+                img.classList.add('h-48', 'rounded-3xl', 'p-4');
+                imagePreviewContainer.appendChild(img); // Append the img to the container
+            };
+
+            // Read the file as a Data URL (for image preview)
+            reader.readAsDataURL(file);
+        } else {
+            alert('Please select a valid image file.');
+        }
+    });
 
 {% endblock  %}

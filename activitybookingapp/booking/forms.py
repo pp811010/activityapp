@@ -45,14 +45,11 @@ class ReportForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         is_edit = kwargs.get('instance') is not None
         super(ReportForm, self).__init__(*args, **kwargs)
-        # for visible in self.visible_fields():
-        #     visible.field.widget.attrs['class'] = 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight font-normal'
-        
-        # self.fields['student'].disabled = True
-        # self.fields['place'].disabled = True
         self.fields['created_at'].disabled = True
 
         if is_edit:
+            self.fields['student'].disabled = True
+            self.fields['place'].disabled = True
             self.fields['details'].disabled = True
 
         else:

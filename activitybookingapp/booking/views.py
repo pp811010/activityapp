@@ -176,7 +176,7 @@ class ReportDetail(View):
         form = ReportForm(instance=report)
         return render(request, 'report-detail.html', {
             "form":form,
-            # "report":report
+            "report":report
         })
     
     def post(self, request, report_id):

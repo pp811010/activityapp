@@ -3,15 +3,16 @@
 <title>Reports</title>
 {% endblock  %}
 {% block content %}
-<div class="container flex flex-col h-full pt-20 px-10 justify-center items-center">
-    <div class="overflow-x-auto overflow-y-auto max-h-[600px] h-3/4 rounded-xl w-full">
-        <table class="min-w-full bg-white border border-gray-200 rounded-xl shadow-md">
+<div class="flex flex-col h-full pt-20 px-10 justify-center items-center">
+    <div class="overflow-x-auto overflow-y-auto max-h-[600px] h-3/4 rounded-xl w-full border border-gray-200">
+        <table class="min-w-full bg-white rounded-xl shadow-md">
             <thead>
                 <tr class="bg-blue-500 text-white sticky top-0 z-10">
                     <th class="py-3 px-4 text-left">ID</th>
                     <th class="py-3 px-4 text-left">Student</th>
                     <th class="py-3 px-4 text-left">Image</th>
-                    <th class="py-3 px-4 text-left">Report Date</th>
+                    <th class="py-3 px-4 text-left">Date</th>
+                    <th class="py-3 px-4 text-left">Time</th>
                     <th class="py-3 px-4 text-left">Status</th>
                     <th class="py-3 px-4 text-left">Details</th>
                 </tr>
@@ -28,7 +29,8 @@
                             <img class="w-12 h-12 rounded-full" src="https://via.placeholder.com/48" alt="Report Image">
                         {% endif %}
                     </td>
-                    <td class="py-3 px-4">{{data.created_at}}</td>
+                    <td class="py-3 px-4">{{ data.created_at|date:"d/m/Y" }}</td>
+                    <td class="py-3 px-4">{{ data.created_at|date:"H:i" }}</td>
                     <td class="py-3 px-4">
                         <span class="py-1 px-3 rounded-full text-sm status-cell">{{data.status}}</span>
                     </td>
