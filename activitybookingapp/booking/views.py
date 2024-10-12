@@ -26,7 +26,7 @@ class MyBooking(LoginRequiredMixin, View):
         booking.delete()
         return HttpResponse(booking_id)
 
-class Activity(View):
+class ActivityView(View):
     def get(self, request):
         place = Place.objects.all()
         return render(request, 'activity.html', {'place': place})
@@ -192,6 +192,14 @@ class ReportDetail(View):
         
         return render(request, 'report-form.html', {
             "form":form
+        })
+
+
+class PlaceList(View):
+    def get(self, request):
+        activities = Activity.objects.all()
+        return render(request, 'activity-place.html', {
+            'activities':activities
         })
 
 
