@@ -4,16 +4,49 @@ from django.forms import ModelForm, ValidationError
 from booking.models import *
 from django.utils import timezone
 
-class ReportForm(ModelForm):
+class ReportForm(forms.ModelForm):
     class Meta:
         model = Report
         fields = "__all__"
+        widgets = {
+            'image': forms.ClearableFileInput(
+                attrs={
+                    'class':"shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight font-normal",
+                    'accept':'image/*',
+                }
+            ),
+            "place": forms.Select(
+                attrs={
+                    'class':"shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight font-normal"
+                }
+            ),
+            "student": forms.Select(
+                attrs={
+                    'class':"shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight font-normal"
+                }
+            ),
+            "details": forms.Textarea(
+                attrs={
+                    'class':"shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight font-normal"
+                }
+            ),
+            "created_at": forms.TextInput(
+                attrs={
+                    'class':"shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight font-normal"
+                }
+            ),
+            "status":forms.Select(
+                attrs={
+                    'class':"shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight font-normal"
+                }
+            )
+        }
     
     def __init__(self, *args, **kwargs):
         is_edit = kwargs.get('instance') is not None
         super(ReportForm, self).__init__(*args, **kwargs)
-        for visible in self.visible_fields():
-            visible.field.widget.attrs['class'] = 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight font-normal'
+        self.fields['created_at'].disabled = True
+
         if is_edit:
             self.fields['student'].disabled = True
             self.fields['place'].disabled = True
@@ -21,6 +54,7 @@ class ReportForm(ModelForm):
 
         else:
             self.fields['status'].disabled = True
+
     
     def clean(self):
         cleaned_data = super().clean()

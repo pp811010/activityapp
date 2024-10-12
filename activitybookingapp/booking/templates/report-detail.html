@@ -9,6 +9,13 @@
         <form id="report" method="post" action="{% url 'report-detail' form.instance.pk %}" class="bg-white shadow-lg rounded-xl px-7 pt-4 pb-5 w-full">
             <h1 class="text-center text-5xl font-bold h-full w-full pb-5">Report Form</h1>
             {% csrf_token %}
+            <div class=" flex w-full justify-center mb-4 font-bold">
+                {% if report.image %}
+                    <img class="h-48 rounded-3xl" src="{{ report.image.url }}" alt="Report Image">
+                {% else %}
+                    <img class="w-48 h-48 rounded-3xl" src="https://via.placeholder.com/48" alt="Report Image">
+                {% endif %}
+            </div>
             <div class="mb-4 font-bold">
                 {{form.student.errors}}
                 {{form.student.label_tag}}
@@ -23,6 +30,11 @@
                 {{form.details.errors}}
                 {{form.details.label_tag}}
                 {{form.details}}
+            </div>
+            <div class="mb-4 font-bold">
+                {{form.created_at.errors}}
+                {{form.created_at.label_tag}}
+                {{form.created_at}}
             </div>
             <div class="mb-4 font-bold">
                 {{form.status.errors}}
