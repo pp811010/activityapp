@@ -1,0 +1,99 @@
+{% extends "layout.html" %} 
+{% block head %} 
+<title>Edit place</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+{% endblock %}
+
+{% block content %}
+<div class='pt-20 px-96 pb-8 flex flex-col items-center justify-center'>
+    <div class='flex flex-col px-8 w-[800px] bg-white rounded-lg p-6'>
+        <div class='flex justify-between items-center'>
+            <div>
+                <p class='font-bold text-base mt-2 self-start'>Edit New Place</p>
+                <p class='font-medium text-gray-500 text-sm mb-7 self-start'>Activity / Edit Place</p>
+            </div>
+            <p class='text-red-400 hover:text-red-600 cursor-pointer' onclick='deleteplace({{place.id}}, "{{csrf_token}}")'><i class="fa-solid fa-trash"></i></p>
+        </div>
+
+        <form method="post" enctype="multipart/form-data" class='px-32'>
+            <div id="preview-container" class=" flex items-center justify-center">
+                <img src='{{ place.photo.url }}' id="image-preview" class="object-cover rounded-md shadow-md w-[400px] h-[250px]">
+            </div>
+            <div class='flex flex-col mb-4 text-sm items-center mt-5'>
+                {{ form.photo }}
+                {{ form.photo.errors }}
+            </div>
+            {% csrf_token %}
+            <div class='flex flex-col mb-4'>
+                <label class="font-semibold">Name place:</label>
+                {{ form.name }}
+                {{ form.name.errors }}
+            </div>
+            <div class='flex flex-col mb-4'>
+                <label class="font-semibold">Activity:</label>
+                {{ form.activity }}
+                {{ form.activity.errors }}
+            </div>
+            <div class='flex flex-col mb-4'>
+                <label class="font-semibold">Location:</label>
+                {{ form.location }}
+                {{ form.location.errors }}
+            </div>
+            <div class='flex flex-col mb-4'>
+                <label class="font-semibold">Description:</label>
+                {{ form.description }}
+                {{ form.description.errors }}
+            </div>
+            <div class='flex flex-col mb-4'>
+                <label class="font-semibold">Card:</label>
+                {{ form.card }}
+                {{ form.card.errors }}
+            </div>
+            <div class='flex flex-col mb-4'>
+                <label class="font-semibold">Staff:</label>
+                {{ form.staff }}
+                {{ form.staff.errors }}
+            </div>
+
+            <button type="submit" class="mt-4 w-full rounded-md border border-sky-500 py-2 px-4 text-center text-sm transition-all shadow-sm hover:shadow-lg text-slate-600 hover:text-white hover:bg-sky-500 hover:border-sky-500 focus:text-white focus:bg-sky-800 focus:border-slate-800 active:border-slate-800 active:text-white active:bg-slate-800 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none">
+                Save
+            </button>
+        </form>
+
+        
+    </div>
+</div>
+
+{% endblock %}
+
+{% block script %}
+    {{ block.super }}
+    document.getElementById('photo-input').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const imgPreview = document.getElementById('image-preview');
+            imgPreview.src = URL.createObjectURL(file);
+        }
+    });
+
+    function deleteplace(place_id, csrf_token) {
+        fetch(`/booking/editplace/${place_id}/`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": csrf_token,
+            },
+        })
+        .then((response) => {
+            if (response.ok) {
+                console.log("Item deleted successfully");
+                window.location.href = "{% url 'activity' %}";
+            }
+        })
+        .catch((error) => {
+            console.error("Error:", error);
+            alert("เกิดข้อผิดพลาดในการเชื่อมต่อกับเซิร์ฟเวอร์");
+        });
+    }
+{% endblock %}

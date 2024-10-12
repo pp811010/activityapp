@@ -68,29 +68,32 @@ class PlaceForm(forms.ModelForm):
         fields = "__all__"
         widgets = {
             'name': forms.TextInput(attrs={
-                'class': "mb-3 text-xs rounded-lg p-2.5 border-solid border-2 border-gray-200 w-64", 
-                'placeholder': 'Place Name'}),
+                'class': "mb-3 text-xs rounded-lg p-2.5 border-solid border-2 border-gray-200 w-[300px]", 
+                'placeholder': 'ชื่อสนาม'}),
             'activity': forms.Select(attrs={
-                'class': "mb-3 text-xs rounded-lg p-2.5 border-solid border-2 border-gray-200 w-64"
+                'class': "mb-3 text-xs rounded-lg p-2.5 border-solid border-2 border-gray-200 w-[300px]"
             }),
             'location': forms.TextInput(attrs={
-                'class': "mb-3 text-xs rounded-lg p-2.5 border-solid border-2 border-gray-200 w-64", 
-                'placeholder': 'Location'}),
+                'class': "mb-3 text-xs rounded-lg p-2.5 border-solid border-2 border-gray-200 w-[300px]", 
+                'placeholder': 'ที่ตั้งสนาม'}),
             'description': forms.Textarea(attrs={
-                'class': "mb-3 text-xs rounded-lg p-2.5 border-solid border-2 border-gray-200 w-64", 
-                'placeholder': 'Description'}),
+                'class': "mb-3 text-xs rounded-lg p-2.5 border-solid border-2 border-gray-200 w-[400px]", 
+                'placeholder': 'รายละเอียดของสนาม',
+                'style': 'resize: none;'
+            }),
             'card': forms.NumberInput(attrs={
-                'class': "mb-3 text-xs rounded-lg p-2.5 border-solid border-2 border-gray-200 w-64",
+                'class': "mb-3 text-xs rounded-lg p-2.5 border-solid border-2 border-gray-200 w-[300px]",
                 'placeholder': 'จำนวนบัตรที่ต้องใช้จอง'
             }),
             'staff': forms.CheckboxSelectMultiple(attrs={
-                'class': "mt-2 mb-3 text-xs rounded-lg p-2.5 border-solid border-2 border-gray-200"
+                'class': "mt-2 mb-3 text-xs rounded-lg p-2.5 border-solid border-2 border-gray-200 px-20" 
             }),
             'photo': forms.ClearableFileInput(attrs={
                 'class': "mb-3 text-xs rounded-lg p-2.5 border-solid border-2 border-gray-200 w-64",
                 'accept': 'image/*',
                 'style': 'padding: 10px;',
-                'placeholder': 'อัปโหลดรูปภาพ',
+                'placeholder': 'อัปโหลดรูปภาพสถานที่',
+                'id': 'photo-input'
             }),
         }
 

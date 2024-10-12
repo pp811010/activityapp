@@ -20,7 +20,7 @@
 				<a href="{% url 'booking' i.id %}">
 					<div class="max-w-72 p-6 bg-white rounded-lg shadow-md">
 				
-						<h2 class="text-base font-bold text-gray-900">{{i.place}}</h2>
+						<h2 class="text-base font-bold text-gray-900"><span class="text-sm font-normal text-gray-500">Place : </span>{{i.place}}</h2>
 				
 						
 						<div class="mt-4">
@@ -47,11 +47,11 @@
 							{% if i.status == 'PENDING' %}
 								<button class="text-yellow-400 font-semibold text-sm">{{i.status}}</button>
 							{% elif i.status == 'APPROVED' %}
-								<button class="text-red-600 font-semibold text-sm">{{i.status}}</button>
+								<button class="text-green-600 font-semibold text-sm">{{i.status}}</button>
 							{% else %}
 								<button class="text-brown-200 font-semibold text-sm">{{i.status}}</button>
 							{% endif%}
-							<button  onclick="deleteProject({{ i.id }}, '{{csrf_token}}')" class="text-sm text-red-500 hover:text-red-700">ยกเลิก</button>
+							<button  onclick="deleteBooking({{ i.id }}, '{{csrf_token}}')" class="text-gray-400 text-sm text-red-500">ยกเลิก</button>
 						</div>
 					</div>
 				</a>
@@ -67,7 +67,7 @@
 
 {{ block.super }}
 
-function deleteProject(booking_id, csrf_token) {
+function deleteBooking(booking_id, csrf_token) {
 
 	fetch(`/booking/mybooking/${booking_id}/`, {
 	method: "DELETE",
