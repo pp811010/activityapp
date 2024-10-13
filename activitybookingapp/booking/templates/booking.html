@@ -1,11 +1,13 @@
 {% extends "layout.html" %}
-{% block title %}Booking {{booking.id}}{% endblock %}
+{% block head %}
+    <title>Booking</title>
+{% endblock %}
 
 {% block content %}
     <div class='flex items-center justify-center px-20 py-28 bg-slate-100'>
         <div class='p-10 rounded-3xl shadow-md w-[600px] bg-white'>
             <p class='text-lg font-normal'>Booking</p>
-            <p class="text-[10px] text-gray-500">{{booking}}</p>
+            <p class="text-[10px] text-gray-500 mt-1">{{booking}}</p>
             <div class="mt-4 p-3 flex flex-col gap-2">
                 
                 <div class='flex justify-between'>
@@ -22,8 +24,8 @@
 			        <p class="text-base text-gray-900">{{booking.end_time|time:"H:i"}}</p> 
                 </div>
                 <div>
-                    <p class="text-sm text-gray-500">Student Card Booking</p>
-                    <div class='grid grid-cols-2 mt-3 ml-6 gap-y-1'>
+                    <p class="text-sm mt-3 text-gray-500">Student Card Booking</p>
+                    <div class='grid grid-cols-2 mt-6 ml-8 gap-y-4'>
                         {% for i in bookingfile%}
                             <img class = 'w-52 h-40'src="{{i.image.url}}" alt="">
                         {%endfor%}
@@ -54,7 +56,7 @@
                     <button class='p-2 rounded-md text-sm text-red-400' onclick='deleteBooking({{booking.id}}, "{{csrf_token}}")' >ยกเลิกการจอง</button>
                 </div>
                 <a href="{% url 'mybooking' %}">
-                    <button  class='bg-yellow-500 p-1 text-white rounded-md text-[15px] w-full'>ย้อนกลับ</button>
+                    <button  class='bg-purple-500 p-1 text-white rounded-md text-[15px] w-full'>ย้อนกลับ</button>
                 </a>
             </div>
         </div>
