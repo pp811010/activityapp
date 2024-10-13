@@ -1,0 +1,53 @@
+{% extends "layout.html" %}
+{% block head %}
+<title>Staff List</title>
+{% endblock  %}
+{% block content %}
+<div class="flex flex-col pt-16 px-10 gap-3 justify-center items-center w-full h-full">
+    <div class="flex w-full justify-between py-4 items-center">
+        <h1 class="font-bold text-3xl">Total staff : {{num_staff}}</h1>
+        <a href="{% url 'add-staff' %}">
+            <button 
+                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                type="button"
+            >
+            Add
+            </button>
+        </a>
+    </div>
+    <div class="overflow-x-auto overflow-y-auto max-h-[500px] h-3/4 rounded-xl w-full border border-gray-200">
+        <table class="min-w-full bg-white shadow-md">
+            <thead>
+                <tr class="bg-blue-500 text-white sticky top-0 z-10">
+                    <th class="py-3 px-4 text-left">ID</th>
+                    <th class="py-3 px-4 text-left">Firt name</th>
+                    <th class="py-3 px-4 text-left">Last name</th>
+                    <th class="py-3 px-4 text-left">Email</th>
+                    <th class="py-3 px-4 text-left">Telephone</th>
+                    <th class="py-3 px-4 text-left w-1/12">Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for data in staffs %}
+                <tr class="hover:bg-gray-100 pt-1">
+                    <td class="py-3 px-4">{{data.id}}</td>
+                    <td class="py-3 px-4">{{data.first_name}}</td>
+                    <td class="py-3 px-4">{{ data.last_name }}</td>
+                    <td class="py-3 px-4">{{ data.email}}</td>
+                    <td class="py-3 px-4">{{ data.phone}}</td>
+                    <td class="py-3 px-4 justify-center items-center">
+                        <form action="{% url 'delete-staff' data.id %}" method="post" style="display:inline;">
+                            {% csrf_token %}
+                            <input type="hidden" name="action" value="delete">
+                            <button type="submit" class="text-sm w-10 h-10 p-2 rounded-full text-red-500 border border-red-500 bg-red-100 hover:bg-red-400 hover:text-white duration-200">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                        </form>
+                    </td>           
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock  %}

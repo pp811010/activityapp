@@ -26,5 +26,8 @@ urlpatterns = [
     # ผู้จัดการสนาม
     path("homeadmin/", views.HomeAdmin.as_view(), name="homeadmin"),
     path("addplace/<int:act_id>", views.Addplace.as_view(), name = 'addplace'),
-    path("editplace/<int:place_id>/", views.EditPlace.as_view(), name='editplace')
+    path("editplace/<int:place_id>/", views.EditPlace.as_view(), name='editplace'),
+    path("staff-list/", views.StaffView.as_view(), name = 'staff-list'),
+    path("staff-list/add/", views.AddStaffView.as_view(), name = 'add-staff'),
+    path("staff-list/delete/<int:staff_id>", views.DeleteStaffView.as_view(), name = 'delete-staff'),
 ]

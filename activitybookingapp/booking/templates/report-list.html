@@ -31,7 +31,7 @@
                     <th class="py-3 px-4 text-left">Date</th>
                     <th class="py-3 px-4 text-left">Time</th>
                     <th class="py-3 px-4 text-left">Status</th>
-                    <th class="py-3 px-4 text-left">Details</th>
+                    <th class="py-3 px-4 text-left w-4/12">Details</th>
                 </tr>
             </thead>
             <tbody>
@@ -50,12 +50,8 @@
                     <td class="py-3 px-4">
                         <span class="py-1 px-3 rounded-full text-sm status-cell">{{data.status}}</span>
                     </td>
-                    <td class="py-3 px-4">
-                        {% if data.details|length > 50 %}
-                            {{ data.details|slice:":50" }}...
-                        {% else %}
-                            {{ data.details }}
-                        {% endif %}
+                    <td class="py-3 px-4 w-fit">
+                        {{ data.details|truncatechars:60 }}
                     </td>                    
                 </tr>
             {% endfor %}
