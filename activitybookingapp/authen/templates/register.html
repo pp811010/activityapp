@@ -10,10 +10,9 @@
     <main class="w-full h-screen overflow-hidden flex items-center justify-center">
         <div class='w-full grid grid-cols-3'>
             <img src="https://images.unsplash.com/photo-1547941126-3d5322b218b0?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="">
-            <div class = 'flex flex-col justify-center items-center h-full bg-gray-100'>
-                    <p class = 'text-center text-xs mb-8 font-bold'>ลงทะเบียน</p>
-                    {{ form.non_field_errors }}
-                    <form method='post' class='flex flex-col text-xs'>
+            <div class = 'flex flex-col justify-center items-center bg-gray-100'>
+                    <p class = 'text-center text-lg mb-4 font-semibold'>Register</p>
+                    <form method='post' class='flex flex-col text-xs items-center justify-center'>
 
                         {% csrf_token %}
                         <div>
@@ -47,7 +46,6 @@
                             {{form.username}}
                         </div>
 
-
                         <div>
                             {{form.password.errors}}
                             {{form.password.label_tag}}
@@ -55,8 +53,14 @@
                         </div>
 
                         <div>
+                            {{form.password2.errors}}
+                            <label for="password2">Confirm Password:</label>
+                            {{form.password2}}
+                        </div>
+
+                        <div>
                             {{form.email.errors}}
-                            {{form.email.label_tag}}
+                            <label for="email">Kmitl Email:</label>
                             {{form.email}}
                         </div>
 
@@ -68,10 +72,19 @@
                         </div>
 
                         <button type='submit' class='m bg-black text-white p-3 w-80 rounded-xl  self-center'>Register</button>
+                        {% if messages %}
+                            <div>
+                                {% for message in messages %}
+                                    <p class="text-danger">{{ message }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
                     </form>
+                    <a href="{% url 'login' %}" class='text-xs font-medium mt-3 '>Back To Login</a>
+
             </div>
             <img src="https://images.unsplash.com/photo-1545151414-8a948e1ea54f?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="">
-            
+
         </div>
     </main>
 </body>

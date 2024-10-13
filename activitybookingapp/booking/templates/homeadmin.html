@@ -39,7 +39,8 @@
                     <label for="upload-photo" class='text-sm'>Photo : </label>
                     <input required id="upload-photo" type="file" name="photo" accept="image/*" class='text-xs' onchange="loadFiles(event)">
                     
-                    <img id="preview" src="" class='w-[200px] h-[200px] mt-1' alt="Image preview" style="max-width: 300px; display: none;">
+                    <img id="preview" src="" class="w-[200px] h-[200px] mt-1 rounded-lg border border-gray-300 shadow-md" alt="Image preview" style="max-width: 300px; display: none;">
+
                     
                     <div class='flex justify-between mt-5'>
                         <button class='text-red-500 text-sm' type='button' onclick='hiddenadd(event)'>cancel</button>
