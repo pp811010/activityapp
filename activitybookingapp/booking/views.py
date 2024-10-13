@@ -262,6 +262,22 @@ class HomeAdmin(LoginRequiredMixin,  View):
         activity = Activity.objects.all()
         return render(request, 'homeadmin.html', {'activity' : activity})
 
+    def post(self, request):
+        name = request.POST.get('activity-name')
+        photo  = request.FILES.get('photo')
+        act = Activity.objects.create(name=name,  photo = photo )        
+        if act:  
+            return redirect('homeadmin') 
+        else:
+            return HttpResponse({'error': 'Failed create activity'})
+            
+class DeleteActivity(LoginRequiredMixin, View):
+    login_url = '/authen/'
+    def  delete(self, request, act_id):
+        act = Activity.objects.get(pk= act_id)
+        act.delete()
+        return HttpResponse(act_id)
+    
 class Addplace(LoginRequiredMixin, View):
     login_url = '/authen/'
 

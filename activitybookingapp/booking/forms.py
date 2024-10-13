@@ -91,20 +91,20 @@ class PlaceForm(forms.ModelForm):
                 'id': 'photo-input'}),
         }
 
-    def clean(self):
-        cleaned_data = super().clean()
-        card = cleaned_data.get("card")
-        location = cleaned_data.get("location")
-        description = cleaned_data.get("description")
-    
-        if card is not None:
-            if card < 0 and card > 4:
-                self.add_error('card', 'The number of cards must be between 1 and 4.')
-        
+    def clean_card(self):
+            card = self.cleaned_data.get('card')
+            if card is not None and (card < 1 or card > 4):
+                raise forms.ValidationError('The number of cards must be between 1 and 4.')
+            return card
+
+    def clean_location(self):
+        location = self.cleaned_data.get('location')
         if location and len(location) < 10:
-            self.add_error('location', 'Location must be at least 10 characters long.')
-        
+            raise forms.ValidationError('Location must be at least 10 characters long.')
+        return location
+
+    def clean_description(self):
+        description = self.cleaned_data.get('description')
         if description and len(description) < 20:
-            self.add_error('description', 'Description must be at least 20 characters long.')
-        
-        return cleaned_data
+            raise forms.ValidationError('Description must be at least 20 characters long.')
+        return description

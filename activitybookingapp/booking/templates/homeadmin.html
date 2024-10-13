@@ -10,14 +10,17 @@
             
         }
 
-
-        #card-list #card-item #user-image{
-            width: 350px;
-            height: 300px;
-            border-radius: 10px;
-            border: 3px solid #fff;
-            padding: 4px; 
+        #addactivity {
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+            opacity: 1;
+            visibility: visible;
         }
+        
+        #addactivity.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+        
     </style>
 {% endblock%}
 
@@ -25,28 +28,101 @@
     <div class='flex flex-col gap-14 mb-32 pt-32 '>
         <p class='text-2xl font-semibold px-56'>Manage Activity</p>
 
-        <div>
-            <form method='post' action="/homeadmin">
-
-            </form>
-        </div>
-        <div class='flex flex-col justify-center items-center '>
-            <div class='grid grid-cols-3 gap-x-2 gap-y-2' >
-                {% for i in activity%}
-                   <a  href="{% url 'activity' i.id %}">
-                        <div style="background-image: url('https://images.unsplash.com/photo-1508100134119-f93388e60d95?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');"
-                            class="shadow-xl w-[350px] h-[400px] p-[15px] flex flex-col items-center justify-center bg-cover bg-center rounded-[20px]">
-                            <p class="text-lg text-gray-100 font-bold mb-4">{{i.name}}</p>
-                        </div>
-                   </a>
-                {% endfor %}
-                <a  href="#">
-                    <div 
-                        class="bg-gray-100 shadow-xl w-[350px] h-[400px] p-[15px] flex flex-col items-center justify-center bg-cover bg-center rounded-[20px]">
-                        <p class="text-3xl font-bold mb-4">+</p>
+        <div id='addactivity' class='hidden mt-[-10px] flex justify-center items-center'>
+            <div class='bg-white rounded-[20px] shadow-md p-8 w-[30%] flex flex-col gap-3'>
+                <p class='text-lg font-semibold mb-4'>Add Activity</p>
+                <form method='post' action="/booking/homeadmin/" enctype="multipart/form-data" class='flex flex-col gap-2'>
+                    {% csrf_token %}
+                    <label for="activity-name" class='text-sm'>Activity Name </label>
+                    <input required type="text" name="activity-name" class="mb-3 text-xs rounded-lg p-1.5 border-solid border-2 border-gray-200 w-full">
+                    
+                    <label for="upload-photo" class='text-sm'>Photo : </label>
+                    <input required id="upload-photo" type="file" name="photo" accept="image/*" class='text-xs' onchange="loadFiles(event)">
+                    
+                    <img id="preview" src="" class='w-[200px] h-[200px] mt-1' alt="Image preview" style="max-width: 300px; display: none;">
+                    
+                    <div class='flex justify-between mt-5'>
+                        <button class='text-red-500 text-sm' type='button' onclick='hiddenadd(event)'>cancel</button>
+                        <button class='text-green-500 text-sm' type='submit'>Add</button>
                     </div>
-               </a>
+                </form>
+            </div>
+        </div>
+
+        <div id = 'activityshow' class='flex flex-col justify-center items-center '>
+            <div class='grid grid-cols-3 gap-x-2 gap-y-2'>
+                {% for i in activity%}
+
+                    <div style="background-image: url('https://images.unsplash.com/photo-1508100134119-f93388e60d95?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');"
+                        class="shadow-xl w-[350px] h-[400px] p-[15px] flex flex-col items-center justify-center bg-cover bg-center rounded-[20px]">
+                        
+
+                        <a href="{% url 'activity' i.id %}">
+                            <p class="text-lg text-gray-100 font-bold mb-4">{{ i.name }}</p>
+                        </a>
+
+
+                        <p class='items-self-start justify-self-start text-white text-xs hover:text-orange-400 cursor-pointer' onclick='deleteActivity({{i.id}}, "{{csrf_token}}")'>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5m6 4.125 2.25 2.25m0 0 2.25 2.25M12 13.875l2.25-2.25M12 13.875l-2.25 2.25M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z" />
+                            </svg>
+                                                                                       
+                        </p>
+                    </div>
+            
+
+                {% endfor %}
+                <div onclick='showadd()'
+                    class="bg-slate-50 cursor-pointer shadow-xl w-[350px] h-[400px] p-[15px] flex flex-col items-center justify-center bg-cover bg-center rounded-[20px]">
+                    <p class="text-3xl font-bold mb-4">+</p>
+                </div>
             </div>
         </div> 
     </div>
+{% endblock %}
+
+{% block script %}
+    {{ block.super }}
+    function loadFiles(event) {
+        var output = document.getElementById('preview');
+        output.src = URL.createObjectURL(event.target.files[0]);
+        output.style.display = 'block'; // ทำให้ภาพแสดงผล
+    }
+
+    function showadd(){
+        let add = document.getElementById('addactivity');
+        let show = document.getElementById('activityshow');
+        add.classList.remove('hidden');
+        show.classList.add('hidden');
+    }
+
+    function hiddenadd(event){
+        let add = document.getElementById('addactivity');
+        let show = document.getElementById('activityshow');
+        add.classList.add('hidden');
+        show.classList.remove('hidden');
+    }
+    
+    function deleteActivity(act_id, csrf_token) {
+
+        fetch(`/booking/homeadmin/${act_id}/`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": csrf_token,
+            },
+        })
+        .then((response) => {
+            if (response.ok) {
+                console.log("Item deleted successfully");
+                window.location.href = "{% url 'homeadmin' %}";
+            } else {
+                return response.json().then((data) => {
+                    console.error("Failed to delete:", data);
+                });
+            }
+        })
+        .catch((error) => console.error("Error:", error));
+    }
+    
 {% endblock %}
