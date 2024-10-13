@@ -8,7 +8,7 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <script src='https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.14.0/sweetalert2.min.js'></script>
         <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@100..900&display=swap" rel="stylesheet">
-        
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
         <script>
             tailwind.config = {
                 theme: {
@@ -23,7 +23,7 @@
         {% block head %}
         {% endblock %}
     </head>
-    <body class="w-full h-full min-h-screen font-noto-thai">
+    <body class="flex flex-col w-full h-full min-h-screen font-noto-thai">
         <!-- Navbar -->
         {% block nav %}{% include "nav.html" %}{% endblock %}
 

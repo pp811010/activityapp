@@ -14,7 +14,7 @@ class Staff(models.Model):
 
 class Student(models.Model):
     FACULTIES = [
-        ('It', 'Information Technology'),
+        ('IT', 'Information Technology'),
         ('ENG', 'Engineering'),
         ('BUS', 'Business'),
         ('MED', 'Medicine'),
@@ -50,7 +50,7 @@ class Place(models.Model):
     location = models.TextField()
     description = models.TextField()
     card = models.IntegerField()
-    photo = models.ImageField(upload_to = 'place/')
+    photo = models.ImageField(upload_to = 'place/', null=True)
 
     def __str__(self):
         return self.name
@@ -84,10 +84,10 @@ class Report(models.Model):
     place = models.ForeignKey(Place, on_delete=models.CASCADE)
     details = models.TextField()
     image = models.ImageField(upload_to = 'report/', blank=True, null=True)
-    status = models.CharField(max_length=50, choices=STATUS_CHOICES)
+    status = models.CharField(max_length=50, choices=STATUS_CHOICES, default=REPORTED)
     created_at = models.DateTimeField(default=timezone.now)
 
 class BookingFile(models.Model):
     booking = models.ForeignKey(Booking, on_delete=models.CASCADE)
-    image = models.ImageField(upload_to = 'studentcard/') 
+    image = models.ImageField(upload_to = 'studentcard/', null=True) 
 

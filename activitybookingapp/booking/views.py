@@ -151,40 +151,61 @@ class PlaceView(LoginRequiredMixin,  View):
             'report' : report
         }) 
 
-
+# get form
 class ReportView(View):
-    def get(self, request):
+    def get(self, request, place_id, user_id):
         form = ReportForm()
+        student = Student.objects.get(pk=user_id )
+        form.fields['student'].initial = student
+        place = Place.objects.get(pk=place_id)
+        form.fields['place'].initial = place
         return render(request, 'report-form.html',{
-            "form": form
+            "form": form,
+            "place":place,
+            "user_id":user_id,
         })
-    def post(self, request):
-        form = ReportForm(request.POST)
 
-        if form.is_valid():
-            student = form.cleaned_data.get('student')
-            print(f"Student: {student}")
-            form.save()
-            return redirect('report-form')
-        
-        return render(request, 'report-form.html', {
-            "form":form
+
+# get list of report in this place and save form
+class PlaceReport(View):
+    def get(self, request, place_id):
+        place = Place.objects.get(pk=place_id)
+        reports = Report.objects.filter(place=place).order_by('-created_at')
+        return render(request, 'report-list.html', {
+            "reports":reports,
+            "place":place
         })
     
+    def post(self, request, place_id):
+        form = ReportForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('place-report-list' , place_id=place_id)
+        place = Place.objects.get(pk=place_id)
+        reports = Report.objects.filter(place=place)
+        return render(request, 'report-list.html', {
+            "reports":reports,
+            "place":place,
+        })
+
+
+
+# for staff
 class ReportList(View):
     def get(self, request):
         reports = Report.objects.all().order_by("id")
-        return render(request, 'report-list.html', {
+        return render(request, 'report-list-staff.html', {
             "reports":reports
         })
-    
+
+  
 class ReportDetail(View):
     def get(self, request, report_id):
         report = Report.objects.get(pk=report_id)
         form = ReportForm(instance=report)
         return render(request, 'report-detail.html', {
             "form":form,
-            # "report":report
+            "report":report
         })
     
     def post(self, request, report_id):
@@ -198,6 +219,40 @@ class ReportDetail(View):
         return render(request, 'report-form.html', {
             "form":form
         })
+
+
+class PlaceList(View):
+    def get(self, request):
+        activities = Activity.objects.all()
+        return render(request, 'activity-place.html', {
+            'activities':activities
+        })
+
+
+class BookingList(View):
+    def get(self, request, place_id):
+        place=Place.objects.get(pk=place_id)
+        bookings = Booking.objects.filter(place__id=place_id)
+        return render(request, 'approve-booking.html',{
+            'bookings':bookings,
+            "place":place,
+        })
+
+class ChangeBookingStatus(View):
+    def post(self, request, booking_id):
+        booking = get_object_or_404(Booking, id=booking_id)
+        action = request.POST.get('action')
+
+        if action == 'approve':
+            booking.status = 'APPROVED'
+        elif action == 'reject':
+            booking.status = 'REJECTED'
+        
+        booking.save()
+        return redirect('booking-list', place_id=booking.place.pk)
+
+
+
 
 # ผู้จัดการสนาม
 class HomeAdmin(LoginRequiredMixin,  View):
