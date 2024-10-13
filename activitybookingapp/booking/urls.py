@@ -15,6 +15,8 @@ urlpatterns = [
     # report
     path("place/<int:place_id>/report-list/", views.PlaceReport.as_view(), name="place-report-list"),
     path("place/<int:place_id>/report-list/report-form/<int:user_id>/", views.ReportView.as_view(), name="place-report-form"),
+    path("myreport/<int:student_id>/", views.MyReportsView.as_view(), name="my-report-list"),
+
 
     #staff
     path("report-list/", views.ReportList.as_view(), name="report-list"),

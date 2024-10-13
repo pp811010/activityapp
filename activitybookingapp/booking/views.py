@@ -189,6 +189,12 @@ class PlaceReport(View):
         })
 
 
+class MyReportsView(View):
+    def get(self, request, student_id):
+        reports = Report.objects.filter(student__id=student_id)
+        return render(request, 'myreport.html',{"reports":reports})
+
+
 
 # for staff
 class ReportList(View):
