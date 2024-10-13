@@ -5,34 +5,69 @@
       <h1 class="font-bold text-2xl " id="show-title">Page Name</h1>
     </div>
     <ul class="flex justify-center gap-2 w-8/12 px-2">
-      <li class="flex">
-        <a href="{% url 'activity' %}" 
-        class="text-center block rounded py-2 px-4 bg-[#FFD24C] hover:bg-[#FFE69A]  duration-300" 
-        >
-          Activity
-        </a>
-      </li>
-      <li class="flex">
-        <a href="{% url 'report-form' %}" 
-        class="text-center block rounded py-2 px-4 FFE69A hover:bg-[#FFE69A]  duration-300" 
-        >
-          Report
-        </a>
-      </li>
-      <li class="flex ">
-        <a href="{% url 'mybooking' %}" 
-        class="text-center block rounded py-2 px-4 FFE69A hover:bg-[#FFE69A]  duration-300" 
-        >
-          My Booking  
-        </a>
-      </li>
-      <li class="flex ">
-        <a href="{% url 'report-list' %}" 
-        class="text-center block rounded py-2 px-4 FFE69A hover:bg-[#FFE69A]  duration-300" 
-        >
-          Reports
-        </a>
-      </li>
+      {% if user.groups.name == 'User'%}
+          <li class="flex">
+            <a href="{% url 'homeadmin' %}" 
+            class="text-center block rounded py-2 px-4 bg-[#FFD24C] hover:bg-[#FFE69A]  duration-300" 
+            >
+              Activity
+            </a>
+          </li>
+
+          <li class="flex">
+            <a href="{% url 'homeadmin' %}" 
+            class="text-center block rounded py-2 px-4 bg-[#FFD24C] hover:bg-[#FFE69A]  duration-300" 
+            >
+              Confirm
+            </a>
+          </li>
+
+          <li class="flex">
+            <a href="{% url 'homeadmin' %}" 
+            class="text-center block rounded py-2 px-4 bg-[#FFD24C] hover:bg-[#FFE69A]  duration-300" 
+            >
+              Report
+            </a>
+          </li>
+
+          <li class="flex">
+            <a href="{% url 'homeadmin' %}" 
+            class="text-center block rounded py-2 px-4 bg-[#FFD24C] hover:bg-[#FFE69A]  duration-300" 
+            >
+              Staff
+            </a>
+          </li>
+          
+      {% else %}
+          <li class="flex">
+            <a href="{% url 'homeuser' %}" 
+            class="text-center block rounded py-2 px-4 bg-[#FFD24C] hover:bg-[#FFE69A]  duration-300" 
+            >
+              Home
+            </a>
+          </li>
+          <li class="flex">
+            <a href="{% url 'report-form' %}" 
+            class="text-center block rounded py-2 px-4 FFE69A hover:bg-[#FFE69A]  duration-300" 
+            >
+              Report
+            </a>
+          </li>
+          <li class="flex ">
+            <a href="{% url 'mybooking' %}" 
+            class="text-center block rounded py-2 px-4 FFE69A hover:bg-[#FFE69A]  duration-300" 
+            >
+              My Booking  
+            </a>
+          </li>
+          <li class="flex ">
+            <a href="{% url 'report-list' %}" 
+            class="text-center block rounded py-2 px-4 FFE69A hover:bg-[#FFE69A]  duration-300" 
+            >
+              Reports
+            </a>
+          </li>  
+        {%endif%}
     </ul>
     <div class="flex w-2/12 justify-end p-1">
       <a href="#" for='profile'

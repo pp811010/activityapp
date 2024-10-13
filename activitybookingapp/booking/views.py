@@ -3,15 +3,28 @@ import json
 from datetime import datetime, time
 
 from django.http import HttpResponse, JsonResponse
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib import messages
 from django.views import View
 from booking.forms import *
 from booking.models import *
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.core.mail import send_mail
+from django.conf import settings
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
 
 # Create your views here.
+
+class HomeUser(LoginRequiredMixin, View):
+    login_url = '/authen/'
+    def get(self, request):
+        user = request.user
+        student = Student.objects.get(user = user)
+        activity = Activity.objects.all()
+        return render(request, 'home.html', {"student": student, 'activity' : activity})
+        
+        
 class MyBooking(LoginRequiredMixin, View):
     login_url = '/authen/'
     def get(self, request):
@@ -26,21 +39,23 @@ class MyBooking(LoginRequiredMixin, View):
         booking.delete()
         return HttpResponse(booking_id)
 
-class Activity(View):
-    def get(self, request):
-        place = Place.objects.all()
-        return render(request, 'activity.html', {'place': place})
+class ActivityView(LoginRequiredMixin,  View):
+    login_url = '/authen/'
+    def get(self, request, act_id):
+        act = Activity.objects.get(pk = act_id)
+        place = Place.objects.filter(activity_id = act_id)
+        return render(request, 'activity.html', {'act': act ,'place': place})
     
-class PlaceBooking(View):
-
+class PlaceBooking(LoginRequiredMixin,  View):
+    login_url = '/authen/'
     def get(self, request, place_id):
         user = request.user
         place = Place.objects.get(pk=place_id)
         return render(request, 'placebooking.html', {
             'place': place
         })
-    
-class PlaceBooking2(View):
+     
+class PlaceBooking2(LoginRequiredMixin, View):
     def get(self, request, place_id):
         date = request.GET.get('selected_date')
         place = Place.objects.get(pk=place_id)
@@ -105,19 +120,29 @@ class PlaceBooking2(View):
             status='PENDING'
         )
 
+        send_mail(
+            'การจองสนามสำเร็จ',
+            f'คุณ {stu} ได้ทำการจองสนาม {place.name} วันที่ {date_booking} เวลา {start_time} - {end_time} สำเร็จเรียบร้อยแล้ว โปรดมาก่อนเวลา 15 นาที และแสดงใบการจองกับเจ้าหน้าที่',
+            settings.EMAIL_HOST_USER, 
+            [stu.email],  
+            fail_silently=False  
+        )
+
         for file in image_files:
             BookingFile.objects.create(booking=booking, image=file)
 
         return JsonResponse({"status": "success"})
 
-class BookingView(View):
+class BookingView(LoginRequiredMixin,  View):
+    login_url = '/authen/'
     def get(self, request, booking_id):
         booking = Booking.objects.get(id = booking_id)
         bookingfile = BookingFile.objects.filter(booking = booking)
         print(bookingfile)
         return render(request, 'booking.html', {'booking': booking, 'bookingfile': bookingfile})
 
-class PlaceView(View):
+class PlaceView(LoginRequiredMixin,  View):
+    login_url = '/authen/'
     def get(self, request, place_id) :
         place = Place.objects.get(pk=place_id)
         report = Report.objects.filter(place = place)
@@ -175,32 +200,51 @@ class ReportDetail(View):
         })
 
 # ผู้จัดการสนาม
-class Addplace(View):
+class HomeAdmin(LoginRequiredMixin,  View):
+    login_url = '/authen/'
     def get(self, request):
-        form = PlaceForm()
-        return render(request, 'addplace.html', {'form': form})
+        user = request.user
+        activity = Activity.objects.all()
+        return render(request, 'homeadmin.html', {'activity' : activity})
+
+class Addplace(LoginRequiredMixin, View):
+    login_url = '/authen/'
+
+    def get(self, request, act_id):
+        act = get_object_or_404(Activity, pk=act_id)
+        form = PlaceForm(initial={'activity': act})
+        return render(request, 'addplace.html', {'form': form, 'act': act})
     
-    def post(self, request):
+    def post(self, request, act_id):
+        act = get_object_or_404(Activity, pk=act_id)
         form = PlaceForm(request.POST, request.FILES)
+
         if form.is_valid():
-            form.save()
-            return redirect('activity')
-        return render(request, 'addplace.html', {"form": form})
-    
+            place = form.save(commit=False)
+            place.activity = act
+            place.save()
+            return redirect('activity', act_id)
+        else:
+            messages.error(request, 'เกิดข้อผิดพลาดในการเพิ่มสถานที่ กรุณาตรวจสอบข้อมูลของคุณ.')
+            return render(request, 'addplace.html', {'form': form, 'act': act})
+
+
 
 class EditPlace(View):
+    login_url = '/authen/'
     def get(self, request, place_id):
         place = Place.objects.get(pk = place_id)
+        
         form = PlaceForm(instance=place)
         return render(request, 'editplace.html', {'form': form, 'place': place})
     
     def post(self, request, place_id):
-        place = Place.objects.get(pk = place_id)
-        form = PlaceForm(request.POST, request.FILES, instance=place)
+        place = Place.objects.get(pk= place_id)
+        form = PlaceForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return redirect('activity')
-        return render(request, 'editplace.html', {"form": form})
+            return redirect('activity', place.activity.id)
+        return render(request, 'editplace.html', {'form': form, 'place': place})
     
     def delete(self, request, place_id):
         place = Place.objects.get(pk = place_id)
