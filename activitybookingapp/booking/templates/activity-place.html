@@ -10,7 +10,7 @@
 {% endblock %}
 
 {% block content %}
-   <div class="flex flex-col p-20 gap-5">
+   <div class="flex flex-col pt-24 px-20 gap-5">
         {% for activity in activities %}
         <div class="flex flex-col items-start justify-center pb-10">
             <h1 class="font-bold text-3xl pb-5">
@@ -19,7 +19,7 @@
             <div class='grid grid-cols-4 gap-10 w-full px-14'>
             {% for place in activity.place_set.all %}
                 <a href='{% url "booking-list" place.id %}' >
-                    <div id="activity" class="w-full p-5 flex flex-col shadow-md rounded-xl border border-gray-200">
+                    <div id="activity" class="w-full p-5 flex flex-col shadow-md rounded-xl border border-gray-200 duration-200">
                         <img class = "rounded-xl" style="width: 400px; height: 170px;" src="{{place.photo.url}}" alt="">
                         <p class="text-base text-gray-900 mb-2 mt-4 font-bold">{{place.name}}</p>
                         <p class="text-sm text-gray-500 mb-2 ">Location : {{place.location}}</p>
