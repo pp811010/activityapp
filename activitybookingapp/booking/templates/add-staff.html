@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+{% block head %}
+<title>Staff Form</title>
+{% endblock  %}
+{% block content %}
+<div class="flex w-full h-screen justify-center items-center bg-gray-200">
+    <form action="{% url 'add-staff' %}" method="post" class="bg-white p-6 rounded-xl shadow-lg">
+        {% csrf_token %}
+        <div class="mb-4 font-bold">
+            <label for="first_name">First name:</label>
+            <input type="text" name="first_name" id="" value="{{ first_name|default_if_none:'' }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight font-normal">
+            {% if errors.first_name %}
+                <div class="text-red-600 text-xs pt-2 px-2">* {{ errors.first_name }}</div>
+            {% endif %}
+        </div>
+        <div class="mb-4 font-bold">
+            <label for="last_name">Last name:</label>
+            <input type="text" name="last_name" id="" value="{{ last_name|default_if_none:'' }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight font-normal">
+            {% if errors.last_name %}
+                <div class="text-red-600 text-xs pt-2 px-2">* {{ errors.last_name }}</div>
+            {% endif %}
+        </div>
+        <div class="mb-4 font-bold">
+            <label for="email">Email:</label>
+            <input type="email" name="email" id="" value="{{ email|default_if_none:'' }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight font-normal">
+            {% if errors.email %}
+                <div class="text-red-600 text-xs pt-2 px-2">* {{ errors.email }}</div>
+            {% endif %}
+        </div>
+        <div class="mb-4 font-bold">
+            <label for="phone">Tel.</label>
+            <input type="text" name="phone" id="" value="{{ phone|default_if_none:'' }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight font-normal">
+            {% if errors.phone %}
+                <div class="text-red-600 text-xs pt-2 px-2">* {{ errors.phone }}</div>
+            {% endif %}
+        </div>
+        <div class="flex w-full justify-end">
+            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline duration-300" type="submit">
+                Submit
+            </button>
+        </div>
+    </form>
+</div>
+{% endblock  %}

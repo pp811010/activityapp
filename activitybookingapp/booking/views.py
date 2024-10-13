@@ -1,4 +1,4 @@
-
+import re
 import json
 from datetime import datetime, time
 
@@ -9,6 +9,8 @@ from django.views import View
 from booking.forms import *
 from booking.models import *
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.core.exceptions import ValidationError
+from django.core.validators import validate_email
 
 
 # Create your views here.
@@ -261,3 +263,66 @@ class EditPlace(View):
         place.delete()
         print('sasasa')
         return HttpResponse(status=200)
+    
+
+class StaffView(View):
+    def get(self, request):
+        staffs = Staff.objects.all()
+        num_staff = staffs.count()
+        return render(request, 'staff-list.html', {
+            "staffs":staffs
+            ,'num_staff':num_staff
+        })
+
+class AddStaffView(View):
+    def get(self, request):
+        return render(request, 'add-staff.html')
+    
+    def post(self, request):
+        fname = request.POST.get('first_name')
+        lname = request.POST.get('last_name')
+        email = request.POST.get('email')
+        phone = request.POST.get('phone')
+        errors = {}
+
+        if not fname:
+            errors['first_name'] = "First name is required."
+        if not lname:
+            errors['last_name'] = "Last name is required."
+
+        if not email:
+            errors['email'] = "Email is required."
+        else:
+            try:
+                validate_email(email)
+            except ValidationError:
+                errors['email'] = "Enter a valid email address."
+
+        phone_pattern = r'^\d{3}-\d{3}-\d{4}$'
+        if not phone:
+            errors['phone'] = "Phone number is required."
+        elif not re.match(phone_pattern, phone):
+            errors['phone'] = "Phone number must be in the format XXX-XXX-XXXX."
+
+        if errors:
+            return render(request, 'add-staff.html', {
+                'errors': errors,
+                'first_name': fname,
+                'last_name': lname,
+                'email': email,
+                'phone': phone
+            })
+
+        Staff.objects.create(
+            first_name = fname,
+            last_name = lname,
+            email = email,
+            phone = phone
+        )
+        return redirect('staff-list')
+    
+class DeleteStaffView(View):
+    def post(self, request, staff_id):
+        staff = get_object_or_404(Staff, pk=staff_id)
+        staff.delete()
+        return redirect('staff-list')

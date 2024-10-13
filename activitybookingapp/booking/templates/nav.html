@@ -1,5 +1,5 @@
 <!-- nav.html -->
-<nav class="flex fixed items-center justify-center bg-[#FFD24C] p-3 w-full noto-thai">
+<nav class="flex fixed items-center justify-center bg-[#FFD24C] p-3 z-40 w-full noto-thai">
   <div class="flex items-center justify-between flex-wrap bg-[#FFD24C] w-full">
     <div class="flex w-2/12 justify-start p-1">
       <h1 class="font-bold text-2xl " id="show-title">Page Name</h1>
@@ -33,6 +33,14 @@
           Bookings
         </a>
       </li>
+    </li>
+    <li class="flex ">
+      <a href="{% url 'staff-list' %}" 
+      class="text-center block rounded py-2 px-4 FFE69A hover:bg-[#FFE69A]  duration-300" 
+      >
+        Staffs
+      </a>
+    </li>
     </ul>
     <div class="flex w-2/12 justify-end p-1">
       <a href="#" for='profile'
