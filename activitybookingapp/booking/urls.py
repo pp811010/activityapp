@@ -3,11 +3,12 @@ from django.urls import path
 from booking import views
 
 urlpatterns = [
+    path("home/", views.HomeUser.as_view(), name="homeuser"),
     path("mybooking/", views.MyBooking.as_view(), name="mybooking"),
     path("mybooking/<int:booking_id>/", views.MyBooking.as_view(), name="mybooking"),
     path("booking/<int:booking_id>/", views.BookingView.as_view(), name="booking"),
-    path("activity/", views.ActivityView.as_view(), name="activity"),
-    path("place/<int:place_id>/", views.PlaceView.as_view(), name="place"),
+    path("activity/<int:act_id>/", views.ActivityView.as_view(), name="activity"),
+    path("place/<int:place_id>", views.PlaceView.as_view(), name="place"),
     path("placebooking/<int:place_id>/", views.PlaceBooking.as_view(), name="placebooking1"),
     path('placebooking2/<int:place_id>/', views.PlaceBooking2.as_view(), name='placebooking2'),
 
@@ -23,6 +24,7 @@ urlpatterns = [
     path('change-booking-status/<int:booking_id>/', views.ChangeBookingStatus.as_view(), name='change-booking-status'),
 
     # ผู้จัดการสนาม
-    path("addplace/", views.Addplace.as_view(), name = 'addplace'),
+    path("homeadmin/", views.HomeAdmin.as_view(), name="homeadmin"),
+    path("addplace/<int:act_id>", views.Addplace.as_view(), name = 'addplace'),
     path("editplace/<int:place_id>/", views.EditPlace.as_view(), name='editplace')
 ]

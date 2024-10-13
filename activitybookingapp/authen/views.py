@@ -17,11 +17,14 @@ class LoginView(View):
     
     def post(self, request):
         form = AuthenticationForm(data=request.POST)
-        print(form.errors)
         if form.is_valid():
-            user = form.get_user() 
+            user = form.get_user()
             login(request,user)
-            return redirect('activity')
+
+            if user.is_staff:
+                return redirect('homeadmin')
+            else:
+                return redirect('homeuser')
 
         return render(request,'login.html', {"form":form})
 
@@ -42,7 +45,7 @@ class RegisterView(View):
         form = RegisterForm(request.POST)
         if form.is_valid():
             user = form.save()
-            usergroup = Group.objects.get(name='user')  # ดึงกลุ่มชื่อ "user"
+            usergroup = Group.objects.get(name='User')
             user.groups.add(usergroup)
 
             student = Student.objects.create(

@@ -71,32 +71,40 @@ class PlaceForm(forms.ModelForm):
                 'class': "mb-3 text-xs rounded-lg p-2.5 border-solid border-2 border-gray-200 w-[300px]", 
                 'placeholder': 'ชื่อสนาม'}),
             'activity': forms.Select(attrs={
-                'class': "mb-3 text-xs rounded-lg p-2.5 border-solid border-2 border-gray-200 w-[300px]"
-            }),
+                'class': "mb-3 text-xs rounded-lg p-2.5 border-solid border-2 border-gray-200 w-[300px]"}),
             'location': forms.TextInput(attrs={
                 'class': "mb-3 text-xs rounded-lg p-2.5 border-solid border-2 border-gray-200 w-[300px]", 
                 'placeholder': 'ที่ตั้งสนาม'}),
             'description': forms.Textarea(attrs={
                 'class': "mb-3 text-xs rounded-lg p-2.5 border-solid border-2 border-gray-200 w-[400px]", 
                 'placeholder': 'รายละเอียดของสนาม',
-                'style': 'resize: none;'
-            }),
+                'style': 'resize: none;'}),
             'card': forms.NumberInput(attrs={
                 'class': "mb-3 text-xs rounded-lg p-2.5 border-solid border-2 border-gray-200 w-[300px]",
-                'placeholder': 'จำนวนบัตรที่ต้องใช้จอง'
-            }),
+                'placeholder': 'จำนวนบัตรที่ต้องใช้จอง'}),
             'staff': forms.CheckboxSelectMultiple(attrs={
-                'class': "mt-2 mb-3 text-xs rounded-lg p-2.5 border-solid border-2 border-gray-200 px-20" 
-            }),
+                'class': "mt-2 mb-3 text-xs rounded-lg p-2.5 border-solid border-2 border-gray-200 px-20"}),
             'photo': forms.ClearableFileInput(attrs={
                 'class': "mb-3 text-xs rounded-lg p-2.5 border-solid border-2 border-gray-200 w-64",
                 'accept': 'image/*',
                 'style': 'padding: 10px;',
-                'placeholder': 'อัปโหลดรูปภาพสถานที่',
-                'id': 'photo-input'
-            }),
+                'id': 'photo-input'}),
         }
 
+    def clean(self):
+        cleaned_data = super().clean()
+        card = cleaned_data.get("card")
+        location = cleaned_data.get("location")
+        description = cleaned_data.get("description")
+    
+        if card is not None:
+            if card < 0 and card > 4:
+                self.add_error('card', 'The number of cards must be between 1 and 4.')
         
+        if location and len(location) < 10:
+            self.add_error('location', 'Location must be at least 10 characters long.')
         
-
+        if description and len(description) < 20:
+            self.add_error('description', 'Description must be at least 20 characters long.')
+        
+        return cleaned_data

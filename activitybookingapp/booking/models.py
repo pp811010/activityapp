@@ -38,16 +38,17 @@ class Student(models.Model):
 
 class Activity(models.Model):
     name = models.CharField(max_length=150)
+    photo = models.ImageField(upload_to = 'activity/')
 
     def __str__(self):
-        return self.name
+        return f"{self.name}"
 
 class Place(models.Model):
     staff = models.ManyToManyField(Staff)
     activity = models.ForeignKey(Activity, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     location = models.TextField()
-    description = models.TextField(blank=True, null=True)
+    description = models.TextField()
     card = models.IntegerField()
     photo = models.ImageField(upload_to = 'place/', null=True)
 

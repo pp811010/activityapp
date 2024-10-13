@@ -80,7 +80,7 @@ DATABASES = {
         "ENGINE": "django.db.backends.postgresql",
         "NAME": "activitybooking",
         "USER": "postgres",
-        "PASSWORD": "wanzaza123",
+        "PASSWORD": "pp811010_Za",
         "HOST": "localhost",
         "PORT": "5432",
     }
@@ -143,3 +143,13 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_ROOT = BASE_DIR / 'media' 
 MEDIA_URL= '/media/' 
+
+
+#the email settings
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True 
+DEFAULT_FROM_EMAIL = "booking"
+EMAIL_HOST_USER = "pp811010@gmail.com"
+EMAIL_HOST_PASSWORD = "qktvuuvilvbqfuzk"
