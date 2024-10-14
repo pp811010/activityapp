@@ -16,57 +16,75 @@
 
                         {% csrf_token %}
                         <div>
-                            {{form.first_name.errors}}
+                            {% if form.first_name.errors %}
+                                <div class="text-red-600 text-xs pt-2 px-2">* {{ form.first_name.errors }}</div>
+                            {% endif %}
                             {{form.first_name.label_tag}}
                             {{form.first_name}}
                         </div>
 
                         <div>
-                            {{form.last_name.errors}}
+                            {% if form.first_name.errors %}
+                            <div class="text-red-600 text-xs pt-2 px-2">* {{ form.first_name.errors }}</div>
+                            {% endif %}
                             {{form.last_name.label_tag}}
                             {{form.last_name}}
                         </div>
 
                         <div>
-                            {{form.student_ID.errors}}
+                            {% if form.student_ID.errors %}
+                                <div class="text-red-600 text-xs pt-2 px-2">* {{ form.student_ID.errors }}</div>
+                            {% endif %}
                             {{form.student_ID.label_tag}}
                             {{form.student_ID}}
                         </div>
 
                         <div>
-                            {{form.faculty.errors}}
+                            {% if form.faculty.errors %}
+                                <div class="text-red-600 text-xs pt-2 px-2">* {{ form.faculty.errors }}</div>
+                            {% endif %}
                             {{form.faculty.label_tag}}
                             {{form.faculty}}
                         </div>
 
 
                         <div>
-                            {{form.username.errors}}
+                            {% if form.username.errors %}
+                                <div class="text-red-600 text-xs pt-2 px-2">* {{ form.username.errors }}</div>
+                            {% endif %}
                             {{form.username.label_tag}}
                             {{form.username}}
                         </div>
 
                         <div>
-                            {{form.password.errors}}
+                            {% if form.password.errors %}
+                                <div class="text-red-600 text-xs pt-2 px-2">* {{ form.password.errors }}</div>
+                             {% endif %}
                             {{form.password.label_tag}}
                             {{form.password}}
                         </div>
 
                         <div>
-                            {{form.password2.errors}}
+                            {% if form.password2.errors %}
+                                <div class="text-red-600 text-xs pt-2 px-2">* {{ form.password2.errors }}</div>
+                            {% endif %}
                             <label for="password2">Confirm Password:</label>
                             {{form.password2}}
                         </div>
 
                         <div>
-                            {{form.email.errors}}
+                            {% if form.email.errors %}
+                                <div class="text-red-600 text-xs pt-2 px-2">* {{ form.email.errors }}</div>
+                            {% endif %}
                             <label for="email">Kmitl Email:</label>
                             {{form.email}}
                         </div>
 
 
                         <div>
-                            {{form.phone.errors}}
+                            {% if form.phone.errors %}
+                                <div class="text-red-600 text-xs pt-2 px-2">* {{ form.phone.errors }}</div>
+                            {% endif %}
                             {{form.phone.label_tag}}
                             {{form.phone}}
                         </div>
