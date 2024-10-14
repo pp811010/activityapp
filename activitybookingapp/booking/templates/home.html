@@ -32,7 +32,7 @@
             <p class='text-xl font-semibold mb-5'>Select Activity</p>
         
             <div class='grid grid-cols-3 gap-x-2 gap-y-2' >
-                {% for i in activity%}
+                {% for i in activity %}
                    <a  href="{% url 'activity' i.id %}">
                         <div style="background-image: url('{{ i.photo.url }}');"
                             class="shadow-xl w-[350px] h-[400px] p-[15px] flex flex-col items-center justify-center bg-cover bg-center rounded-[20px]">
