@@ -22,14 +22,57 @@
 {% endblock%}
 
 {% block content%}
-    <div class='flex flex-col gap-20 mb-32'>
-        <div class='w-full pt-48 flex flex-col justify-center items-center gap-2'>
+    <div class='flex flex-col gap-10 mb-32'>
+        <div class='w-full pt-56 flex flex-col justify-center items-center gap-2'>
             <p class='text-3xl font-bold '>Hello, {{student}} </p>
             <p>ยินดีต้อนรับสู่การจองสนามกีฬา</p>
         </div>
 
-        <div class='flex flex-col justify-center items-center'>
-            <p class='text-xl font-semibold mb-5'>Select Activity</p>
+        <div class='w-full  flex flex-col justify-center items-center gap-2 mt-40'>
+            <p class='text-xl font-bold '>จองง่ายๆ เพียง 4 ขั้นตอน</p>
+        </div>
+        <div class="flex justify-center gap-6 ">
+            <div class="bg-yellow-400 text-black rounded-lg shadow-lg p-6 w-64">
+            <div class="flex items-center mb-4">
+                <div class="bg-white rounded-full p-2 mr-3">
+                </div>
+                <h2 class="font-bold text-base">Select Activity</h2>
+            </div>
+            <p class="mb-4 text-sm">คุณเลือกกิจกรรมที่คุณอยากจะจอง</p>
+            </div>
+            <div class="bg-red-500 text-white rounded-lg shadow-lg p-6 w-64">
+                <div class="flex items-center mb-4">
+                <div class="bg-white rounded-full p-2 mr-3">
+                </div>
+                <h2 class="font-bold text-base">Select Place</h2>
+                </div>
+                <p class="mb-4 text-sm">เลือกสนามที่คุณต้องการ</p>
+            </div>
+
+            <div class="bg-green-500 text-black rounded-lg shadow-lg p-6 w-64">
+                <div class="flex items-center mb-4">
+                <div class="bg-white rounded-full p-2 mr-3">
+
+                </div>
+                <h2 class="font-bold text-base">Select Date</h2>
+                </div>
+                <p class="mb-4 text-sm">เลือกวันที่ต้องการจอง</p>
+            </div>
+
+            <div class="bg-purple-600 text-white rounded-lg shadow-lg p-6 w-64">
+                <div class="flex items-center mb-4">
+                <div class="bg-white rounded-full p-2 mr-3">
+                    <!-- Icon -->
+                </div>
+                <h2 class="font-bold text-base">Select Time</h2>
+                </div>
+                <p class="mb-4 text-sm">เลือกช่วงเวลาที่ต้องการ ไม่เกิน 3 ชั่วโมง</p>
+            </div>
+
+       </div>
+
+        <div class='flex flex-col justify-center items-center mt-44'>
+            <p class='text-2xl font-bold mb-10 text-amber-900'>Select Activity</p>
         
             <div class='grid grid-cols-3 gap-x-2 gap-y-2' >
                 {% for i in activity %}
@@ -41,7 +84,6 @@
                    </a>
                 {% endfor %}
             </div>
-
 
         </div>
 

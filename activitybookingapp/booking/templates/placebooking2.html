@@ -13,14 +13,14 @@
 
         <p class="text-[16px] mb-6 mt-4">Select Time</p>
         <div class="grid grid-cols-4 gap-[2px]">
-            <button type='button' id='13' onclick='div_time(this)' class="bg-slate-100  shadow-md px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">13.00</button>
-            <button type='button' id='14' onclick='div_time(this)' class="bg-slate-100  shadow-md px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">14.00</button>
-            <button type='button' id='15' onclick='div_time(this)' class="bg-slate-100  shadow-md px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">15.00</button>
-            <button type='button' id='16' onclick='div_time(this)' class="bg-slate-100  shadow-md px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">16.00</button>
-            <button type='button' id='17' onclick='div_time(this)' class="bg-slate-100  shadow-md px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">17.00</button>
-            <button type='button' id='18' onclick='div_time(this)' class="bg-slate-100  shadow-md px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">18.00</button>
-            <button type='button' id='19' onclick='div_time(this)' class="bg-slate-100  shadow-md px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">19.00</button>
-            <button type='button' id='20' onclick='div_time(this)' class="bg-slate-100  shadow-md px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">20.00</button>
+            <button type='button' id='13' onclick='div_time(this)' class="bg-white  shadow-md px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">13.00</button>
+            <button type='button' id='14' onclick='div_time(this)' class="bg-white  shadow-md px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">14.00</button>
+            <button type='button' id='15' onclick='div_time(this)' class="bg-white  shadow-md px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">15.00</button>
+            <button type='button' id='16' onclick='div_time(this)' class="bg-white  shadow-md px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">16.00</button>
+            <button type='button' id='17' onclick='div_time(this)' class="bg-white  shadow-md px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">17.00</button>
+            <button type='button' id='18' onclick='div_time(this)' class="bg-white  shadow-md px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">18.00</button>
+            <button type='button' id='19' onclick='div_time(this)' class="bg-white  shadow-md px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">19.00</button>
+            <button type='button' id='20' onclick='div_time(this)' class="bg-white  shadow-md px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">20.00</button>
         </div>
 
         <p class=" mt-6  text-[16px]">Upload {{place.card}} Student Card</p> 
@@ -51,22 +51,23 @@
 
     <div class="col-span-1 bg-[#f9f9f9] p-24 flex flex-col gap-4">
         <p class='text-lg font-medium'>{{place.name}}</p>
-        <hr class="my-3 border-0 h-[1px] bg-blue-500">
         <img class='w-[500px] h-[210px] rounded-[10px]' src="{{place.photo.url}}" alt="">
         <div class='flex flex-col gap-4'>
             <div>
                 <p class="text-sm text-gray-500">Location</p>
-                <p class="text-base text-gray-900">{{place.location}}</p>
+                <p class="text-sm text-gray-900">{{place.location|slice:":30"}}</p>
             </div>
 
             <div>
                 <p class="text-sm text-gray-500">Description</p>
-                <p class="text-base text-gray-900">{{place.description}}</p>
+                <p class="text-sm text-gray-900">{{place.description|slice:":30" }}</p>
             </div>
 
             <div>
                 <p class="text-sm text-gray-500">Staff</p>
-                <p class="text-base text-gray-900">{{place.staff}}</p>
+                {% for staff in place.staff.all %}
+                    <p class="text-sm">{{staff}}</p>
+                {% endfor %}
             </div>
         </div>
     </div>
@@ -148,18 +149,18 @@
                 if (timeIndex !== -1) {
                     // ถ้าเวลานั้นมีอยู่แล้ว ให้ลบออก
                     selected_time.splice(timeIndex, 1);
-                    e.classList.remove('bg-green-200'); // เปลี่ยนกลับไปเป็นสีเดิม
+                    e.classList.remove('bg-blue-200'); // เปลี่ยนกลับไปเป็นสีเดิม
                 } else if (selected_time.length < 3) {
                     if (selected_time.length === 0) {
                         // ถ้าไม่มีเวลาเลย เพิ่มอะไรก้ได้
                         selected_time.push(time);
-                        e.classList.add('bg-green-200'); // เปลี่ยนเป็นสีที่เลือก
+                        e.classList.add('bg-blue-200'); // เปลี่ยนเป็นสีที่เลือก
                     } else {
                         // ตรวจสอบว่ามีเวลาเริ่มต้นที่เล็กกว่าหรือไม่
                         const lastSelectedTime = selected_time[selected_time.length - 1];
                         if (time === lastSelectedTime + 1) {
                             selected_time.push(time);
-                            e.classList.add('bg-green-200'); // เปลี่ยนเป็นสีที่เลือก
+                            e.classList.add('bg-blue-200'); // เปลี่ยนเป็นสีที่เลือก
                         } else {
                             // ถ้าไม่เรียงกัน
                             alert('กรุณาเลือกเวลาในลำดับที่ต่อเนื่องกันเท่านั้น');

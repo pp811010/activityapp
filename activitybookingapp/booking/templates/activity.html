@@ -38,7 +38,7 @@
                                 <img class = "rounded-[16px]" style="width: 400px; height: 170px;" src="{{i.photo.url}}" alt="">
                                 <p class="text-base text-gray-900 mb-2 mt-4 font-bold">{{i.name}}</p>
                                 <p class="text-sm text-gray-500 mb-2 ">Location : {{i.location}}</p>
-                                <p class="text-sm text-gray-500 mb-2 ">Deception : {{ i.description|truncatewords:3 }}</p>
+                                <p class="text-sm text-gray-500 mb-2 ">Deception : {{ i.description|slice:":30"|truncatewords:3 }}</p>
                                 <hr class="my-4">
                                 <p class="text-sm  mb-2 text-[#F86F03]">Manage by <span style="color: black;">:   {{i.staff}}</span> </p>
                             </div>
@@ -49,13 +49,15 @@
                                 <img class = "rounded-[16px]" style="width: 400px; height: 170px;" src="{{i.photo.url}}" alt="">
                                 <p class="text-base text-gray-900 mb-2 mt-4 font-bold">{{i.name}}</p>
                                 <p class="text-sm text-gray-500 mb-2 ">Location : {{i.location}}</p>
-                                <p class="text-sm text-gray-500 mb-2 ">Deception : {{ i.description|truncatewords:3 }}</p>
+                                <p class="text-sm text-gray-500 mb-2 ">Deception : {{ i.description|slice:":30"|truncatewords:3 }}</p>
                                 <hr class="my-4">
-                                <p class="text-sm  mb-2 text-[#F86F03]">Manage by <span style="color: black;">:   {{i.staff}}</span> </p>
+                                <p class="text-sm  mb-2 text-[#F86F03]">Manage by <span style="color: black;">:  {{ i.staff }}</span> </p>
                             </div>
                         </a>
                     {% endif %}
                 {% endfor %}
+
+                
             </div>
     </div>
    </div>

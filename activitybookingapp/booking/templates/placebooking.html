@@ -6,28 +6,41 @@
 <div class="grid grid-cols-3 h-screen pt-16">
 
     <div class="col-span-2 p-5 flex flex-col justify-center items-center gap-7 font-semibold bg-white">
-        <p class='font-medium text-lg'>{{place.name}}</p>
+
+        
+        <div class='flex gap-3'>
+            <p class="text-sm text-gray-500">Place:</p>
+            <p class="text-sm text-gray-900">{{place.name}}</p>
+        </div>
         <img src="{{place.photo.url}}" alt="Property" class="w-[750px] h-[280px] object-cover rounded-lg mb-4 ">
-        <div class='flex flex-cols'>
-            <div >
-                <p class="text-sm text-gray-500">Location</p>
-                <p class="text-base text-gray-900">{{place.location}}</p>
-            </div>
+        <div class='flex flex-col gap-2  w-[70%]'>
+            <div class='flex flex-row gap-32'>
+                <div >
+                    <p class="text-sm text-gray-500">Location</p>
+                    <p class="text-sm text-gray-900">{{place.location|slice:":30"}}</p>
+                </div>
+    
+                <div>
+                    <p class="text-sm text-gray-500">Description</p>
+                    <p class="text-sm text-gray-900">{{place.description|slice:":30"}}</p>
+                </div>
 
-            <div>
-                <p class="text-sm text-gray-500">Description</p>
-                <p class="text-base text-gray-900">{{place.description}}</p>
-            </div>
+                    
+                <div>
+                    <p class="text-sm text-gray-500">Staff</p>
+                    {% for staff in place.staff.all %}
+                        <p class="text-sm">{{staff}}</p>
+                    {% endfor %}
 
-            <div>
-                <p class="text-sm text-gray-500">Staff</p>
-                <p class="text-base text-gray-900">{{place.staff}}</p>
+                </div>
             </div>
         </div>
     </div>
 
+    
 
-    <div class="col-span-1  p-5 flex flex-col justify-center items-center gap-4">
+
+    <div class="col-span-1  p-5 flex flex-col justify-center items-center gap-4 shadow-2xl">
         <p class="text-lg font-bold ">SELECT <span>DATE</span></p>
         <p class='text-gray-500 mb-2'>เลือกวันที่คุณต้องการจองสนาม</p>
         <div id="calendarContainer" class='grid grid-cols-2 gap-3 justify-center'></div>

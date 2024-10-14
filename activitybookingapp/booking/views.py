@@ -58,6 +58,7 @@ class PlaceBooking(LoginRequiredMixin,  View):
         })
      
 class PlaceBooking2(LoginRequiredMixin, View):
+    login_url = '/authen/'
     def get(self, request, place_id):
         date = request.GET.get('selected_date')
         place = Place.objects.get(pk=place_id)
@@ -99,7 +100,7 @@ class PlaceBooking2(LoginRequiredMixin, View):
 
         # ตรวจสอบว่า selected_time ว่างไหม
         if not selected_time:
-            return JsonResponse({"message": "โปรดเลือกเวลา"}, status=400)
+            return JsonResponse({"status": 'error',"message": "โปรดเลือกเวลา"}, status=400)
 
 
         selected_time.sort()
@@ -111,7 +112,7 @@ class PlaceBooking2(LoginRequiredMixin, View):
         # ตรวจสอบ
         image_files = request.FILES.getlist('image')
         if (len(image_files) != place.card):
-            return JsonResponse({"status": "error", "message": f"กรุณาอัปโหลดไฟล์ให้ตรงกับจำนวนที่กำหนด (จำนวนบัตรนักเรียนต้องเป็น {place.card} ไฟล์)"}, status=400)
+            return JsonResponse({"status": 'error', "message": f"กรุณาอัปโหลดไฟล์ให้ตรงกับจำนวนที่กำหนด (จำนวนบัตรนักเรียนต้องเป็น {place.card} ไฟล์)"}, status=400)
 
         booking = Booking.objects.create(
             student=stu,
@@ -136,6 +137,7 @@ class PlaceBooking2(LoginRequiredMixin, View):
         return JsonResponse({"status": "success"})
 
 class BookingView(LoginRequiredMixin,  View):
+
     login_url = '/authen/'
     def get(self, request, booking_id):
         booking = Booking.objects.get(id = booking_id)
@@ -154,7 +156,8 @@ class PlaceView(LoginRequiredMixin,  View):
         }) 
 
 # get form
-class ReportView(View):
+class ReportView(LoginRequiredMixin, View):
+    login_url = '/authen/'
     def get(self, request, place_id, user_id):
         form = ReportForm()
         student = Student.objects.get(pk=user_id )
@@ -169,7 +172,8 @@ class ReportView(View):
 
 
 # get list of report in this place and save form
-class PlaceReport(View):
+class PlaceReport(LoginRequiredMixin, View):
+    login_url = '/authen/'
     def get(self, request, place_id):
         place = Place.objects.get(pk=place_id)
         reports = Report.objects.filter(place=place).order_by('-created_at')
@@ -192,7 +196,8 @@ class PlaceReport(View):
 
 
 
-class ReportList(View):
+class ReportList(LoginRequiredMixin,View):
+    login_url = '/authen/'
     def get(self, request):
         reports = Report.objects.all().order_by("id")
         return render(request, 'report-list-staff.html', {
@@ -200,7 +205,8 @@ class ReportList(View):
         })
 
   
-class ReportDetail(View):
+class ReportDetail(LoginRequiredMixin, View):
+    login_url = '/authen/'
     def get(self, request, report_id):
         report = Report.objects.get(pk=report_id)
         form = ReportForm(instance=report)
@@ -222,7 +228,8 @@ class ReportDetail(View):
         })
 
 
-class PlaceList(View):
+class PlaceList(LoginRequiredMixin, View):
+    login_url = '/authen/'
     def get(self, request):
         activities = Activity.objects.all()
         return render(request, 'activity-place.html', {
@@ -230,7 +237,8 @@ class PlaceList(View):
         })
 
 
-class BookingList(View):
+class BookingList(LoginRequiredMixin, View):
+    login_url = '/authen/'
     def get(self, request, place_id):
         place=Place.objects.get(pk=place_id)
         bookings = Booking.objects.filter(place__id=place_id)
@@ -239,7 +247,8 @@ class BookingList(View):
             "place":place,
         })
 
-class ChangeBookingStatus(View):
+class ChangeBookingStatus(LoginRequiredMixin, View):
+    login_url = '/authen/'
     def post(self, request, booking_id):
         booking = get_object_or_404(Booking, id=booking_id)
         action = request.POST.get('action')
@@ -314,12 +323,12 @@ class Addplace(LoginRequiredMixin, View):
             place.save()
             return redirect('activity', act_id)
         else:
-            messages.error(request, 'เกิดข้อผิดพลาดในการเพิ่มสถานที่ กรุณาตรวจสอบข้อมูลของคุณ.')
+            messages.error(request, 'เกิดข้อผิดพลาดในการเพิ่มสถานที่ กรุณาตรวจสอบข้อมูลของคุณ')
             return render(request, 'addplace.html', {'form': form, 'act': act})
 
 
 
-class EditPlace(View):
+class EditPlace(LoginRequiredMixin,View):
     login_url = '/authen/'
     def get(self, request, place_id):
         place = Place.objects.get(pk = place_id)
@@ -327,21 +336,26 @@ class EditPlace(View):
         form = PlaceForm(instance=place)
         return render(request, 'editplace.html', {'form': form, 'place': place})
     
+    #save edit
     def post(self, request, place_id):
         place = Place.objects.get(pk= place_id)
-        form = PlaceForm(request.POST, request.FILES)
+        form = PlaceForm(request.POST, request.FILES, instance=place )
         if form.is_valid():
             form.save()
             return redirect('activity', place.activity.id)
         return render(request, 'editplace.html', {'form': form, 'place': place})
     
     def delete(self, request, place_id):
+    
         place = Place.objects.get(pk = place_id)
-        place.delete()
-        return HttpResponse(status=200)
+        act = place.activity.id
+        if place:
+            place.delete()
+            return JsonResponse({'act': act}, status=200)
     
 
-class StaffView(View):
+class StaffView(LoginRequiredMixin, View):
+    login_url = '/authen/'
     def get(self, request):
         staffs = Staff.objects.all()
         num_staff = staffs.count()
@@ -350,7 +364,8 @@ class StaffView(View):
             ,'num_staff':num_staff
         })
 
-class AddStaffView(View):
+class AddStaffView(LoginRequiredMixin, View):
+    login_url = '/authen/'
     def get(self, request):
         return render(request, 'add-staff.html')
     
@@ -397,7 +412,8 @@ class AddStaffView(View):
         )
         return redirect('staff-list')
     
-class DeleteStaffView(View):
+class DeleteStaffView(LoginRequiredMixin, View):
+    login_url = '/authen/'
     def post(self, request, staff_id):
         staff = get_object_or_404(Staff, pk=staff_id)
         staff.delete()

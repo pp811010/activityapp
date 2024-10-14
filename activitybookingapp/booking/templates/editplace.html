@@ -11,51 +11,64 @@
         <div class='flex justify-between items-center'>
             <div>
                 <p class='font-bold text-base mt-2 self-start'>Edit New Place</p>
-                <p class='font-medium text-gray-500 text-sm mb-7 self-start'>Activity / Edit Place</p>
+                <p class='font-medium text-gray-500 text-sm mb-7 self-start'>Activity : {{place.activity}} / Edit Place</p>
             </div>
             <p class='text-red-400 hover:text-red-600 cursor-pointer' onclick='deleteplace({{place.id}}, "{{csrf_token}}")'><i class="fa-solid fa-trash"></i></p>
         </div>
 
-        <form method="post" enctype="multipart/form-data" class='px-32'>
-            <div id="preview-container" class=" flex items-center justify-center">
+        <form method="post" action="/booking/editplace/{{ place.id }}/" enctype="multipart/form-data" class="px-32">            <div id="preview-container" class=" flex items-center justify-center">
                 <img src='{{ place.photo.url }}' id="image-preview" class="object-cover rounded-md shadow-md w-[400px] h-[250px]">
             </div>
             <div class='flex flex-col mb-4 text-sm items-center mt-5'>
+                {% if form.photo.errors %}
+                    <div class="text-red-600 text-xs pt-2 px-2">* {{ form.photo.error }}</div>
+                {% endif %}
                 {{ form.photo }}
-                {{ form.photo.errors }}
             </div>
             {% csrf_token %}
             <div class='flex flex-col mb-4'>
-                {{ form.name.errors }}
+                {% if form.name.errors %}
+                    <div class="text-red-600 text-xs pt-2 px-2">* {{ form.name.errors }}</div>
+                {% endif %}
                 <label class="font-semibold">Name place:</label>
                 {{ form.name }}
             </div>
             <div class='flex flex-col mb-4'>
-                {{ form.activity.errors }}
+                {% if form.activity.errors %}
+                    <div class="text-red-600 text-xs pt-2 px-2">* {{ form.activity.errors }}</div>
+                {% endif %}
                 <label class="font-semibold">Activity:</label>
                 {{ form.activity }}
                 
             </div>
             <div class='flex flex-col mb-4'>
-                {{ form.location.errors }}
+                {% if form.location.errors %}
+                    <div class="text-red-600 text-xs pt-2 px-2">* {{ form.location.errors }}</div>
+                {% endif %}
                 <label class="font-semibold">Location:</label>
                 {{ form.location }}
                 
             </div>
             <div class='flex flex-col mb-4'>
-                {{ form.description.errors }}
+                {% if form.description.errors %}
+                    <div class="text-red-600 text-xs pt-2 px-2">* {{ form.description.errors }}</div>
+                {% endif %}
                 <label class="font-semibold">Description:</label>
                 {{ form.description }}
                 
             </div>
             <div class='flex flex-col mb-4'>
-                {{ form.card.errors }}
+                {% if form.card.errors %}
+                    <div class="text-red-600 text-xs pt-2 px-2">* {{ form.card.errors }}</div>
+                {% endif %}
                 <label class="font-semibold">Card:</label>
                 {{ form.card }}
                 
             </div>
             <div class='flex flex-col mb-4'>
-                {{ form.staff.errors }}
+                {% if form.staff.errors %}
+                    <div class="text-red-600 text-xs pt-2 px-2">* {{ form.staff.errors }}</div>
+                {% endif %}
                 <label class="font-semibold">Staff:</label>
                 {{ form.staff }}
                 
@@ -91,14 +104,23 @@
             },
         })
         .then((responsex) => {
-            if (response.ok) {
-                console.log("Item deleted successfully");
-                window.location.href = "{% url 'activity' place.activity.id %}";
+            if (responsex.ok) {
+                return responsex.json();
+            } else {
+                console.error("Failed to delete the item:", responsex.statusText);
+                alert("การลบสถานที่ไม่สำเร็จ");
+            }
+        })
+        .then((data) => {
+            if (data) {
+                console.log("ลบสถานที่สำเร็จ");
+                window.location.href = `/booking/activity/${data.act}/`;
             }
         })
         .catch((error) => {
             console.error("Error:", error);
-            alert("เกิดข้อผิดพลาดในการเชื่อมต่อกับเซิร์ฟเวอร์");
+            alert("การลบสถานที่ไม่สำเร็จ");
         });
     }
+    
 {% endblock %}
