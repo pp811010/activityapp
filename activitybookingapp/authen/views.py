@@ -25,7 +25,7 @@ class LoginView(View):
                 return redirect('homeadmin')
             else:
                 return redirect('homeuser')
-
+    
         return render(request,'login.html', {"form":form})
 
 

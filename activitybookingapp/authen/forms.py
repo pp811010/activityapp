@@ -67,20 +67,29 @@ class RegisterForm(forms.ModelForm):
         email = cleaned_data.get('email')
         if email:
             username_part = email.split('@')[0]
-            if not email.endswith('@kmitl.ac.th') | len(username_part) < 8:
+            if not email.endswith('@kmitl.ac.th') or len(username_part) != 8:
                 self.add_error('email', 'อีเมลต้องใช้โดเมน @kmitl.ac.th')
 
         phone = cleaned_data.get('phone')
-        if phone and len(phone) != 10:
+        if len(phone) != 10:
             self.add_error('phone', 'เบอร์โทรศัพท์ต้องมี 10 หลัก')
 
         student_ID = cleaned_data.get('student_ID')
-        if student_ID and len(student_ID) != 8:
+        if len(student_ID) != 8:
             self.add_error('student_ID', 'หมายเลขนักเรียนต้องมี 8 หลัก')
 
         password = cleaned_data.get('password')
         password2 = cleaned_data.get('password2')
-        if password and password2 and password != password2:
+
+        if len(password) < 8:
+            self.add_error('password', 'รหัสผ่านต้องอย่างน้อย 8 หลัก')
+
+
+        if len(password2) < 8:
+            self.add_error('password2', 'รหัสผ่านต้องอย่างน้อย 8 หลัก')
+
+
+        if password != password2:
             self.add_error('password2', 'รหัสผ่านไม่ตรงกัน')
 
         return cleaned_data

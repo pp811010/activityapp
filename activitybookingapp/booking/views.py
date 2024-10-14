@@ -97,7 +97,7 @@ class PlaceBooking2(LoginRequiredMixin, View):
 
         # ตรวจสอบว่า selected_time ว่างไหม
         if not selected_time:
-            return JsonResponse({"status": "error", "message": "โปรดเลือกเวลา"}, status=400)
+            return JsonResponse({"message": "โปรดเลือกเวลา"}, status=400)
 
 
         selected_time.sort()
@@ -190,7 +190,6 @@ class PlaceReport(View):
 
 
 
-# for staff
 class ReportList(View):
     def get(self, request):
         reports = Report.objects.all().order_by("id")
@@ -259,11 +258,14 @@ class HomeAdmin(LoginRequiredMixin,  View):
     login_url = '/authen/'
     def get(self, request):
         user = request.user
+        print(user.get_all_permissions())
         activity = Activity.objects.all()
         return render(request, 'homeadmin.html', {'activity' : activity})
 
     def post(self, request):
         name = request.POST.get('activity-name')
+        name = name.capitalize()
+        print(name)
         photo  = request.FILES.get('photo')
         act = Activity.objects.create(name=name,  photo = photo )        
         if act:  
@@ -271,12 +273,26 @@ class HomeAdmin(LoginRequiredMixin,  View):
         else:
             return HttpResponse({'error': 'Failed create activity'})
             
-class DeleteActivity(LoginRequiredMixin, View):
+class ManageActivity(LoginRequiredMixin, View):
     login_url = '/authen/'
     def  delete(self, request, act_id):
         act = Activity.objects.get(pk= act_id)
         act.delete()
         return HttpResponse(act_id)
+    
+    def post(self, request, act_id):
+        name = request.POST.get('activity-name')
+        name = name.capitalize()
+        photo  = request.FILES.get('photo')
+        act = Activity.objects.get(pk = act_id)
+         
+        if act: 
+            act.name= name
+            act.photo = photo
+            act.save()
+            return redirect('homeadmin') 
+        else:
+            return HttpResponse({'error': 'Failed edit activity'})
     
 class Addplace(LoginRequiredMixin, View):
     login_url = '/authen/'
@@ -320,5 +336,4 @@ class EditPlace(View):
     def delete(self, request, place_id):
         place = Place.objects.get(pk = place_id)
         place.delete()
-        print('sasasa')
         return HttpResponse(status=200)

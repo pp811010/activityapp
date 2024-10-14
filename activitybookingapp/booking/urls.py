@@ -25,7 +25,7 @@ urlpatterns = [
 
     # ผู้จัดการสนาม
     path("homeadmin/", views.HomeAdmin.as_view(), name="homeadmin"),
-    path("homeadmin/<int:act_id>/", views.DeleteActivity.as_view(), name="deleteactivity"),
+    path("homeadmin/<int:act_id>/", views.ManageActivity.as_view(), name="deleteactivity"),
     path("addplace/<int:act_id>/", views.Addplace.as_view(), name = 'addplace'),
     path("editplace/<int:place_id>/", views.EditPlace.as_view(), name='editplace')
 ]
