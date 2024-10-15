@@ -284,7 +284,7 @@ class ChangePasswordView(View):
 # for staff
 class ReportList(View):
     def get(self, request):
-        reports = Report.objects.all().order_by("id")
+        reports = Report.objects.all().order_by("-id")
         return render(request, 'report-list-staff.html', {
             "reports":reports
         })
@@ -313,24 +313,10 @@ class ReportDetail(LoginRequiredMixin, PermissionRequiredMixin, View):
         })
 
 
-class PlaceList(LoginRequiredMixin, PermissionRequiredMixin, View):
-    login_url = '/authen/'
-    def get(self, request):
-        activities = Activity.objects.all()
-        return render(request, 'activity-place.html', {
-            'activities':activities
-        })
 
 
-class BookingList(LoginRequiredMixin, PermissionRequiredMixin, View):
-    login_url = '/authen/'
-    def get(self, request, place_id):
-        place=Place.objects.get(pk=place_id)
-        bookings = Booking.objects.filter(place__id=place_id)
-        return render(request, 'approve-booking.html',{
-            'bookings':bookings,
-            "place":place,
-        })
+
+
 
 class ChangeBookingStatus(LoginRequiredMixin, PermissionRequiredMixin, View):
     login_url = '/authen/'
@@ -350,18 +336,22 @@ class ChangeBookingStatus(LoginRequiredMixin, PermissionRequiredMixin, View):
 
 
 # ผู้จัดการสนาม
+
+# menu Activity
+# เเสดง Activity เเละ เพิ่ม activity
 class HomeAdmin(LoginRequiredMixin,  View):
     login_url = '/authen/'
+
     def get(self, request):
         user = request.user
         activity = Activity.objects.all()
-        if user.has_perm('booking.view_activity'):
+        if user.has_perm('booking.view_booking'):
             if user.is_staff:
                 return render(request, 'homeadmin.html', {'activity': activity})
             else:
                 raise PermissionDenied 
         else:
-            raise PermissionDenied 
+            raise PermissionDenied
 
 
     def post(self, request):
@@ -374,10 +364,11 @@ class HomeAdmin(LoginRequiredMixin,  View):
             return redirect('homeadmin') 
         else:
             return HttpResponse({'error': 'Failed create activity'})
-            
+
+# ลบ เเละ edit activity
 class ManageActivity(LoginRequiredMixin, PermissionRequiredMixin, View):
     login_url = '/authen/'
-    permission_required = ["booking.delete_activity", "booking.edit.activity"]
+    permission_required = ['booking.delete_activity', 'booking.change_activity']
     def  delete(self, request, act_id):
         act = Activity.objects.get(pk= act_id)
         act.delete()
@@ -397,13 +388,14 @@ class ManageActivity(LoginRequiredMixin, PermissionRequiredMixin, View):
         else:
             return HttpResponse({'error': 'Failed edit activity'})
     
+# เพิ่ม place
 class Addplace(LoginRequiredMixin, PermissionRequiredMixin, View):
     login_url = '/authen/'
     permission_required = "booking.add_place"
     def get(self, request, act_id):
         act = get_object_or_404(Activity, pk=act_id)
         form = PlaceForm(initial={'activity': act})
-        return render(request, 'addplace.html', {'form': form, 'act': act})
+     
     
     def post(self, request, act_id):
         act = get_object_or_404(Activity, pk=act_id)
@@ -418,8 +410,7 @@ class Addplace(LoginRequiredMixin, PermissionRequiredMixin, View):
             messages.error(request, 'เกิดข้อผิดพลาดในการเพิ่มสถานที่ กรุณาตรวจสอบข้อมูลของคุณ')
             return render(request, 'addplace.html', {'form': form, 'act': act})
 
-
-
+# เเก้ไข place
 class EditPlace(LoginRequiredMixin, PermissionRequiredMixin,View):
     login_url = '/authen/'
     permission_required = "booking.change_place"
@@ -429,7 +420,6 @@ class EditPlace(LoginRequiredMixin, PermissionRequiredMixin,View):
         form = PlaceForm(instance=place)
         return render(request, 'editplace.html', {'form': form, 'place': place})
     
-    #save edit
     def post(self, request, place_id):
         place = Place.objects.get(pk= place_id)
         form = PlaceForm(request.POST, request.FILES, instance=place )
@@ -447,18 +437,66 @@ class EditPlace(LoginRequiredMixin, PermissionRequiredMixin,View):
             return JsonResponse({'act': act}, status=200)
     
 
+# menu confirm
+# เเสดงสนามทั้งหมด
+# เเก้ให้เป็น conformView
+class PlaceList(LoginRequiredMixin, PermissionRequiredMixin, View):
+    login_url = '/authen/'
+    permission_required = "booking.change_booking"
+    def get(self, request):
+        user = request.user
+        activities = Activity.objects.all()
+        return render(request, 'activity-place.html', {
+            'activities':activities
+        })
+
+# เเสดงรายละเอียดที่ booking
+class BookingList(LoginRequiredMixin, PermissionRequiredMixin, View):
+    login_url = '/authen/'
+    permission_required = "booking.change_booking"
+    def get(self, request, place_id):
+        user = request.user
+        place=Place.objects.get(pk=place_id)
+        bookings = Booking.objects.filter(place__id=place_id).order_by('-id')
+        return render(request, 'approve-booking.html',{
+            'bookings':bookings,
+            "place":place,
+        })
+    
+class ChangeBookingStatus(LoginRequiredMixin, PermissionRequiredMixin, View):
+    login_url = '/authen/'
+    permission_required = "booking.change_booking"
+    def post(self, request, booking_id):
+        booking = get_object_or_404(Booking, id=booking_id)
+        action = request.POST.get('action')
+
+        if action == 'approve':
+            booking.status = 'APPROVED'
+        elif action == 'reject':
+            booking.status = 'REJECTED'
+        
+        booking.save()
+        return redirect('booking-list', place_id=booking.place.pk)
+
 class StaffView(LoginRequiredMixin, PermissionRequiredMixin, View):
     login_url = '/authen/'
     permission_required = "booking.view_staff"
     def get(self, request):
+        user = request.user
         staffs = Staff.objects.all()
         num_staff = staffs.count()
-        return render(request, 'staff-list.html', {
-            "staffs":staffs
-            ,'num_staff':num_staff
-        })
+        if user.has_perm('booking.view_staff'):
+            if user.is_staff:
+                return render(request, 'staff-list.html', {
+                    "staffs":staffs
+                    ,'num_staff':num_staff
+                })
+            else:
+                raise PermissionDenied 
+        else:
+            raise PermissionDenied
     
-class StaffProfile(View):
+class StaffProfile(View, PermissionRequiredMixin):
     def get(self, request, staff_id):
         staff = Staff.objects.get(pk = staff_id)
         return render(request, 'staff-profile.html', {'staff': staff})

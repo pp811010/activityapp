@@ -23,16 +23,13 @@ urlpatterns = [
     path("profile/change-password/", views.ChangePasswordView.as_view(), name="change-password"),
 
 
-
-    #staff
+    #manager
     path("staff-profile/<int:staff_id>/", views.StaffProfile.as_view(), name='staff-profile'),
     path("report-list/", views.ReportList.as_view(), name="report-list"),
     path("report/<int:report_id>/", views.ReportDetail.as_view(), name="report-detail"),
     path('place-list/', views.PlaceList.as_view(), name='place-list'),
     path('booking-list/<int:place_id>/', views.BookingList.as_view(), name='booking-list'),
     path('change-booking-status/<int:booking_id>/', views.ChangeBookingStatus.as_view(), name='change-booking-status'),
-
-    # ผู้จัดการสนาม
     path("homeadmin/", views.HomeAdmin.as_view(), name="homeadmin"),
     path("homeadmin/<int:act_id>/", views.ManageActivity.as_view(), name="deleteactivity"),
     path("addplace/<int:act_id>/", views.Addplace.as_view(), name = 'addplace'),
