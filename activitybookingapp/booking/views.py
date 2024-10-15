@@ -37,7 +37,7 @@ class MyBooking(LoginRequiredMixin, PermissionRequiredMixin, View):
     def get(self, request):
         user = request.user
         student = Student.objects.get(user = user)
-        booking = Booking.objects.filter(student = student).order_by('-date')
+        booking = Booking.objects.filter(student = student).order_by('-id')
         return render(request, 'mybooking.html', {"booking": booking, 'student': student})
     
     def delete(self, request, booking_id):
@@ -145,14 +145,6 @@ class PlaceBooking2(LoginRequiredMixin, PermissionRequiredMixin, View):
             start_time=start_time,
             end_time=end_time,
             status='PENDING'
-        )
-
-        send_mail(
-            'การจองสนามสำเร็จ',
-            f'คุณ {stu} ได้ทำการจองสนาม {place.name} วันที่ {date_booking} เวลา {start_time} - {end_time} สำเร็จเรียบร้อยแล้ว โปรดมาก่อนเวลา 15 นาที และแสดงใบการจองกับเจ้าหน้าที่',
-            settings.EMAIL_HOST_USER, 
-            [stu.email],  
-            fail_silently=False  
         )
 
         for file in image_files:
@@ -471,9 +463,23 @@ class ChangeBookingStatus(LoginRequiredMixin, PermissionRequiredMixin, View):
         action = request.POST.get('action')
 
         if action == 'approve':
-            booking.status = 'APPROVED'
+            booking.status = 'APPROVED'           
+            send_mail(
+                'การจองสนามสำเร็จ',
+                f'คุณ {booking.student} ทำการจองสนาม {booking.place} วันที่ {booking.date} เวลา {booking.start_time} - {booking.end_time} สำเร็จ โปรดมาก่อนเวลา 15 นาที และแสดงใบการจองกับเจ้าหน้าที่',
+                settings.EMAIL_HOST_USER, 
+                [booking.student.email],  
+                fail_silently=False  
+            )
         elif action == 'reject':
-            booking.status = 'REJECTED'
+            booking.status = 'REJECTED'  
+            send_mail(
+                'การจองสนามสำเร็จ',
+                f'คุณ {booking.student} ทำการจองสนาม {booking.place} วันที่ {booking.date} เวลา {booking.start_time} - {booking.end_time} ไม่สำเร็จ โปรดจองใหม่อีกครั้ง',
+                settings.EMAIL_HOST_USER, 
+                [booking.student.email],  
+                fail_silently=False  
+            )
         
         booking.save()
         return redirect('booking-list', place_id=booking.place.pk)
