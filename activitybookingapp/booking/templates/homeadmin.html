@@ -8,7 +8,7 @@
 {% endblock%}
 
 {% block content%}
-    <div class='flex flex-col gap-14 mb-32 pt-32 '>
+    <div class='flex flex-col gap-14 mb-32 pt-32'>
         <p class='text-2xl font-semibold px-56'>Manage Activity</p>
 
         <div id='addactivity' class='hidden mt-[-10px] flex justify-center items-center'>
@@ -40,7 +40,7 @@
             <div class='grid grid-cols-3 gap-x-3 gap-y-5'>
                 {% for i in activity%}
 
-                    <div id='show-{{i.id}}' class="  rounded-lg shadow-lg max-w-xs">                
+                    <div id='show-{{i.id}}' class="  rounded-lg shadow-lg max-w-xs bg-[#F9F9F9 ]">                
                         <div class="px-7 pb-1 pt-5">
                             <div class='flex gap-3 items-center justify-between' >
                                 <a href="{% url 'activity' i.id %}">
@@ -93,7 +93,7 @@
                 
                 {%if perms.booking.add_activity%}
                     <div onclick='showadd()'
-                        class="bg-[#14242c] text-white cursor-pointer shadow-xl w-[320px] h-[320px] p-[15px] flex flex-col items-center justify-center bg-cover bg-center rounded-[20px]">
+                        class="bg-[#33647B] text-white cursor-pointer shadow-xl w-[320px] h-[320px] p-[15px] flex flex-col items-center justify-center bg-cover bg-center rounded-[20px]">
                         <p class="text-2xl font-bold mb-4">+</p>
                     </div>
                 {% endif %}
