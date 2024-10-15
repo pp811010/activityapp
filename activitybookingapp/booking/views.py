@@ -1,7 +1,8 @@
 import re
 import json
 from datetime import datetime, time
-
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib import messages
@@ -12,7 +13,6 @@ from authen.forms import RegisterForm
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.core.mail import send_mail
 from django.conf import settings
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.core.exceptions import ValidationError
 from django.db.models import Count
 from django.core.validators import validate_email
@@ -208,27 +208,80 @@ class MyReportsView(View):
         reports = Report.objects.filter(student__id=student_id)
         return render(request, 'myreport.html',{"reports":reports})
 
-
+# profile
 class ProfileView(View):
-    def get(self, request, student_id):
-        user = User.objects.get(pk=student_id)
-        student = Student.objects.get(pk=student_id)
+    def get(self, request):
+        student = Student.objects.get(pk=request.user.id)
         
         return render(request, 'profile.html',{
             "student":student,
         })
     
+
 class ManageProfileView(View):
-    def get(self, request, student_id):
-        user = User.objects.get(pk=student_id)
+    def get(self, request):
+        user = User.objects.get(pk=request.user.id)
         form = RegisterForm(instance=user)
-        return render(request, 'manage-profile.html',{
-            "user":user,
-            "form":form,
+        student = Student.objects.get(user=user)
+        form.fields['username'].initial = user.username
+        form.fields['phone'].initial = student.phone
+        form.fields['student_ID'].initial = student.stu_card
+        return render(request, 'manage-profile.html', {
+            "user": user,
+            "form": form,
+            "student": student
         })
 
 class ReportList(LoginRequiredMixin, PermissionRequiredMixin,View):
     login_url = '/authen/'
+    def post(self, request):
+        user = User.objects.get(pk=request.user.id)  # Retrieve the user instance
+        form = RegisterForm(request.POST, instance=user)  # Use request.POST and pass the instance
+
+        if form.is_valid():
+            user = form.save()  # Save user instance
+
+            # Get the associated student instance
+            student = Student.objects.get(user=user)
+            student.first_name = form.cleaned_data['first_name']  # Update fields
+            student.last_name = form.cleaned_data['last_name']
+            student.email = user.email  # Update the email
+            student.stu_card = form.cleaned_data['student_ID']
+            student.faculty = form.cleaned_data['faculty']
+            student.phone = form.cleaned_data['phone']
+            print(student)
+            student.save()  # Save the student instance
+
+            return redirect('my-profile')
+        print(form.errors)
+        # If the form is not valid, re-render the page with the existing user and student data
+        student = Student.objects.get(user=user)  # Retrieve the student again
+        return render(request, 'manage-profile.html', {
+            "user": user,
+            "form": form,
+            "student": student
+        })
+
+
+class ChangePasswordView(View):
+    def get(self, request ):
+        form = PasswordChangeForm(user=request.user)
+        return render(request, 'change-password.html', {'form': form})
+
+    def post(self, request):
+        form = PasswordChangeForm(user=request.user, data=request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # Important for keeping the user logged in
+            messages.success(request, 'Your password was successfully updated!')
+            return redirect('my-profile', user.id)
+        else:
+            messages.error(request, 'Please correct the error below.')
+            return render(request, 'change-password.html', {'form': form})
+
+
+# for staff
+class ReportList(View):
     def get(self, request):
         reports = Report.objects.all().order_by("id")
         return render(request, 'report-list-staff.html', {
@@ -239,7 +292,7 @@ class ReportList(LoginRequiredMixin, PermissionRequiredMixin,View):
 class ReportDetail(LoginRequiredMixin, PermissionRequiredMixin, View):
     login_url = '/authen/'
     def get(self, request, report_id):
-        report = Report.objects.get(pk=report_id)
+        report = Report.objstudent_idects.get(pk=report_id)
         form = ReportForm(instance=report)
         return render(request, 'report-detail.html', {
             "form":form,
