@@ -23,6 +23,7 @@ urlpatterns = [
 
 
     #staff
+    path("staff-profile/<int:staff_id>/", views.StaffProfile.as_view(), name='staff-profile'),
     path("report-list/", views.ReportList.as_view(), name="report-list"),
     path("report/<int:report_id>/", views.ReportDetail.as_view(), name="report-detail"),
     path('place-list/', views.PlaceList.as_view(), name='place-list'),

@@ -52,7 +52,14 @@
                                 <p class="text-sm text-gray-500 mb-2 ">Location : {{i.location}}</p>
                                 <p class="text-sm text-gray-500 mb-2 ">Deception : {{ i.description|slice:":30"|truncatewords:3 }}</p>
                                 <hr class="my-4">
-                                <p class="text-sm  mb-2 text-[#F86F03]">Manage by <span style="color: black;">:  {{ i.staff }}</span> </p>
+                                <p class="text-sm mb-2 text-[#F86F03]">
+                                    Manage by 
+                                    {% if i.staff %}
+                                        <span style="color: black;">: {{ i.staff.first }}</span>
+                                    {% else %}
+                                        <span style="color: black;">: ไม่มีพนักงานดูแล</span>
+                                    {% endif %}
+                                </p>
                             </div>
                         </a>
                     {% endif %}
