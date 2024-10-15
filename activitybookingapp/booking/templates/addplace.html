@@ -16,21 +16,21 @@
                 {% csrf_token %}
                 <div>
                     {% if form.name.errors %}
-                        <div class="text-red-600 text-xs pt-2 px-2">*{{ form.name.errors }}</div>
+                        <div class="text-red-600 text-xs pt-2 px-2">{{ form.name.errors }}</div>
                     {% endif %}
                     <label>Name place : </label>
                     {{ form.name }}
                 </div>
                 <div>
                     {% if form.activity.errors %}
-                        <div class="text-red-600 text-xs pt-2 px-2">* {{ form.activity.errors }} </div>
+                        <div class="text-red-600 text-xs pt-2 px-2">{{ form.activity.errors }} </div>
                     {% endif %}
                     <label>Activity : </label>
                     {{ form.activity}}
                 </div>
                 <div>
                     {% if form.location.errors %}
-                        <div class="text-red-600 text-xs pt-2 px-2">* {{ form.location.errors }} </div>
+                        <div class="text-red-600 text-xs pt-2 px-2">{{ form.location.errors }} </div>
                     {% endif%}
                     <label>Location : </label>
                     {{ form.location }}
@@ -41,21 +41,21 @@
                     </div>
                     <div class="w-full">
                         {% if form.description.errors %}
-                        <div class="text-red-600 text-xs pt-2 px-2">* {{ form.description.errors }} </div>
+                        <div class="text-red-600 text-xs pt-2 px-2">{{ form.description.errors }} </div>
                         {% endif %}
                         {{ form.description }}
                     </div>
                 </div>
                 <div>
                     {% if form.card.errors %}
-                        <div class="text-red-600 text-xs pt-2 px-2">* {{ form.card.errors }}<div>
+                        <div class="text-red-600 text-xs pt-2 px-2">{{ form.card.errors }}<div>
                     {% endif %}
                     <label>Card : </label>
                     {{ form.card }}
                 </div>
                 <div>
                     {% if form.staff.errors %}
-                        <div class="text-red-600 text-xs pt-2 px-2">* {{ form.staff.errors }}</div>
+                        <div class="text-red-600 text-xs pt-2 px-2">{{ form.staff.errors }}</div>
                     {% endif %}
                     <label>Staff : </label>
                     {{ form.staff }}
@@ -67,7 +67,7 @@
 
                 <div>
                     {% if form.photo.errors %}
-                        <div class="text-red-600 text-xs pt-2 px-2">* {{ form.photo.errors }}</div>
+                        <div class="text-red-600 text-xs pt-2 px-2">{{ form.photo.errors }}</div>
                     {% endif %}
                     <label>Photo : </label>
                     {{ form.photo }}

@@ -20,14 +20,16 @@ from django.core.validators import validate_email
 
 # Create your views here.
 # LoginRequiredMixin, PermissionRequiredMixin,
-class HomeUser(LoginRequiredMixin, PermissionRequiredMixin,  View):
-    login_url = '/authen/'
-    permission_required = "booking.add_booking"
+class HomeUser(View):
+
     def get(self, request):
         user = request.user
-        student = Student.objects.get(user = user)
         activity = Activity.objects.annotate(place_count=Count('place')).order_by('-place_count')
-        return render(request, 'home.html', {"student": student, 'activity' : activity})
+        if not user.is_anonymous:
+            student = Student.objects.get(user=user)
+            return render(request, 'home.html', {"student": student, 'activity': activity})
+        
+        return render(request, 'home.html', {'activity': activity})
         
         
 class MyBooking(LoginRequiredMixin, PermissionRequiredMixin, View):
@@ -45,18 +47,14 @@ class MyBooking(LoginRequiredMixin, PermissionRequiredMixin, View):
         booking.delete()
         return HttpResponse(booking_id)
 
-class ActivityView(LoginRequiredMixin,  View):
-    login_url = '/authen/'
-    permission_required = "booking.views_activity"
+class ActivityView(View):
     def get(self, request, act_id):
         act = Activity.objects.get(pk = act_id)
         place = Place.objects.filter(activity_id = act_id)
         return render(request, 'activity.html', {'act': act ,'place': place})
     
 
-class PlaceView(LoginRequiredMixin, PermissionRequiredMixin,  View):
-    login_url = '/authen/'
-    permission_required = "booking.view_place"
+class PlaceView(View):
     def get(self, request, place_id) :
         place = Place.objects.get(pk=place_id)
         report = Report.objects.filter(place = place)
@@ -229,8 +227,6 @@ class ManageProfileView(View):
             "form":form,
         })
 
-
-
 class ReportList(LoginRequiredMixin, PermissionRequiredMixin,View):
     login_url = '/authen/'
     def get(self, request):
@@ -402,6 +398,11 @@ class StaffView(LoginRequiredMixin, View):
             "staffs":staffs
             ,'num_staff':num_staff
         })
+    
+class StaffProfile(View):
+    def get(self, request, staff_id):
+        staff = Staff.objects.get(pk = staff_id)
+        return render(request, 'staff-profile.html', {'staff': staff})
 
 class AddStaffView(LoginRequiredMixin, PermissionRequiredMixin, View):
     login_url = '/authen/'
