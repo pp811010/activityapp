@@ -55,9 +55,15 @@
                 <div class='flex justify-end mt-4'>
                     <button class='p-2 rounded-md text-sm text-red-400' onclick='deleteBooking({{booking.id}}, "{{csrf_token}}")' >ยกเลิกการจอง</button>
                 </div>
-                <a href="{% url 'mybooking' %}">
-                    <button  class='bg-orange-500 p-1 text-white rounded-md text-[15px] w-full'>ย้อนกลับ</button>
-                </a>
+                {% if perm.booking.change_booking%}
+                    <a href="{% url 'mybooking' %}">
+                        <button  class='bg-orange-500 p-1 text-white rounded-md text-[15px] w-full'>ย้อนกลับ</button>
+                    </a>
+                {% else%}
+                    <a href="{% url 'mybooking' %}">
+                        <button  class='bg-orange-500 p-1 text-white rounded-md text-[15px] w-full'>ย้อนกลับ</button>
+                    </a>
+                {% endif %}
             </div>
         </div>
     </div>
