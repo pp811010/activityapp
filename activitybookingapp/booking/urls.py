@@ -18,9 +18,9 @@ urlpatterns = [
     path("myreport/<int:student_id>/", views.MyReportsView.as_view(), name="my-report-list"),
 
     # profile
-    path("profile/<int:student_id>/", views.ProfileView.as_view(), name="my-profile"),
-    path("profile/<int:student_id>/manage/", views.ManageProfileView.as_view(), name="manage-profile"),
-    path("profile/<int:student_id>/change-password/", views.ChangePasswordView.as_view(), name="change-password"),
+    path("profile/", views.ProfileView.as_view(), name="my-profile"),
+    path("profile/manage/", views.ManageProfileView.as_view(), name="manage-profile"),
+    path("profile/change-password/", views.ChangePasswordView.as_view(), name="change-password"),
 
 
 

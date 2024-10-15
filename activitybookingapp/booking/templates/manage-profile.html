@@ -4,8 +4,69 @@
 {% endblock  %}
 {% block content %}
 <div class="flex justify-center items-center pt-20">
-    <form action="" method="post">
-        {{form.as_p}}
-    </form>
+    <div>
+        <form action="{% url 'manage-profile' %}" method="post">
+            {% csrf_token %}
+            <div>
+                {{ form.first_name.label_tag }}
+                {{ form.first_name }}
+                {% if form.first_name.errors %}
+                    <div class="text-red-500">{{ form.first_name.errors }}</div>
+                {% endif %}
+            </div>
+            <div>
+                {{ form.last_name.label_tag }}
+                {{ form.last_name }}
+                {% if form.last_name.errors %}
+                    <div class="text-red-500">{{ form.last_name.errors }}</div>
+                {% endif %}
+            </div>
+            <div>
+                {{ form.email.label_tag }}
+                {{ form.email }}
+                {% if form.email.errors %}
+                    <div class="text-red-500">{{ form.email.errors }}</div>
+                {% endif %}
+            </div>
+            <div>
+                {{ form.phone.label_tag }}
+                {{ form.phone }}
+                {% if form.phone.errors %}
+                    <div class="text-red-500">{{ form.phone.errors }}</div>
+                {% endif %}
+            </div>
+            <div>
+                {{ form.faculty.label_tag }}
+                {{ form.faculty }}
+                {% if form.faculty.errors %}
+                    <div class="text-red-500">{{ form.faculty.errors }}</div>
+                {% endif %}
+            </div>
+            <div>
+                {{ form.student_ID.label_tag }}
+                {{ form.student_ID }}
+                {% if form.student_ID.errors %}
+                    <div class="text-red-500">{{ form.student_ID.errors }}</div>
+                {% endif %}
+            </div>
+            <div>
+                {{form.password.label_tag}}
+                {{form.password}}
+                {% if form.password.errors %}
+                    <div class="text-red-500">{{ form.password.errors }}</div>
+                {% endif %}
+            </div>
+            <div>
+                {{ form.username.label_tag }}
+                {{ form.username }}
+                {% if form.username.errors %}
+                    <div class="text-red-500">{{ form.username.errors }}</div>
+                {% endif %}
+            </div>
+            <div class="pt-4">
+                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Save Changes</button>
+            </div>
+        </form>
+    </div>
 </div>
 {% endblock  %}
