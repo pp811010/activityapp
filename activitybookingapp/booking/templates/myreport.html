@@ -1,0 +1,70 @@
+{% extends "layout.html" %}
+{% block head %}
+<title>My Reports</title>
+{% endblock  %}
+{% block content %}
+<div class="flex flex-col pt-20 px-10 gap-3 justify-center items-center w-full h-full">
+    <div class="overflow-x-auto overflow-y-auto max-h-[600px] h-3/4 rounded-xl w-full border border-gray-200">
+        <table class="min-w-full bg-white shadow-md">
+            <thead>
+                <tr class="bg-blue-500 text-white sticky top-0 z-10">
+                    <th class="py-3 px-4 text-left">Place</th>
+                    <th class="py-3 px-4 text-left">Image</th>
+                    <th class="py-3 px-4 text-left">Date</th>
+                    <th class="py-3 px-4 text-left">Time</th>
+                    <th class="py-3 px-4 text-left">Status</th>
+                    <th class="py-3 px-4 text-left">Details</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for data in reports %}
+                <tr class="hover:bg-gray-100 pt-1">
+                    <td class="py-3 px-4">{{data.place}}</td>
+                    <td class="py-3 px-4">
+                        {% if data.image %}
+                            <img class="w-12 h-12 rounded-full" src="{{ data.image.url }}" alt="Report Image">
+                        {% else %}
+                            <img class="w-12 h-12 rounded-full" src="https://via.placeholder.com/48" alt="Report Image">
+                        {% endif %}
+                    </td>
+                    <td class="py-3 px-4">{{ data.created_at|date:"d/m/Y" }}</td>
+                    <td class="py-3 px-4">{{ data.created_at|date:"H:i" }}</td>
+                    <td class="py-3 px-4">
+                        <span class="py-1 px-3 rounded-full text-sm status-cell">{{data.status}}</span>
+                    </td>
+                    <td class="py-3 px-4 w-4/12">
+                        {{ data.details|truncatechars:60 }}
+                    </td>                  
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</div>
+{% endblock  %}
+{% block script %}
+{{block.super}}
+    // Function to update styles based on the value inside the tag
+    function updateStylesByValue() {
+        const statusCells = document.querySelectorAll('.status-cell'); // Get all status cells
+
+        statusCells.forEach(cell => {
+            const statusValue = cell.textContent.trim(); // Get the text content of the cell
+
+            // Apply styles based on the text content (status)
+            if (statusValue === 'DONE') {
+                cell.classList.add('bg-green-200', 'text-green-800');
+            } else if (statusValue === 'IN_PROGRESS') {
+                cell.classList.add('bg-yellow-200', 'text-yellow-800');
+            } else if (statusValue === 'REPORTED') {
+                cell.classList.add('bg-red-200', 'text-red-800');
+            } else {
+                cell.classList.add('bg-gray-200', 'text-gray-800');
+            }
+        });
+    }
+
+    // Call the function when the page loads
+    document.addEventListener('DOMContentLoaded', updateStylesByValue);
+{% endblock %}

@@ -9,7 +9,7 @@
       {% for i in bookings %}
         <div>
           <div class="w-full p-6 bg-white rounded-lg shadow-md border border-gray-100">
-            <a href="">
+            <a href="{% url 'booking' i.id %}">
               <h2 class="text-base font-bold text-gray-900">{{i.student}}</h2>
 
               <div class="mt-4">
