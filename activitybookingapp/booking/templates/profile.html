@@ -1,0 +1,64 @@
+{% extends "layout.html" %}
+{% block head %}
+<title>My Profile</title>
+{% endblock  %}
+{% block content %}
+<div class="flex  justify-center items-center pt-20 w-full pb-10 px-10">
+    <div class="flex flex-col w-full h-full p-8 gap-4">
+        <div class="flex w-full rounded-xl border shadow-sm px-8 py-4 items-center gap-2">
+            <i class="fa-solid fa-address-card fa-lg" style="color: #74C0FC;"></i>
+            <h2 class="font-semibold text-lg">{{student}}</h2>
+        </div>
+        <div class="flex flex-col w-full rounded-xl border shadow-sm px-8 py-4">
+            <div class="flex justify-between w-full">
+                <h2 class="font-semibold text-lg">Personal Infomation</h2>
+                <a href="{% url 'manage-profile' user.id %}">
+                    <button class="px-4 py-2 rounded-full border hover:bg-gray-400 hover:text-white duration-300 hover:border-white">Edit<i class="fa-solid fa-pen-to-square pl-2"></i></button>
+                </a>
+            </div>
+            <div class="flex w-full px-4 py-2 ">
+                <div class="flex flex-col gap-2 w-4/12">
+                    <label for="first_name" class="text-gray-500 text-sm">First Name</label>
+                    <p>{{student.first_name}}</p>
+                </div>
+                <div class="flex flex-col gap-2 w-4/12">
+                    <label for="last_name" class="text-gray-500 text-sm">Last Name</label>
+                    <p>{{student.last_name}}</p>
+                </div>
+            </div>
+            <div class="flex w-full px-4 py-2 ">
+                <div class="flex flex-col gap-2 w-4/12">
+                    <label for="email" class="text-gray-500 text-sm">Email</label>
+                    <p>{{student.email}}</p>
+                </div>
+                <div class="flex flex-col gap-2 w-4/12">
+                    <label for="faculty" class="text-gray-500 text-sm">Faculty</label>
+                    <p>{{student.get_faculty_full_name}}</p>
+                </div>
+            </div>
+            <div class="flex w-full px-4 py-2 ">
+                <div class="flex flex-col gap-2 w-4/12">
+                    <label for="stu_card" class="text-gray-500 text-sm">Student ID</label>
+                    <p>{{student.stu_card}}</p>
+                </div>
+                <div class="flex flex-col gap-2 w-4/12">
+                    <label for="phone" class="text-gray-500 text-sm">Phone Number</label>
+                    <p>{{student.phone}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="flex flex-col w-full rounded-xl border shadow-sm px-8 py-4">
+            <div class="flex justify-between w-full">
+                <h2 class="font-semibold text-lg">Privacy Infomation</h2>
+                <a href="#" class="">
+                    <button class="px-4 py-2 rounded-full border hover:bg-gray-400 hover:text-white duration-300 hover:border-white">Edit<i class="fa-solid fa-pen-to-square pl-2"></i></button>
+                </a>
+            </div>
+            <div class="flex flex-col gap-2 w-4/12 px-4 py-2">
+                <label for="password" class="text-gray-500 text-sm">Password</label>
+                <input type="password" name="" id="" value="{{student.user.password|truncatechars:40}}" disabled class=" shadow appearance-none border rounded w-8/12 py-2 px-3 text-gray-500 leading-tight font-normal">
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock  %}

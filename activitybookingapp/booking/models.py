@@ -32,6 +32,9 @@ class Student(models.Model):
     email = models.EmailField(max_length=150)
     phone = models.CharField(max_length=100)
 
+    def get_faculty_full_name(self):
+        return dict(self.FACULTIES).get(self.faculty)
+    
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
 

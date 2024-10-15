@@ -5,7 +5,7 @@
       <h1 class="font-bold text-2xl " id="show-title">Page Name</h1>
     </div>
     <ul class="flex justify-center gap-2 w-8/12 px-2">
-      {% if user.groups.name == 'User'%}
+      {% if user.groups.name == 'Admin'%}
           <li class="flex">
             <a href="{% url 'homeadmin' %}" 
             class="text-center block rounded py-2 px-4 bg-[#FFD24C] hover:bg-[#FFE69A]  duration-300" 
@@ -36,8 +36,7 @@
             >
               Staff
             </a>
-          </li>
-          
+          </li>    
       {% else %}
           <li class="flex">
             <a href="{% url 'homeuser' %}" 
@@ -46,13 +45,6 @@
               Home
             </a>
           </li>
-          {% comment %} <li class="flex">
-            <a href="{% url 'report-form' %}" 
-            class="text-center block rounded py-2 px-4 FFE69A hover:bg-[#FFE69A]  duration-300" 
-            >
-              Report
-            </a>
-          </li> {% endcomment %}
           <li class="flex ">
             <a href="{% url 'mybooking' %}" 
             class="text-center block rounded py-2 px-4 FFE69A hover:bg-[#FFE69A]  duration-300" 
@@ -61,14 +53,13 @@
             </a>
           </li>
           <li class="flex ">
-            <a href="{% url 'report-list' %}" 
+            <a href="{% url 'my-report-list' user.id %}" 
             class="text-center block rounded py-2 px-4 FFE69A hover:bg-[#FFE69A]  duration-300" 
             >
-              Reports
+              My Reports
             </a>
           </li>  
         {%endif%}
-      {% comment %}    {% endcomment %}
       <li class="flex ">
         <a href="{% url 'mybooking' %}" 
         class="text-center block rounded py-2 px-4 FFE69A hover:bg-[#FFE69A]  duration-300" 
@@ -99,13 +90,33 @@
       </a>
     </li>
     </ul>
-    <div class="flex w-2/12 justify-end p-1">
-      <a href="#" for='profile'
-      class="flex w-fit gap-2 items-center leading-none rounded-full hover:border-transparent hover:bg-[#FFE69A] mt-4 hover:text-black lg:mt-0 duration-300"
+    <div class="flex w-2/12 justify-end p-1 relative">
+      <button onclick="toggleDropdown(event)" for='profile'
+      class="flex w-fit gap-2 px-4 py-2 items-center leading-none rounded-full hover:border-transparent hover:bg-[#FFE69A] mt-4 hover:text-black lg:mt-0 duration-300"
       >
-        <img class="w-8 h-8 rounded-full border-2" src="https://i.pinimg.com/736x/d8/1f/e6/d81fe6d70a185a7db799198796b149ff.jpg" alt="Michael Brown">
+        <i class="fa-solid fa-circle-user fa-lg"></i>
         <span class="pr-3 text-black font-semibold duration-300">{{user.first_name}} {{user.last_name}}</span>
-      </a>
+      </button>
+      <div id="profileDropdown" class="absolute hidden bg-white shadow-lg rounded mt-10 w-8/12 duration-300">
+        <a href="{% url 'my-profile' user.id %}" class="block px-4 py-2 text-gray-800 hover:bg-[#fff7dc] rounded duration-300"><i class="fa-solid fa-user-pen pr-2"></i>Profile</a>
+        <a href="{% url 'logout' %}" class="block px-4 py-2 text-gray-800 hover:bg-[#fff7dc] rounded duration-300"><i class="fa-solid fa-right-from-bracket pr-2"></i>Logout</a>
+      </div>
     </div>
   </div>
 </nav>
+<script>
+  function toggleDropdown(event) {
+    event.preventDefault(); 
+    const dropdown = document.getElementById('profileDropdown');
+    dropdown.classList.toggle('hidden'); 
+  }
+
+  window.onclick = function(event) {
+    const dropdown = document.getElementById('profileDropdown');
+    if (!event.target.closest('.relative')) {
+      if (!dropdown.classList.contains('hidden')) {
+        dropdown.classList.add('hidden');
+      }
+    }
+  };
+</script>
