@@ -20,6 +20,8 @@ urlpatterns = [
     # profile
     path("profile/<int:student_id>/", views.ProfileView.as_view(), name="my-profile"),
     path("profile/<int:student_id>/manage/", views.ManageProfileView.as_view(), name="manage-profile"),
+    path("profile/<int:student_id>/change-password/", views.ChangePasswordView.as_view(), name="change-password"),
+
 
 
     #staff

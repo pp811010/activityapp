@@ -1,7 +1,8 @@
 import re
 import json
 from datetime import datetime, time
-
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib import messages
@@ -12,7 +13,6 @@ from authen.forms import RegisterForm
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.core.mail import send_mail
 from django.conf import settings
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
 
@@ -216,6 +216,22 @@ class ManageProfileView(View):
             "form":form,
         })
 
+
+class ChangePasswordView(View):
+    def get(self, request , student_id):
+        form = PasswordChangeForm(user=request.user)
+        return render(request, 'change-password.html', {'form': form})
+
+    def post(self, request, student_id):
+        form = PasswordChangeForm(user=request.user, data=request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # Important for keeping the user logged in
+            messages.success(request, 'Your password was successfully updated!')
+            return redirect('my-profile', user.id)
+        else:
+            messages.error(request, 'Please correct the error below.')
+            return render(request, 'change-password.html', {'form': form})
 
 
 # for staff
