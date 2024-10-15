@@ -13,6 +13,7 @@ from django.core.mail import send_mail
 from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.core.exceptions import ValidationError
+from django.db.models import Count
 from django.core.validators import validate_email
 
 
@@ -24,7 +25,7 @@ class HomeUser(LoginRequiredMixin, PermissionRequiredMixin,  View):
     def get(self, request):
         user = request.user
         student = Student.objects.get(user = user)
-        activity = Activity.objects.all()
+        activity = Activity.objects.annotate(place_count=Count('place')).order_by('-place_count')
         return render(request, 'home.html', {"student": student, 'activity' : activity})
         
         
@@ -45,13 +46,28 @@ class MyBooking(LoginRequiredMixin, PermissionRequiredMixin, View):
 
 class ActivityView(LoginRequiredMixin,  View):
     login_url = '/authen/'
+    permission_required = "booking.views_activity"
     def get(self, request, act_id):
         act = Activity.objects.get(pk = act_id)
         place = Place.objects.filter(activity_id = act_id)
         return render(request, 'activity.html', {'act': act ,'place': place})
     
+
+class PlaceView(LoginRequiredMixin, PermissionRequiredMixin,  View):
+    login_url = '/authen/'
+    permission_required = "booking.view_place"
+    def get(self, request, place_id) :
+        place = Place.objects.get(pk=place_id)
+        report = Report.objects.filter(place = place)
+        return render(request, 'placedetail.html', {
+            'place': place,
+            'report' : report
+        }) 
+
+    
 class PlaceBooking(LoginRequiredMixin, PermissionRequiredMixin,  View):
     login_url = '/authen/'
+    permission_required = "booking.add_booking"
     def get(self, request, place_id):
         user = request.user
         place = Place.objects.get(pk=place_id)
@@ -61,6 +77,7 @@ class PlaceBooking(LoginRequiredMixin, PermissionRequiredMixin,  View):
      
 class PlaceBooking2(LoginRequiredMixin, PermissionRequiredMixin, View):
     login_url = '/authen/'
+    permission_required = "booking.add_booking"
     def get(self, request, place_id):
         date = request.GET.get('selected_date')
         place = Place.objects.get(pk=place_id)
@@ -95,12 +112,11 @@ class PlaceBooking2(LoginRequiredMixin, PermissionRequiredMixin, View):
         user = request.user
         stu = Student.objects.get(user=user)
 
-        # เข้าถึงข้อมูล POST
         selected_time = json.loads(request.POST.get('select_time', '[]'))  # ตั้งค่าเริ่มต้นเป็น list ว่าง
         date_booking = request.POST.get('date')
         date_booking = datetime.strptime(date_booking, "%Y-%m-%d").date()
 
-        # ตรวจสอบว่า selected_time ว่างไหม
+ 
         if not selected_time:
             return JsonResponse({"status": 'error',"message": "โปรดเลือกเวลา"}, status=400)
 
@@ -139,23 +155,14 @@ class PlaceBooking2(LoginRequiredMixin, PermissionRequiredMixin, View):
         return JsonResponse({"status": "success"})
 
 class BookingView(LoginRequiredMixin, PermissionRequiredMixin,  View):
-
     login_url = '/authen/'
+    permission_required = "booking.add_booking"
     def get(self, request, booking_id):
         booking = Booking.objects.get(id = booking_id)
         bookingfile = BookingFile.objects.filter(booking = booking)
         print(bookingfile)
         return render(request, 'booking.html', {'booking': booking, 'bookingfile': bookingfile})
 
-class PlaceView(LoginRequiredMixin, PermissionRequiredMixin,  View):
-    login_url = '/authen/'
-    def get(self, request, place_id) :
-        place = Place.objects.get(pk=place_id)
-        report = Report.objects.filter(place = place)
-        return render(request, 'placedetail.html', {
-            'place': place,
-            'report' : report
-        }) 
 
 # get form
 class ReportView(LoginRequiredMixin, PermissionRequiredMixin, View):
@@ -267,8 +274,9 @@ class ChangeBookingStatus(LoginRequiredMixin, PermissionRequiredMixin, View):
 
 
 # ผู้จัดการสนาม
-class HomeAdmin(LoginRequiredMixin, PermissionRequiredMixin,  View):
+class HomeAdmin(LoginRequiredMixin,  View):
     login_url = '/authen/'
+    
     def get(self, request):
         user = request.user
         print(user.get_all_permissions())
@@ -288,6 +296,7 @@ class HomeAdmin(LoginRequiredMixin, PermissionRequiredMixin,  View):
             
 class ManageActivity(LoginRequiredMixin, PermissionRequiredMixin, View):
     login_url = '/authen/'
+    permission_required = ["booking.delete_activity", "booking.edit.activity"]
     def  delete(self, request, act_id):
         act = Activity.objects.get(pk= act_id)
         act.delete()
@@ -309,7 +318,7 @@ class ManageActivity(LoginRequiredMixin, PermissionRequiredMixin, View):
     
 class Addplace(LoginRequiredMixin, PermissionRequiredMixin, View):
     login_url = '/authen/'
-
+    permission_required = "booking.add_place"
     def get(self, request, act_id):
         act = get_object_or_404(Activity, pk=act_id)
         form = PlaceForm(initial={'activity': act})
@@ -332,6 +341,7 @@ class Addplace(LoginRequiredMixin, PermissionRequiredMixin, View):
 
 class EditPlace(LoginRequiredMixin, PermissionRequiredMixin,View):
     login_url = '/authen/'
+    permission_required = "booking.change_place"
     def get(self, request, place_id):
         place = Place.objects.get(pk = place_id)
         
@@ -356,8 +366,9 @@ class EditPlace(LoginRequiredMixin, PermissionRequiredMixin,View):
             return JsonResponse({'act': act}, status=200)
     
 
-class StaffView(LoginRequiredMixin, PermissionRequiredMixin, View):
+class StaffView(LoginRequiredMixin, View):
     login_url = '/authen/'
+    permission_required = "booking.views_staff"
     def get(self, request):
         staffs = Staff.objects.all()
         num_staff = staffs.count()
@@ -368,6 +379,7 @@ class StaffView(LoginRequiredMixin, PermissionRequiredMixin, View):
 
 class AddStaffView(LoginRequiredMixin, PermissionRequiredMixin, View):
     login_url = '/authen/'
+    permission_required = "booking.add_staff"
     def get(self, request):
         return render(request, 'add-staff.html')
     
@@ -416,6 +428,7 @@ class AddStaffView(LoginRequiredMixin, PermissionRequiredMixin, View):
     
 class DeleteStaffView(LoginRequiredMixin, PermissionRequiredMixin, View):
     login_url = '/authen/'
+    permission_required = "booking.delete_staff"
     def post(self, request, staff_id):
         staff = get_object_or_404(Staff, pk=staff_id)
         staff.delete()

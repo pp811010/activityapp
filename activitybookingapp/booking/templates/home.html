@@ -28,7 +28,7 @@
             <p>ยินดีต้อนรับสู่การจองสนามกีฬา</p>
         </div>
 
-        <div class='w-full  flex flex-col justify-center items-center gap-2 mt-40'>
+        <div class='w-full mt-52 flex flex-col justify-center items-center gap-2 mt-40'>
             <p class='text-xl font-bold '>จองง่ายๆ เพียง 4 ขั้นตอน</p>
         </div>
         <div class="flex justify-center gap-6 ">
@@ -40,7 +40,7 @@
             </div>
             <p class="mb-4 text-sm">คุณเลือกกิจกรรมที่คุณอยากจะจอง</p>
             </div>
-            <div class="bg-red-500 text-white rounded-lg shadow-lg p-6 w-64">
+            <div class="bg-red-700 text-white rounded-lg shadow-lg p-6 w-64">
                 <div class="flex items-center mb-4">
                 <div class="bg-white rounded-full p-2 mr-3">
                 </div>
@@ -52,7 +52,6 @@
             <div class="bg-green-500 text-black rounded-lg shadow-lg p-6 w-64">
                 <div class="flex items-center mb-4">
                 <div class="bg-white rounded-full p-2 mr-3">
-
                 </div>
                 <h2 class="font-bold text-base">Select Date</h2>
                 </div>
@@ -62,7 +61,6 @@
             <div class="bg-purple-600 text-white rounded-lg shadow-lg p-6 w-64">
                 <div class="flex items-center mb-4">
                 <div class="bg-white rounded-full p-2 mr-3">
-                    <!-- Icon -->
                 </div>
                 <h2 class="font-bold text-base">Select Time</h2>
                 </div>
@@ -71,9 +69,8 @@
 
        </div>
 
-        <div class='flex flex-col justify-center items-center mt-44'>
-            <p class='text-2xl font-bold mb-10 text-amber-900'>Select Activity</p>
-        
+        <div class=' flex flex-col justify-center items-center mt-52'>
+            <p class='text-2xl w-[70%] font-bold mb-7  py-5 px-10 rounded-[7px]'>Select Activity</p>
             <div class="grid grid-cols-3 gap-x-4 gap-y-3" >
                 {% for i in activity %}
 
@@ -82,19 +79,25 @@
                         <div class="flex justify-center mb-6">
                             <img src="{{ i.photo.url }}"  class="w-[200px] h-[200px]">
                         </div>
-                        <h2 class="text-xl font-semibold text-gray-800 mb-2 ">{{ i.name }}</h2>
-                        <p class="text-gray-600 text-sm mb-4">
-                            Place in {{ i.name }} Activity : {{ i.place_set.all|length }}
-                        </p>
-                        <a href="{%url 'activity' i.id%}">
-                            <div class="mt-4 flex justify-end">
-                                <button class="text-white bg-[#d95f40] hover:bg-orange-600 rounded-full p-2">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                                    </svg>
-                                </button>
-                            </div>
-                       </a>
+                        <div class='flex justify-between items-center'>
+                            <h2 class="text-base font-semibold text-gray-800 mb-2 ">{{ i.name }}</h2>
+                            {% if i.place_set.all|length > 0 %}
+                            <a href="{%url 'activity' i.id%}">
+                                <div class=" flex justify-end bg-blue-500 hover:bg-blue-400 p-2 rounded-[20px] text-white text-xs">
+                                    <i class="fa-solid fa-street-view"></i>
+                                </div>
+                            </a>
+                            {%endif%}
+                        </div>
+                        {% if i.place_set.all|length > 0 %}
+                            <p class="text-gray-600 text-sm mb-4">
+                                Place in {{ i.name }} Activity : {{ i.place_set.all|length }}
+                            </p>
+                        {% else %}
+                            <p class="text-gray-600 text-sm mb-4">
+                                Coming Soon...
+                            </p>
+                        {% endif%}
                     </div>
                 {% endfor %}
             </div>

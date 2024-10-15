@@ -7,25 +7,25 @@ from django.core.exceptions import ValidationError
 class RegisterForm(forms.ModelForm):
     faculty = forms.ChoiceField(
         widget=forms.Select(
-            attrs={'class': "mb-8 text-xs rounded-lg p-2.5 border-solid border-2 border-gray-200 w-64"}
+            attrs={'class': "text-xs rounded-lg p-2.5 border-solid border-2 border-gray-200 w-18"}
         ),
         choices=Student.FACULTIES
     )
 
     phone = forms.CharField(
         widget=forms.TextInput(
-            attrs={'class': "mb-8 text-xs rounded-lg p-2.5 border-solid border-2 border-gray-200 w-64",
+            attrs={'class': "text-xs rounded-lg p-2.5 border-solid border-2 border-gray-200 w-18",
                    'placeholder': 'Phone'})
     )
 
     student_ID = forms.CharField(
         widget=forms.TextInput(
-            attrs={'class': "mb-8 text-xs rounded-lg p-2.5 border-solid border-2 border-gray-200 w-64",
+            attrs={'class': "text-xs rounded-lg p-2.5 border-solid border-2 border-gray-200 w-18",
                    'placeholder': 'Student ID'})
     )
     
     password2 = forms.CharField(widget=forms.PasswordInput(attrs={
-        'class': "mb-8 text-xs rounded-lg p-2.5 border-solid border-2 border-gray-200 w-64",
+        'class': "text-xs rounded-lg p-2.5 border-solid border-2 border-gray-200 w-18",
         'placeholder': 'Confirm Password'}))
 
     class Meta:
@@ -33,33 +33,33 @@ class RegisterForm(forms.ModelForm):
         fields = ['username', 'first_name', 'last_name', 'email', 'password']
         widgets = {
             'username': forms.TextInput(attrs={
-                'class': "mb-8 text-xs rounded-lg p-2.5 border-solid border-2 border-gray-200 w-64",
+                'class': "text-xs rounded-lg p-2.5 border-solid border-2 border-gray-200 w-18",
                 'placeholder': 'Username'
             }),
             'first_name': forms.TextInput(attrs={
-                'class': "mb-8 text-xs rounded-lg p-2.5 border-solid border-2 border-gray-200 w-64",
+                'class': "text-xs rounded-lg p-2.5 border-solid border-2 border-gray-200 w-18",
                 'placeholder': 'First Name'
             }),
             'last_name': forms.TextInput(attrs={
-                'class': "mb-8 text-xs rounded-lg p-2.5 border-solid border-2 border-gray-200 w-64",
+                'class': "text-xs rounded-lg p-2.5 border-solid border-2 border-gray-200 w-18",
                 'placeholder': 'Last Name'
             }),
             'email': forms.EmailInput(attrs={
-                'class': "mb-8 text-xs rounded-lg p-2.5 border-solid border-2 border-gray-200 w-64",
+                'class': "text-xs rounded-lg p-2.5 border-solid border-2 border-gray-200 w-18",
                 'placeholder': 'Email'
             }),
             'password': forms.PasswordInput(attrs={
-                'class': "mb-8 text-xs rounded-lg p-2.5 border-solid border-2 border-gray-200 w-64",
+                'class': "text-xs rounded-lg p-2.5 border-solid border-2 border-gray-200 w-18",
                 'placeholder': 'Password'
             }),
         }
 
     def save(self, commit=True):
         user = super().save(commit=False)
-        user.password = make_password(self.cleaned_data['password'])
+        user.set_password(self.cleaned_data['password'])  # ใช้ set_password แทน make_password
         if commit:
             user.save()
-        return user
+            return user
 
     def clean(self):
         cleaned_data = super().clean()

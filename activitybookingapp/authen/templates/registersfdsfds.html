@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign in || Sign up form</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
 
@@ -49,6 +50,7 @@
         }
 
         h1 {
+            color: var(--grad-clr1);
             margin-bottom: 30px;
         }
 
@@ -96,7 +98,7 @@
         button {
             border-radius: 20px;
             border: 1px solid var(--grad-clr1);
-            background: black;
+            background: var(--grad-clr2);
             color: #fff;
             font-size: 12px;
             font-weight: bold;
@@ -131,21 +133,85 @@
 
     <div class="container">
         <div class="form-container">
-            <form method = 'post' action="{% url 'login' %}">
-                <h1>Sign in</h1>
-                <span>Your account</span>
-                {{ form.non_field_errors}}
+            <form method='post' class='flex flex-col text-xs gap-2 items-center justify-center'>
+
                 {% csrf_token %}
-                <div class="inputs">
-                    <input type="text" id="username" name="username" required placeholder="username"> 
+                {{form.first_name.label_tag}}
+                <div class='p-10 bg-black'>
+                    {% if form.first_name.errors %}
+                        <div class="text-red-600 text-xs p-1">* {{ form.first_name.errors }}</div>
+                    {% endif %}
+                    {{form.first_name.label_tag}}
+                    {{form.first_name}}
                 </div>
-                <div class="inputs">
-                    <input type="password" id="password" name="password" required  placeholder="Password" />
+
+                <div>
+                    {% if form.first_name.errors %}
+                    <div class="text-red-600 text-xs p-1">* {{ form.first_name.errors }}</div>
+                    {% endif %}
+                    {{form.last_name.label_tag}}
+                    {{form.last_name}}
                 </div>
-                <div class='option'>
-                    <a href="{% url 'register' %}" style='font-size: 12px;'>Don't have the account ?</a>
-                    <button>Sign In</button>
+
+                <div>
+                    {% if form.student_ID.errors %}
+                        <div class="text-red-600 text-xs p-1">* {{ form.student_ID.errors }}</div>
+                    {% endif %}
+                    {{form.student_ID.label_tag}}
+                    {{form.student_ID}}
                 </div>
+
+                <div>
+                    {% if form.faculty.errors %}
+                        <div class="text-red-600 text-xs p-1">* {{ form.faculty.errors }}</div>
+                    {% endif %}
+                    {{form.faculty.label_tag}}
+                    {{form.faculty}}
+                </div>
+
+
+                <div>
+                    {% if form.username.errors %}
+                        <div class="text-red-600 text-xs p-1">* {{ form.username.errors }}</div>
+                    {% endif %}
+                    {{form.username.label_tag}}
+                    {{form.username}}
+                </div>
+
+                <div>
+                    {% if form.password.errors %}
+                        <div class="text-red-600 text-xs p-1">* {{ form.password.errors }}</div>
+                     {% endif %}
+                    {{form.password.label_tag}}
+                    {{form.password}}
+                </div>
+
+                <div>
+                    {% if form.password2.errors %}
+                        <div class="text-red-600 text-xs p-1">* {{ form.password2.errors }}</div>
+                    {% endif %}
+                    <label for="password2">Confirm Password:</label>
+                    {{form.password2}}
+                </div>
+
+                <div>
+                    <label for="email">Kmitl Email:</label>
+                    {% if form.email.errors %}
+                        <div class="text-red-600 text-xs p-1">* {{ form.email.errors }}</div>
+                    {% endif %}
+                    {{form.email}}
+                </div>
+
+
+                <div>
+                    {% if form.phone.errors %}
+                        <div class="text-red-600 text-xs p-1">* {{ form.phone.errors }}</div>
+                    {% endif %}
+                    {{form.phone.label_tag}}
+                    {{form.phone}}
+                </div>
+
+                <button type='submit' class='m bg-black text-white p-2 w-80 rounded-xl self-center'>Register</button>
             </form>
         </div>
         <div class="image-container">

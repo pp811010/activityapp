@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 {% block head %}
-<title>{{place.id}}-{{place.name}}</title>
+<title>{{place.name}}</title>
 {% endblock %}
 
 {% block content %}
@@ -33,31 +33,7 @@
       <div class='flex justify-between mt-5'>
         <a href="{% url 'place-report-list' place.id %}"><button class="m-4 w-[150px] rounded-md border border-pink-400 py-2 px-4 text-center text-sm transition-all shadow-sm hover:shadow-lg text-slate-600 hover:text-white hover:bg-pink-500 hover:border-pink-400 focus:text-white focus:bg-pink-800 focus:border-slate-800 active:border-slate-800 active:text-white active:bg-slate-800 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none">Report</button></a>
         <a href="{% url 'placebooking1' place.id %}"><button class="m-4 w-[150px] rounded-md border border-sky-500 py-2 px-4 text-center text-sm transition-all shadow-sm hover:shadow-lg text-slate-600 hover:text-white hover:bg-sky-500 hover:border-sky-500 focus:text-white focus:bg-sky-800 focus:border-slate-800 active:border-slate-800 active:text-white active:bg-slate-800 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none">Booking</button></a>
-      </div>
-      {% comment %} <div class='p-6'>
-        <table class="w-full text-left table-auto">
-            <thead>
-                <tr class="bg-gray-100 text-gray-700 uppercase text-sm leading-normal text-center">
-                    <th class="p-3">คนเเจ้ง</th>
-                    <th class="p-3">สถานที่</th>
-                    <th class="p-3">รายละเอียด</th>
-                    <th class="p-3">สถานะ</th>
-                </tr>
-            </thead>
-            <tbody class="text-gray-600 text-sm font-light">
-                {% for i in report %}
-                <tr class="border-b border-gray-200 hover:bg-green-100  text-center">
-                    <td class="p-3">{{ i.student.stu_card }}</td>
-                    <td class="p-3">{{ i.place }}</td>
-                    <td class="p-3">{{ i.details }}</td>
-                    <td class="p-3">{{ i.status }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-      </div> {% endcomment %}
-    
-    
+      </div>    
     </div>
   
 </div>

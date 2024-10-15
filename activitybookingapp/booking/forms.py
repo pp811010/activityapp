@@ -105,6 +105,6 @@ class PlaceForm(forms.ModelForm):
 
     def clean_description(self):
         description = self.cleaned_data.get('description')
-        if description and len(description) < 20:
+        if description and len(description) < 15:
             raise forms.ValidationError('Description must be at least 20 characters long.')
         return description

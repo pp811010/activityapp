@@ -91,7 +91,7 @@
                             const timeButton = document.getElementById(i);
                             if (timeButton) {
                                 timeButton.disabled = true;
-                                timeButton.textContent = 'Unavailable'; // แสดงข้อความว่าไม่สามารถเลือกได้
+                                timeButton.textContent = 'Unavailable';
                                 timeButton.className = 'px-2 h-8 text-center text-xs rounded-md text-gray-700 bg-gray-300';
                             }
                         }
@@ -100,7 +100,7 @@
             });
     
 
-
+            // ใช้ json_script เพื่อสร้างตัวแปร JavaScript จากข้อมูลที่ส่งมา
             const pendingData = {{ pending|safe }} 
             console.log(pendingData);
             
@@ -119,7 +119,6 @@
                 
             }
 
-            // ใช้ json_script เพื่อสร้างตัวแปร JavaScript จากข้อมูลที่ส่งมา
             const bookingData = {{ booking|safe }} 
             console.log(bookingData);
             

@@ -10,14 +10,14 @@
     <main class="w-full h-screen overflow-hidden flex items-center justify-center">
         <div class='w-full grid grid-cols-3'>
             <img src="https://images.unsplash.com/photo-1547941126-3d5322b218b0?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="">
-            <div class = 'flex flex-col justify-center items-center bg-gray-100'>
-                    <p class = 'text-center text-lg mb-4 font-semibold'>Register</p>
-                    <form method='post' class='flex flex-col text-xs items-center justify-center'>
+            <div class = 'flex flex-col justify-center items-center '>
+                    <p class = 'text-center text-3xl mb-5 font-bold'>Register</p>
+                    <form method='post' class='flex flex-col text-xs items-center justify-center gap-3'>
 
                         {% csrf_token %}
                         <div>
                             {% if form.first_name.errors %}
-                                <div class="text-red-600 text-xs pt-2 px-2">* {{ form.first_name.errors }}</div>
+                                <div class="text-red-600 text-xs "> {{ form.first_name.errors }}</div>
                             {% endif %}
                             {{form.first_name.label_tag}}
                             {{form.first_name}}
@@ -25,7 +25,7 @@
 
                         <div>
                             {% if form.first_name.errors %}
-                            <div class="text-red-600 text-xs pt-2 px-2">* {{ form.first_name.errors }}</div>
+                            <div class="text-red-600 text-xs "> {{ form.first_name.errors }}</div>
                             {% endif %}
                             {{form.last_name.label_tag}}
                             {{form.last_name}}
@@ -33,7 +33,7 @@
 
                         <div>
                             {% if form.student_ID.errors %}
-                                <div class="text-red-600 text-xs pt-2 px-2">* {{ form.student_ID.errors }}</div>
+                                <div class="text-red-600 text-xs "> {{ form.student_ID.errors }}</div>
                             {% endif %}
                             {{form.student_ID.label_tag}}
                             {{form.student_ID}}
@@ -41,7 +41,7 @@
 
                         <div>
                             {% if form.faculty.errors %}
-                                <div class="text-red-600 text-xs pt-2 px-2">* {{ form.faculty.errors }}</div>
+                                <div class="text-red-600 text-xs "> {{ form.faculty.errors }}</div>
                             {% endif %}
                             {{form.faculty.label_tag}}
                             {{form.faculty}}
@@ -50,7 +50,7 @@
 
                         <div>
                             {% if form.username.errors %}
-                                <div class="text-red-600 text-xs pt-2 px-2">* {{ form.username.errors }}</div>
+                                <div class="text-red-600 text-xs "> {{ form.username.errors }}</div>
                             {% endif %}
                             {{form.username.label_tag}}
                             {{form.username}}
@@ -58,7 +58,7 @@
 
                         <div>
                             {% if form.password.errors %}
-                                <div class="text-red-600 text-xs pt-2 px-2">* {{ form.password.errors }}</div>
+                                <div class="text-red-600 text-xs "> {{ form.password.errors }}</div>
                              {% endif %}
                             {{form.password.label_tag}}
                             {{form.password}}
@@ -66,7 +66,7 @@
 
                         <div>
                             {% if form.password2.errors %}
-                                <div class="text-red-600 text-xs pt-2 px-2">* {{ form.password2.errors }}</div>
+                                <div class="text-red-600 text-xs "> {{ form.password2.errors }}</div>
                             {% endif %}
                             <label for="password2">Confirm Password:</label>
                             {{form.password2}}
@@ -74,7 +74,7 @@
 
                         <div>
                             {% if form.email.errors %}
-                                <div class="text-red-600 text-xs pt-2 px-2">* {{ form.email.errors }}</div>
+                                <div class="text-red-600 text-xs "> {{ form.email.errors }}</div>
                             {% endif %}
                             <label for="email">Kmitl Email:</label>
                             {{form.email}}
@@ -83,15 +83,17 @@
 
                         <div>
                             {% if form.phone.errors %}
-                                <div class="text-red-600 text-xs pt-2 px-2">* {{ form.phone.errors }}</div>
+                                <div class="text-red-600 text-xs ">{{ form.phone.errors }}</div>
                             {% endif %}
                             {{form.phone.label_tag}}
                             {{form.phone}}
                         </div>
 
-                        <button type='submit' class='m bg-black text-white p-3 w-80 rounded-xl  self-center'>Register</button>
+                        <button type='submit' class="bg-black text-white font-bold py-3 px-10  mt-2 rounded-full hover:bg-gray-800">
+                            REGISTER
+                          </button>
                     </form>
-                    <a href="{% url 'login' %}" class='text-xs font-medium mt-3 text-green-600'>Back To Login</a>
+                    <a href="{% url 'login' %}" class='text-xs font-medium mt-3 text-[#54654c]'>Back To Login</a>
 
             </div>
             <img src="https://images.unsplash.com/photo-1545151414-8a948e1ea54f?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="">
