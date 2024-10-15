@@ -8,6 +8,7 @@ from django.contrib import messages
 from django.views import View
 from booking.forms import *
 from booking.models import *
+from authen.forms import RegisterForm
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.core.mail import send_mail
 from django.conf import settings
@@ -195,6 +196,25 @@ class MyReportsView(View):
     def get(self, request, student_id):
         reports = Report.objects.filter(student__id=student_id)
         return render(request, 'myreport.html',{"reports":reports})
+
+
+class ProfileView(View):
+    def get(self, request, student_id):
+        user = User.objects.get(pk=student_id)
+        student = Student.objects.get(pk=student_id)
+        
+        return render(request, 'profile.html',{
+            "student":student,
+        })
+    
+class ManageProfileView(View):
+    def get(self, request, student_id):
+        user = User.objects.get(pk=student_id)
+        form = RegisterForm(instance=user)
+        return render(request, 'manage-profile.html',{
+            "user":user,
+            "form":form,
+        })
 
 
 
