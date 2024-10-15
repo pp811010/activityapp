@@ -25,6 +25,7 @@ urlpatterns = [
 
 
     #staff
+    path("staff-profile/<int:staff_id>/", views.StaffProfile.as_view(), name='staff-profile'),
     path("report-list/", views.ReportList.as_view(), name="report-list"),
     path("report/<int:report_id>/", views.ReportDetail.as_view(), name="report-detail"),
     path('place-list/', views.PlaceList.as_view(), name='place-list'),
@@ -33,7 +34,8 @@ urlpatterns = [
 
     # ผู้จัดการสนาม
     path("homeadmin/", views.HomeAdmin.as_view(), name="homeadmin"),
-    path("addplace/<int:act_id>", views.Addplace.as_view(), name = 'addplace'),
+    path("homeadmin/<int:act_id>/", views.ManageActivity.as_view(), name="deleteactivity"),
+    path("addplace/<int:act_id>/", views.Addplace.as_view(), name = 'addplace'),
     path("editplace/<int:place_id>/", views.EditPlace.as_view(), name='editplace'),
     path("staff-list/", views.StaffView.as_view(), name = 'staff-list'),
     path("staff-list/add/", views.AddStaffView.as_view(), name = 'add-staff'),

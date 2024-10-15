@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block content %}
-    <div class='pt-28 px-96 pb-8 flex flex-col items-center justify-center '>
+    <div class='pt-28 px-96 pb-8 flex flex-col items-center justify-center  '>
         <div class='flex flex-col mt-2 px-8 '>
             <div class='items-start mb-6 ml-[-70px]'>
                 <p class='font-bold text-lg mt-2 self-start'>Add New Place</p>
@@ -15,17 +15,23 @@
             <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div>
-                    {{ form.name.errors }}
+                    {% if form.name.errors %}
+                        <div class="text-red-600 text-xs pt-2 px-2">{{ form.name.errors }}</div>
+                    {% endif %}
                     <label>Name place : </label>
                     {{ form.name }}
                 </div>
                 <div>
-                    {{ form.activity.errors }}
+                    {% if form.activity.errors %}
+                        <div class="text-red-600 text-xs pt-2 px-2">{{ form.activity.errors }} </div>
+                    {% endif %}
                     <label>Activity : </label>
-                    {{ form.activity }}
+                    {{ form.activity}}
                 </div>
                 <div>
-                    {{ form.location.errors }}
+                    {% if form.location.errors %}
+                        <div class="text-red-600 text-xs pt-2 px-2">{{ form.location.errors }} </div>
+                    {% endif%}
                     <label>Location : </label>
                     {{ form.location }}
                 </div>
@@ -34,17 +40,23 @@
                         <label class="block text-sm font-semibold text-gray-700">Description:</label>
                     </div>
                     <div class="w-full">
-                        {{ form.description.errors }}
+                        {% if form.description.errors %}
+                        <div class="text-red-600 text-xs pt-2 px-2">{{ form.description.errors }} </div>
+                        {% endif %}
                         {{ form.description }}
                     </div>
                 </div>
                 <div>
-                    {{ form.card.errors }}
+                    {% if form.card.errors %}
+                        <div class="text-red-600 text-xs pt-2 px-2">{{ form.card.errors }}<div>
+                    {% endif %}
                     <label>Card : </label>
                     {{ form.card }}
                 </div>
                 <div>
-                    {{ form.staff.errors }}
+                    {% if form.staff.errors %}
+                        <div class="text-red-600 text-xs pt-2 px-2">{{ form.staff.errors }}</div>
+                    {% endif %}
                     <label>Staff : </label>
                     {{ form.staff }}
                 </div>
@@ -54,7 +66,9 @@
                 </div>
 
                 <div>
-                    {{ form.photo.errors }}
+                    {% if form.photo.errors %}
+                        <div class="text-red-600 text-xs pt-2 px-2">{{ form.photo.errors }}</div>
+                    {% endif %}
                     <label>Photo : </label>
                     {{ form.photo }}
                 </div>
