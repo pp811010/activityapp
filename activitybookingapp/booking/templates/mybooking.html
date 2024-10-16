@@ -17,8 +17,8 @@
 		<hr class="my-4 mb-8" >
 		<div id = 'booking' class="grid grid-cols-3 gap-7 justify-center	">
 			{% for i in booking %}
-				<a href="{% url 'booking' i.id %}">
-					<div class="max-w-72 p-6 bg-white rounded-lg shadow-md">
+			<div class="max-w-72 p-6 bg-white rounded-lg shadow-md">
+					<a href="{% url 'booking' i.id %}">
 				
 						<h2 class="text-base font-bold text-gray-900"><span class="text-sm font-normal text-gray-500">Place : </span>{{i.place}}</h2>
 				
@@ -32,15 +32,14 @@
 						<div class="mt-4 flex justify-between">
 							<div>
 								<p class="text-sm text-gray-500">Date</p>
-								<p class="text-base text-gray-900">{{ i.date|date:"F j, Y" }}</p>
+								<p class="text-base text-gray-900">{{ i.date|date:"d/m/Y" }}</p>
 							</div>
 							<div>
 								<p class="text-sm text-gray-500">Time</p>
 								<p class="text-base text-gray-900">{{ i.start_time|time:"H:i" }} - {{ i.end_time|time:"H:i" }}</p>
 							</div>
 						</div>
-				
-						
+					</a>
 						<hr class="my-4">
 		
 						<div class="flex justify-between">
@@ -51,14 +50,13 @@
 							{% elif i.status == 'REJECTED' %}
 								<div class="text-red-500 font-semibold text-sm">{{i.status}}</div>
 							{% else %}
-							<div class="text-gray-500 font-semibold text-sm">{{i.status}}</div>
+								<div class="text-gray-500 font-semibold text-sm">{{i.status}}</div>
 							{% endif%}
 							{% if not i.status == 'CANCELED' %}
 							<button  onclick="deleteBooking({{ i.id }}, '{{csrf_token}}')" class="text-sm text-red-500">ยกเลิก</button>
 							{% endif %}
 						</div>
-					</div>
-				</a>
+				</div>
 			{% endfor %}
 
 
