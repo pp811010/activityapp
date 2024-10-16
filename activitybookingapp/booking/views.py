@@ -309,8 +309,9 @@ class ReportList(View):
   
 class ReportDetail(LoginRequiredMixin, PermissionRequiredMixin, View):
     login_url = '/authen/'
+    permission_required = 'booking.change_report'
     def get(self, request, report_id):
-        report = Report.objstudent_idects.get(pk=report_id)
+        report = Report.objects.get(pk=report_id)
         form = ReportForm(instance=report)
         return render(request, 'report-detail.html', {
             "form":form,
