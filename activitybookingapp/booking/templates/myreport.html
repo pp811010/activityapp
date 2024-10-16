@@ -4,7 +4,7 @@
 {% endblock  %}
 {% block content %}
 <div class="flex flex-col pt-20 px-10 gap-3 justify-center items-center w-full h-full">
-    <p class='text-xl font-bold mt-10 w-full text-right px-10 py-2'>My reports</p>
+    <p class='text-xl font-bold mt-10 w-full text-right px-10 py-2'>Total reports : {{reports | length}}</p>
     {% if reports %}
     <div class="overflow-x-auto overflow-y-auto max-h-[600px] h-3/4 rounded-xl w-full border border-gray-200">
         <table class="min-w-full bg-white shadow-md">
