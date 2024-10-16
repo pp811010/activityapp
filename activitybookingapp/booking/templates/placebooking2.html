@@ -9,21 +9,21 @@
 
     <div class="col-span-2 px-64 py-20 flex flex-col font-semibold  p-4 shadow-xl ">
         <p class="text-xl mb-6 text-gray-500 text-[13px]">Booking {{place}}</p>
-        <p class='pb-4 text-base'>วันที่ : {{date}}</p>
+        <p class='pb-4 text-base'><i class="fa-solid fa-calendar-days pr-1"></i>{{date}}</p>
 
-        <p class="text-[16px] mb-6 mt-4">Select Time</p>
+        <p class="text-[16px] mb-6 mt-4"><i class="fa-solid fa-clock pr-1"></i>Select Time</p>
         <div class="grid grid-cols-4 gap-[2px]">
-            <button type='button' id='13' onclick='div_time(this)' class="bg-white  shadow-md px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">13.00</button>
-            <button type='button' id='14' onclick='div_time(this)' class="bg-white  shadow-md px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">14.00</button>
-            <button type='button' id='15' onclick='div_time(this)' class="bg-white  shadow-md px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">15.00</button>
-            <button type='button' id='16' onclick='div_time(this)' class="bg-white  shadow-md px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">16.00</button>
-            <button type='button' id='17' onclick='div_time(this)' class="bg-white  shadow-md px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">17.00</button>
-            <button type='button' id='18' onclick='div_time(this)' class="bg-white  shadow-md px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">18.00</button>
-            <button type='button' id='19' onclick='div_time(this)' class="bg-white  shadow-md px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">19.00</button>
-            <button type='button' id='20' onclick='div_time(this)' class="bg-white  shadow-md px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700">20.00</button>
+            <button type='button' id='13' onclick='div_time(this)' class="bg-white  shadow-md px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700 border hover:bg-blue-100 duration-300">13.00</button>
+            <button type='button' id='14' onclick='div_time(this)' class="bg-white  shadow-md px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700 border hover:bg-blue-100 duration-300">14.00</button>
+            <button type='button' id='15' onclick='div_time(this)' class="bg-white  shadow-md px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700 border hover:bg-blue-100 duration-300">15.00</button>
+            <button type='button' id='16' onclick='div_time(this)' class="bg-white  shadow-md px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700 border hover:bg-blue-100 duration-300">16.00</button>
+            <button type='button' id='17' onclick='div_time(this)' class="bg-white  shadow-md px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700 border hover:bg-blue-100 duration-300">17.00</button>
+            <button type='button' id='18' onclick='div_time(this)' class="bg-white  shadow-md px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700 border hover:bg-blue-100 duration-300">18.00</button>
+            <button type='button' id='19' onclick='div_time(this)' class="bg-white  shadow-md px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700 border hover:bg-blue-100 duration-300">19.00</button>
+            <button type='button' id='20' onclick='div_time(this)' class="bg-white  shadow-md px-2 h-8 text-center cursor-pointer text-xs  rounded-md text-gray-700 border hover:bg-blue-100 duration-300">20.00</button>
         </div>
 
-        <p class=" mt-6  text-[16px]">Upload {{place.card}} Student Card</p> 
+        <p class=" mt-6  text-[16px]"><i class="fa-solid fa-address-card pr-1"></i>Upload {{place.card}} Student Card</p> 
         
   
 
@@ -35,7 +35,7 @@
             
             <input multiple id="upload-button" type="file" name="image" accept="image/*" class="hidden " onchange="loadFiles(event)">
             
-            <label for="upload-button" class="mt-7 text-xs bg-[#FFE69A] text-black text-center w-[150px] py-2 block relative rounded-md mx-auto cursor-pointer">
+            <label for="upload-button" class="mt-7 text-xs bg-blue-500 text-white hover:bg-blue-800 text-center w-[150px] py-2 block relative rounded-md mx-auto cursor-pointer duration-300">
                 <i class="fa-solid fa-cloud-arrow-up"></i>
                 Choose a photo 
             </label>
@@ -43,7 +43,7 @@
             
 
         <div class='flex justify-end'>
-            <button onclick='addbooking()' class="w-32 mt-5 text-sm bg-black hover:bg-gray-600 text-white py-2 px-4 border border-black rounded">
+            <button onclick='addbooking()' class="w-32 mt-5 text-sm bg-black hover:bg-gray-600 text-white py-2 px-4 border border-black rounded duration-300">
                 Booking
             </button>
         </div>
@@ -54,17 +54,17 @@
         <img class='w-[500px] h-[210px] rounded-[10px]' src="{{place.photo.url}}" alt="">
         <div class='flex flex-col gap-4'>
             <div>
-                <p class="text-sm text-gray-500">Location</p>
+                <p class="text-sm text-gray-500"><i class="fa-solid fa-location-dot fa-sm pr-1"></i>Location</p>
                 <p class="text-sm text-gray-900">{{place.location|slice:":30"}}</p>
             </div>
 
             <div>
-                <p class="text-sm text-gray-500">Description</p>
-                <p class="text-sm text-gray-900">{{place.description|slice:":30" }}</p>
+                <p class="text-sm text-gray-500"><i class="fa-solid fa-circle-info fa-sm pr-1"></i>Description</p>
+                <p class="text-sm text-gray-900">{{place.description }}</p>
             </div>
 
             <div>
-                <p class="text-sm text-gray-500">Staff</p>
+                <p class="text-sm text-gray-500"><i class="fa-solid fa-user-group fa-sm pr-1"></i>Staff</p>
                 {% for staff in place.staff.all %}
                     <p class="text-sm">{{staff}}</p>
                 {% endfor %}
@@ -114,7 +114,7 @@
                     console.log(pending_btn)
                     pending_btn.disabled = true
                     pending_btn.textContent = 'Pending'
-                    pending_btn.className = 'px-2 h-8 text-center  text-xs rounded-md text-gray-700 bg-purple-400';
+                    pending_btn.className = 'px-2 h-8 text-center  text-xs rounded-md text-gray-700 bg-yellow-200';
                 }
                 
             }
@@ -132,7 +132,7 @@
                     console.log(booking_btn)
                     booking_btn.disabled = true
                     booking_btn.textContent = 'Booked'
-                    booking_btn.className = 'px-2 h-8 text-center  text-xs rounded-md text-gray-700 bg-red-400';
+                    booking_btn.className = 'px-2 h-8 text-center  text-xs rounded-md text-gray-700 bg-red-300';
                 }
                 
             }
