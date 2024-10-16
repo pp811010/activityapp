@@ -83,7 +83,13 @@
         class="flex w-fit gap-2 px-4 py-2 items-center leading-none rounded-full hover:border-transparent hover:bg-[#FFE69A] mt-4 hover:text-black lg:mt-0 duration-300"
         >
           <i class="fa-solid fa-circle-user fa-lg"></i>
-          <span class="pr-3 text-black font-semibold duration-300">{{user.first_name}} {{user.last_name}}</span>
+          <span class="pr-3 text-black font-semibold duration-300">
+            {% if user.first_name %}
+            {{user.first_name}} {{user.last_name}}
+            {% else %}
+            {{user.username}}
+            {% endif %}
+          </span>
         </button>
         <div id="profileDropdown" class="absolute hidden bg-white shadow-lg rounded mt-10 w-8/12 duration-300">
           {% if user.is_authenticated and not user.is_staff%}
