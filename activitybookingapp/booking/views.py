@@ -179,13 +179,14 @@ class ReportView(LoginRequiredMixin, PermissionRequiredMixin, View):
 class MyReportsView(View):
     permission_required = "booking.view_report"
     def get(self, request, student_id):
-        reports = Report.objects.filter(student__id=student_id)
+        reports = Report.objects.filter(student__id=student_id).order_by('-id')
         return render(request, 'myreport.html',{"reports":reports})
 
 
 # get list of report in this place and save form
 class PlaceReport(LoginRequiredMixin, PermissionRequiredMixin, View):
     login_url = '/authen/'
+    permission_required = 'booking.add_report'
     def get(self, request, place_id):
         place = Place.objects.get(pk=place_id)
         reports = Report.objects.filter(place=place).order_by('-created_at')
@@ -413,7 +414,7 @@ class Addplace(LoginRequiredMixin, PermissionRequiredMixin, View):
     def get(self, request, act_id):
         act = get_object_or_404(Activity, pk=act_id)
         form = PlaceForm(initial={'activity': act})
-     
+        return render(request, 'addplace.html', {'form': form, 'act': act})
     
     def post(self, request, act_id):
         act = get_object_or_404(Activity, pk=act_id)
@@ -425,7 +426,6 @@ class Addplace(LoginRequiredMixin, PermissionRequiredMixin, View):
             place.save()
             return redirect('activity', act_id)
         else:
-            messages.error(request, 'เกิดข้อผิดพลาดในการเพิ่มสถานที่ กรุณาตรวจสอบข้อมูลของคุณ')
             return render(request, 'addplace.html', {'form': form, 'act': act})
 
 # เเก้ไข place
@@ -473,7 +473,6 @@ class BookingList(LoginRequiredMixin, PermissionRequiredMixin, View):
     login_url = '/authen/'
     permission_required = "booking.change_booking"
     def get(self, request, place_id):
-        user = request.user
         place=Place.objects.get(pk=place_id)
         bookings = Booking.objects.filter(place__id=place_id).order_by('-id')
         return render(request, 'approve-booking.html',{
@@ -532,6 +531,22 @@ class StaffProfile(View, PermissionRequiredMixin):
     def get(self, request, staff_id):
         staff = Staff.objects.get(pk = staff_id)
         return render(request, 'staff-profile.html', {'staff': staff})
+
+class StaffEdit(LoginRequiredMixin, PermissionRequiredMixin, View):
+    login_url = '/authen/'
+    permission_required = "booking.change_staff"
+    def get(self, request, staff_id):
+        staff = Staff.objects.get(pk = staff_id)
+        form = StaffForm(instance=staff)
+        return render(request, 'edit-staff.html', {'form': form, 'staff' : staff})
+    
+    def post(self, request, staff_id):
+        staff = Staff.objects.get(pk = staff_id)
+        form = StaffForm(request.POST, instance=staff)
+        if form.is_valid():
+            form.save()
+            return redirect('staff-list')
+        return render(request, 'edit-staff.html', {'form': form, 'staff' : staff})
 
 class AddStaffView(LoginRequiredMixin, PermissionRequiredMixin, View):
     login_url = '/authen/'

@@ -87,19 +87,20 @@
 
 
                 {% if perms.booking.delete_booking%}
-                <div class='flex justify-end mt-4'>
-                    <button class='p-2 rounded-md text-sm text-red-600' onclick='deleteBooking({{booking.id}}, "{{csrf_token}}")' >ยกเลิกการจอง</button>
-                </div>
-                {% endif %}
-                {% if user.is_staff %}
-                <a href="{% url 'booking-list' booking.place.id  %}">
-                    <button  class='bg-[#3A4F54] p-1 text-white rounded-md text-[15px] w-full'>ย้อนกลับ</button>
-                </a>
+                    
+                    <div class='flex justify-end mt-4'>
+                        <button class='bg-[#f85b56] hover:bg-[#ff2a22] p-1 text-white rounded-md text-[15px] w-full' onclick='deleteBooking({{booking.id}}, "{{csrf_token}}")' >Cancel</button>
+                    </div>
+                
+                    <a href="{% url 'mybooking' %}">
+                        <button  class='bg-[#256784] hover:bg-[#8ABCD4] p-1  rounded-md text-[15px] w-full'>Back</button>
+                    </a> 
                 {% else %}
-                <a href="{% url 'mybooking' %}">
-                    <button  class='bg-[#3A4F54] p-1 text-white rounded-md text-[15px] w-full'>ย้อนกลับ</button>
-                </a>
-                {% endif %}   
+                    <button onclick='deleteBooking({{booking.id}}, "{{csrf_token}}")'class="mt-10 text-sm p-2 rounded-lg text-red-500 border border-red-500 bg-red-100 hover:bg-red-400 hover:text-white duration-200">
+                        <i class="fa-regular fa-circle-xmark"></i> Reject
+                    </button>     
+                
+                {% endif %}
             </div>
         </div>
     </div>

@@ -47,8 +47,8 @@
                                 </a>
         
                                 {%if perms.booking.change_activity%}
-                                    <button id ='edit-btn-{{i.id}}' class='text-sm mb-2 hover:text-gray-400 text-gray-800 flex items-center justify-center'>
-                                        <i class="fa-solid fa-pen-to-square"></i>                                
+                                    <button id ='edit-btn-{{i.id}}' class='text-sm mb-2 hover:text-[#dbad26] text-[#FFD24C] flex items-center justify-center'>
+                                        <i class="fa-solid fa-pen"></i>                             
                                     </button>
                                 {% endif %}
                             </div>
@@ -103,7 +103,7 @@
                 
                 {%if perms.booking.add_activity%}
                     <div onclick='showadd()'
-                        class="bg-[#33647B] text-white cursor-pointer shadow-xl w-[320px] h-[320px] p-[15px] flex flex-col items-center justify-center bg-cover bg-center rounded-[20px]">
+                        class="  cursor-pointer shadow-xl w-[320px] h-[320px] p-[15px] flex flex-col items-center justify-center bg-cover bg-center rounded-[20px]">
                         <p class="text-2xl font-bold mb-4">+</p>
                     </div>
                 {% endif %}

@@ -20,7 +20,7 @@
     <div class="overflow-x-auto overflow-y-auto max-h-[500px] h-3/4 rounded-xl w-full border border-gray-200">
         <table class="min-w-full bg-white shadow-md">
             <thead>
-                <tr class="bg-blue-500 text-white sticky top-0 z-10">
+                <tr class="bg-amber-700 text-white sticky top-0 z-10">
                     <th class="py-3 px-4 text-left">ID</th>
                     <th class="py-3 px-4 text-left">Firt name</th>
                     <th class="py-3 px-4 text-left">Last name</th>
@@ -28,6 +28,9 @@
                     <th class="py-3 px-4 text-left">Telephone</th>
                     {% if perms.booking.delete_staff%}
                         <th class="py-3 px-4 text-left w-1/12">Delete</th>
+                    {% endif %}
+                    {% if perms.booking.change_staff%}
+                        <th class="py-3 px-4 text-left w-1/12">Edit</th>
                     {% endif %}
                 </tr>
             </thead>
@@ -48,6 +51,16 @@
                                 <i class="fa-solid fa-trash-can"></i>
                             </button>
                         </form>
+                        {%endif%}
+                        
+                    </td>
+                    <td>
+                        {% if perms.booking.change_staff%}
+                            <a href="{% url 'staff-edit' data.id %}">
+                                <button type="submit" class="text-sm w-10 h-10 p-2 rounded-full text-yellow-500 border border-yellow-500 bg-yellow-100 hover:bg-yellow-400 hover:text-white duration-200">
+                                    <i class="fa-solid fa-pen"></i>
+                                </button>
+                            </a>
                         {%endif%}
                     </td>           
                 </tr>

@@ -18,8 +18,10 @@
 {% block content %}
 
    <div class='pt-16'>
-        <div class=" flex flex-col text-center text-5xl font-semibold justify-center bg-cover bg-center h-80 w-full text-gray-200" style="background-image: url('https://images.unsplash.com/photo-1540379708242-14a809bef941?q=80&w=2060&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');">
-            {{act}}
+        <div class=" flex flex-col text-center text-5xl font-semibold justify-center bg-cover bg-center h-80 w-full text-gray-200" style="background-image: url('{{act.photo.url}}');">
+            <p class='bg-gray-900 py-2'>
+                {{act}}
+            </p>
         </div>
         
 
@@ -35,13 +37,13 @@
                 {% for i in place%}
                     {% if perms.booking.change_place %}
                         <a href='{% url "editplace" i.id %}' >
-                            <div id="activity" class="w-[300px] p-5 flex flex-col shadow-md rounded-[18px] ">
-                                <img class = "rounded-[16px]" style="width: 400px; height: 170px;" src="{{i.photo.url}}" alt="">
-                                <p class="text-base text-gray-900 mb-2 mt-4 font-bold">{{i.name}}</p>
+                            <div id="activity" class="w-[300px] p-5 flex flex-col shadow-md  ">
+                                <img class = "rounded-md" style="width: 400px; height: 170px;" src="{{i.photo.url}}" alt="">
+                                <p class="text-base text-gray-900 mb-2 mt-8 font-bold">{{i.name}}</p>
                                 <p class="text-sm text-gray-500 mb-2 ">Location : {{i.location}}</p>
                                 <p class="text-sm text-gray-500 mb-2 ">Deception : {{ i.description|slice:":30"|truncatewords:3 }}</p>
                                 <hr class="my-4">
-                                <p class="text-sm mb-2 text-[#F86F03]">
+                                <p class="text-sm mb-2 text-[#24679d]">
                                     Manage by 
                                     {% if i.staff %}
                                         <span style="color: black;">: {{ i.staff.first }}</span>
@@ -53,13 +55,13 @@
                         </a>
                     {% else %}
                         <a href='{% url "place" i.id %}' >
-                            <div id="activity" class="w-[300px] p-5 flex flex-col shadow-md rounded-[18px] ">
-                                <img class = "rounded-[16px]" style="width: 400px; height: 170px;" src="{{i.photo.url}}" alt="">
-                                <p class="text-base text-gray-900 mb-2 mt-4 font-bold">{{i.name}}</p>
+                            <div id="activity" class="w-[300px] p-5 flex flex-col shadow-md  ">
+                                <img class = "rounded-md" style="width: 400px; height: 170px;" src="{{i.photo.url}}" alt="">
+                                <p class="text-base text-gray-900 mb-2 mt-8 font-bold">{{i.name}}</p>
                                 <p class="text-sm text-gray-500 mb-2 ">Location : {{i.location}}</p>
                                 <p class="text-sm text-gray-500 mb-2 ">Deception : {{ i.description|slice:":30"|truncatewords:3 }}</p>
                                 <hr class="my-4">
-                                <p class="text-sm mb-2 text-[#F86F03]">
+                                <p class="text-sm mb-2 text-[#24679d]">
                                     Manage by 
                                     {% if i.staff %}
                                         <span style="color: black;">: {{ i.staff.first }}</span>

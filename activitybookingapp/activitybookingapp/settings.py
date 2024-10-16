@@ -75,27 +75,27 @@ WSGI_APPLICATION = 'activitybookingapp.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "activitybooking",
-        "USER": "postgres",
-        "PASSWORD": "wanzaza123",
-        "HOST": "localhost",
-        "PORT": "5432",
-    }
-}
-
 # DATABASES = {
 #     "default": {
 #         "ENGINE": "django.db.backends.postgresql",
 #         "NAME": "activitybooking",
 #         "USER": "postgres",
-#         "PASSWORD": "pp811010_Za",
+#         "PASSWORD": "wanzaza123",
 #         "HOST": "localhost",
 #         "PORT": "5432",
 #     }
 # }
+
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "activitybooking",
+        "USER": "postgres",
+        "PASSWORD": "pp811010_Za",
+        "HOST": "localhost",
+        "PORT": "5432",
+    }
+}
 
 
 # Password validation
