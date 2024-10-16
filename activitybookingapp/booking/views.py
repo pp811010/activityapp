@@ -276,7 +276,7 @@ class ChangePasswordView(View):
             user = form.save()
             update_session_auth_hash(request, user)  # Important for keeping the user logged in
             messages.success(request, 'Your password was successfully updated!')
-            return redirect('my-profile', user.id)
+            return redirect('my-profile')
         else:
             messages.error(request, 'Please correct the error below.')
             return render(request, 'change-password.html', {'form': form})

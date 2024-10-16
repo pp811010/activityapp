@@ -9,29 +9,30 @@
 
         
         <div class='flex gap-3'>
-            <p class="text-sm text-gray-500">Place:</p>
-            <p class="text-sm text-gray-900">{{place.name}}</p>
+            <p class="text-lg text-gray-500">Place:</p>
+            <p class="text-lg text-gray-900">{{place.name}}</p>
         </div>
-        <img src="{{place.photo.url}}" alt="Property" class="w-[750px] h-[280px] object-cover rounded-lg mb-4 ">
-        <div class='flex flex-col gap-2  w-[70%]'>
-            <div class='flex flex-row gap-32'>
-                <div >
-                    <p class="text-sm text-gray-500">Location</p>
-                    <p class="text-sm text-gray-900">{{place.location|slice:":30"}}</p>
+        <img src="{{place.photo.url}}" alt="Property" class="w-9/12 h-[280px] object-cover rounded-lg mb-4 ">
+        <div class='flex flex-col gap-2  w-10/12 px-6'>
+            <div class='flex justify-between gap-2 rounded-lg border px-4 py-2'>
+                <div class="flex flex-col w-6/12 gap-5">
+                    <div class="w-full pr-5">
+                        <p class="text-sm text-gray-500 pb-1"><i class="fa-solid fa-location-dot fa-sm pr-1"></i>Location</p>
+                        <p class="text-sm text-gray-900 pl-2">{{place.location|slice:":30"}}</p>
+                    </div>
+                    <div class="w-full pr-5">
+                        <p class="text-sm text-gray-500 pb-1"><i class="fa-solid fa-user-group fa-sm pr-1"></i>Staff</p>
+                    {% for staff in place.staff.all %}
+                        <p class="text-sm pl-2">{{staff}}</p>
+                    {% endfor %}
+                    </div>
+                    
+                    
                 </div>
     
-                <div>
-                    <p class="text-sm text-gray-500">Description</p>
-                    <p class="text-sm text-gray-900">{{place.description|slice:":30"}}</p>
-                </div>
-
-                    
-                <div>
-                    <p class="text-sm text-gray-500">Staff</p>
-                    {% for staff in place.staff.all %}
-                        <p class="text-sm">{{staff}}</p>
-                    {% endfor %}
-
+                <div class="w-6/12">
+                    <p class="text-sm text-gray-500 pb-1"><i class="fa-solid fa-circle-info fa-sm pr-1"></i>Description</p>
+                    <p class="text-sm text-gray-900 pl-2">{{place.description}}</p>
                 </div>
             </div>
         </div>
