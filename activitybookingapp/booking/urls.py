@@ -16,6 +16,7 @@ urlpatterns = [
     path("place/<int:place_id>/report-list/", views.PlaceReport.as_view(), name="place-report-list"),
     path("place/<int:place_id>/report-list/report-form/", views.ReportFormView.as_view(), name="place-report-form"),
     path("myreport/<int:student_id>/", views.MyReportsView.as_view(), name="my-report-list"),
+    path("myreport/<int:student_id>/<int:report_id>/", views.MyReportsView.as_view(), name="my-report-list"),
 
     # profile
     path("profile/", views.ProfileView.as_view(), name="my-profile"),

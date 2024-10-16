@@ -189,13 +189,20 @@ class ReportFormView(LoginRequiredMixin, PermissionRequiredMixin, View):
             "place":place,
         })
 
-class MyReportsView(View):
+class MyReportsView(LoginRequiredMixin, PermissionRequiredMixin, View):
+    login_url = '/authen/'
     permission_required = "booking.view_report"
     def get(self, request, student_id):
         user = User.objects.get(pk=student_id)
         student = Student.objects.get(user=user)
         reports = Report.objects.filter(student=student).order_by('-id')
-        return render(request, 'myreport.html',{"reports":reports})
+        return render(request, 'myreport.html',{"reports":reports, 'student': student})
+
+    def delete(self, request, student_id, report_id):
+        report = Report.objects.get(pk = report_id)
+        report.delete()
+        return HttpResponse(report_id)
+
 
 
 # get list of report in this place and save form
@@ -306,9 +313,13 @@ class ChangePasswordView(View):
 # for staff
 class ReportList(View):
     def get(self, request):
-        reports = Report.objects.all().order_by("-id")
+        reports = Report.objects.all().order_by("place", "id")
+        reported = Report.objects.filter(status= 'REPORTED' )
+        progress = Report.objects.filter(status= 'IN_PROGRESS' )
         return render(request, 'report-list-staff.html', {
-            "reports":reports
+            "reports":reports,
+            'reported': reported,
+            'progress': progress
         })
 
   
@@ -343,6 +354,7 @@ class ReportDetail(LoginRequiredMixin, PermissionRequiredMixin, View):
 
 class ChangeBookingStatus(LoginRequiredMixin, PermissionRequiredMixin, View):
     login_url = '/authen/'
+    permission_required = 'booking.change_booking'
     def post(self, request, booking_id):
         booking = get_object_or_404(Booking, id=booking_id)
         action = request.POST.get('action')
@@ -479,9 +491,11 @@ class BookingList(LoginRequiredMixin, PermissionRequiredMixin, View):
     def get(self, request, place_id):
         place=Place.objects.get(pk=place_id)
         bookings = Booking.objects.filter(place__id=place_id).order_by('-id')
+        pending = Booking.objects.filter(place__id=place_id, status = 'PENDING').order_by('-id').count()
         return render(request, 'approve-booking.html',{
             'bookings':bookings,
             "place":place,
+            'pendding' : pending
         })
     
 class ChangeBookingStatus(LoginRequiredMixin, PermissionRequiredMixin, View):
