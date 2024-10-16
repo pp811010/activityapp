@@ -4,11 +4,12 @@
 {% endblock  %}
 {% block content %}
 <div class="flex flex-col pt-20 px-10 gap-3 justify-center items-center w-full h-full">
+    <p class='text-xl font-bold mt-10 w-full text-right px-10 py-2'>My reports</p>
     {% if reports %}
     <div class="overflow-x-auto overflow-y-auto max-h-[600px] h-3/4 rounded-xl w-full border border-gray-200">
         <table class="min-w-full bg-white shadow-md">
             <thead>
-                <tr class="bg-blue-500 text-white sticky top-0 z-10">
+                <tr class="bg-red-500 text-white sticky top-0 z-10">
                     <th class="py-3 px-4 text-left">Place</th>
                     <th class="py-3 px-4 text-left">Image</th>
                     <th class="py-3 px-4 text-left">Date</th>

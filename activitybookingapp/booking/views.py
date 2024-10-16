@@ -50,7 +50,7 @@ class MyBooking(LoginRequiredMixin, PermissionRequiredMixin, View):
     def delete(self, request, booking_id):
         print(booking_id)
         booking = Booking.objects.get(id=booking_id)
-        booking.status = "CANCELED"
+        booking.status = "CANCELED" 
         booking.save()
         return HttpResponse(booking_id)
 
@@ -161,25 +161,40 @@ class PlaceBooking2(LoginRequiredMixin, PermissionRequiredMixin, View):
         return JsonResponse({"status": "success"})
 
 
-class ReportView(LoginRequiredMixin, PermissionRequiredMixin, View):
+class ReportFormView(LoginRequiredMixin, PermissionRequiredMixin, View):
     login_url = '/authen/'
     permission_required = "booking.view_report"
-    def get(self, request, place_id, user_id):
+    def get(self, request, place_id):
         form = ReportForm()
-        student = Student.objects.get(pk=user_id )
+        student = Student.objects.get(user=request.user)
         form.fields['student'].initial = student
+        form.fields['student'].disabled = True
         place = Place.objects.get(pk=place_id)
         form.fields['place'].initial = place
+        form.fields['place'].disabled = True
         return render(request, 'report-form.html',{
             "form": form,
             "place":place,
-            "user_id":user_id,
+            "student":student
+        })
+    
+    def post(self, request, place_id):
+        form = ReportForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('place-report-list' , place_id=place_id)
+        place = Place.objects.get(pk=place_id)
+        return render(request, 'report-form.html',{
+            "form": form,
+            "place":place,
         })
 
 class MyReportsView(View):
     permission_required = "booking.view_report"
     def get(self, request, student_id):
-        reports = Report.objects.filter(student__id=student_id).order_by('-id')
+        user = User.objects.get(pk=student_id)
+        student = Student.objects.get(user=user)
+        reports = Report.objects.filter(student=student).order_by('-id')
         return render(request, 'myreport.html',{"reports":reports})
 
 
@@ -194,18 +209,7 @@ class PlaceReport(LoginRequiredMixin, PermissionRequiredMixin, View):
             "reports":reports,
             "place":place
         })
-    
-    def post(self, request, place_id):
-        form = ReportForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            return redirect('place-report-list' , place_id=place_id)
-        place = Place.objects.get(pk=place_id)
-        reports = Report.objects.filter(place=place)
-        return render(request, 'report-list.html', {
-            "reports":reports,
-            "place":place,
-        })
+
 
 
 
@@ -574,11 +578,10 @@ class AddStaffView(LoginRequiredMixin, PermissionRequiredMixin, View):
             except ValidationError:
                 errors['email'] = "Enter a valid email address."
 
-        phone_pattern = r'^\d{3}-\d{3}-\d{4}$'
         if not phone:
-            errors['phone'] = "Phone number is required."
-        elif not re.match(phone_pattern, phone):
-            errors['phone'] = "Phone number must be in the format XXX-XXX-XXXX."
+            errors['phone'] = "Phone is required."
+        if len(phone) != 10:
+            errors['phone'] = "Phone number must be exactly 10 digits."
 
         if errors:
             return render(request, 'add-staff.html', {

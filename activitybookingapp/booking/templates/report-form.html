@@ -6,7 +6,7 @@
 <div class="flex flex-col justify-center items-center px-20 pt-20 pb-10 h-full w-full min-h-screen bg-gray-200">
     <div class="flex flex-col justify-center item-center h-fit w-6/12 p-4">
         {{ form.non_field_errors }}
-        <form id="report" method="post" action="{% url 'place-report-list' place.id %}" 
+        <form id="report" method="post" action="{% url 'place-report-form' place.id %}" 
             enctype="multipart/form-data"
             class="bg-white shadow-lg rounded-xl px-7 pt-5 pb-5 w-full"
         >
@@ -23,11 +23,13 @@
                 {{form.place.errors}}
                 {{form.place.label_tag}}
                 {{form.place}}
+                <input type="hidden" name="place" value="{{ form.place.value }}">
             </div>
             <div class="mb-4 font-bold">
                 {{form.student.errors}}
                 {{form.student.label_tag}}
                 {{form.student}}
+                <input type="hidden" name="student" value="{{ form.student.value }}">
             </div>
             <div class="mb-4 font-bold">
                 {{form.details.errors}}
@@ -74,33 +76,26 @@
     function clearData() {
         document.getElementById("report").reset();
         const imagePreviewContainer = document.getElementById("image-preview-container");
-        imagePreviewContainer.innerHTML = ''; // Clear the appended image
+        imagePreviewContainer.innerHTML = ''; 
     }
-
+    
     const imageInput = document.getElementById('{{ form.image.id_for_label }}');
 
-    // Listen for the change event on the image input field
     imageInput.addEventListener('change', function(event) {
-        const file = event.target.files[0]; // Get the selected file
+        const file = event.target.files[0];
         const imagePreviewContainer = document.getElementById("image-preview-container");
 
-        // Clear any previous preview
         imagePreviewContainer.innerHTML = '';
 
         if (file && file.type.startsWith('image/')) {
-            // Create a FileReader to read the file and show the preview
             const reader = new FileReader();
-
-            // Once the file is read, create the img tag and append it
             reader.onload = function(e) {
                 const img = document.createElement('img');
                 img.src = e.target.result;
                 img.alt = 'Selected image preview';
                 img.classList.add('h-48', 'rounded-3xl', 'p-4');
-                imagePreviewContainer.appendChild(img); // Append the img to the container
+                imagePreviewContainer.appendChild(img);
             };
-
-            // Read the file as a Data URL (for image preview)
             reader.readAsDataURL(file);
         } else {
             alert('Please select a valid image file.');
