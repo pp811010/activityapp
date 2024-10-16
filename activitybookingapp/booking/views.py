@@ -202,28 +202,46 @@ class PlaceReport(LoginRequiredMixin, PermissionRequiredMixin, View):
 
 
 # profile
-class ProfileView(View):
+class ProfileView(LoginRequiredMixin, View):
+    login_url = '/authen/'
     def get(self, request):
-        student = Student.objects.get(pk=request.user.id)
-        
+        user = request.user
+        student = Student.objects.get(user = user)
         return render(request, 'profile.html',{
             "student":student,
         })
     
 
-class ManageProfileView(View):
+class ManageProfileView(LoginRequiredMixin, View):
+    login_url = '/authen/'
     def get(self, request):
-        user = User.objects.get(pk=request.user.id)
-        form = RegisterForm(instance=user)
+        user = request.user
+       
         student = Student.objects.get(user=user)
-        form.fields['username'].initial = user.username
-        form.fields['phone'].initial = student.phone
-        form.fields['student_ID'].initial = student.stu_card
+        form = StudentForm(instance=student)
         return render(request, 'manage-profile.html', {
             "user": user,
             "form": form,
             "student": student
         })
+    
+    def post(self, request):
+        user = request.user
+        student = Student.objects.get(user=user)
+        form = StudentForm(request.POST, instance=student)
+        if form.is_valid():
+            stu = form.save()
+            user.first_name = stu.first_name
+            user.last_name = stu.last_name
+            user.email  = stu.email
+            user.save()
+            return redirect('my-profile')
+        return render(request, 'manage-profile.html', {
+            "user": user,
+            "form": form,
+            "student": student
+        })
+            
 
 class ReportList(LoginRequiredMixin, PermissionRequiredMixin,View):
     login_url = '/authen/'
@@ -246,8 +264,8 @@ class ReportList(LoginRequiredMixin, PermissionRequiredMixin,View):
             student.save()  # Save the student instance
 
             return redirect('my-profile')
+        
         print(form.errors)
-        # If the form is not valid, re-render the page with the existing user and student data
         student = Student.objects.get(user=user)  # Retrieve the student again
         return render(request, 'manage-profile.html', {
             "user": user,
@@ -265,9 +283,9 @@ class ChangePasswordView(View):
         form = PasswordChangeForm(user=request.user, data=request.POST)
         if form.is_valid():
             user = form.save()
-            update_session_auth_hash(request, user)  # Important for keeping the user logged in
+            update_session_auth_hash(request, user)
             messages.success(request, 'Your password was successfully updated!')
-            return redirect('my-profile', user.id)
+            return redirect('my-profile')
         else:
             messages.error(request, 'Please correct the error below.')
             return render(request, 'change-password.html', {'form': form})

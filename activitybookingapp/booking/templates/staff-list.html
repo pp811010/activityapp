@@ -6,10 +6,10 @@
 <div class="flex flex-col pt-16 px-10 gap-3 justify-center items-center w-full h-full">
     <div class="flex w-full justify-between py-4 items-center">
         <h1 class="text-2xl font-semibold mt-5">Total Staff : {{num_staff}}</h1>
-        {% if perm.booking.add_staff%}
+        {% if perms.booking.add_staff%}
             <a href="{% url 'add-staff' %}">
                 <button 
-                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                    class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                     type="button"
                 >
                 Add
@@ -26,7 +26,7 @@
                     <th class="py-3 px-4 text-left">Last name</th>
                     <th class="py-3 px-4 text-left">Email</th>
                     <th class="py-3 px-4 text-left">Telephone</th>
-                    {% if perm.booking.delete_staff%}
+                    {% if perms.booking.delete_staff%}
                         <th class="py-3 px-4 text-left w-1/12">Delete</th>
                     {% endif %}
                 </tr>
@@ -40,7 +40,7 @@
                     <td class="py-3 px-4">{{ data.email}}</td>
                     <td class="py-3 px-4">{{ data.phone}}</td>
                     <td class="py-3 px-4 justify-center items-center">
-                        {% if perm.booking.delete_staff%}
+                        {% if perms.booking.delete_staff%}
                         <form action="{% url 'delete-staff' data.id %}" method="post" style="display:inline;">
                             {% csrf_token %}
                             <input type="hidden" name="action" value="delete">

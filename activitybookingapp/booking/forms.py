@@ -4,6 +4,58 @@ from django.forms import ModelForm, ValidationError
 from booking.models import *
 from django.utils import timezone
 
+class StudentForm(forms.ModelForm):
+    class Meta:
+        model = Student 
+        fields = ['first_name', 'last_name', 'faculty', 'stu_card', 'email', 'phone']
+        widgets = {
+            'first_name': forms.TextInput(attrs={
+                'class': "text-xs rounded-lg p-2.5 border-solid border-2 border-gray-200 w-18",
+                'placeholder': 'First Name'  # Changed to First Name
+            }),
+            'last_name': forms.TextInput(attrs={
+                'class': "text-xs rounded-lg p-2.5 border-solid border-2 border-gray-200 w-18",
+                'placeholder': 'Last Name'  # Changed to Last Name
+            }),
+            'faculty': forms.Select(
+                attrs={
+                    'class': "text-xs rounded-lg p-2.5 border-solid border-2 border-gray-200 w-18"
+                },
+                choices=Student.FACULTIES
+            ),
+            'stu_card': forms.TextInput(attrs={
+                'class': "text-xs rounded-lg p-2.5 border-solid border-2 border-gray-200 w-18",
+                'placeholder': 'Student Card'  # Changed to Student Card
+            }),
+            'email': forms.EmailInput(attrs={
+                'class': "text-xs rounded-lg p-2.5 border-solid border-2 border-gray-200 w-18",
+                'placeholder': 'Email'  # Changed to Email
+            }),
+            'phone': forms.TextInput(attrs={
+                'class': "text-xs rounded-lg p-2.5 border-solid border-2 border-gray-200 w-18",
+                'placeholder': 'Phone Number'  # Changed to Phone Number
+            }),
+        }
+    
+    def clean(self):
+        cleaned_data = super().clean()
+        email = cleaned_data.get('email')
+        if email:
+            username_part = email.split('@')[0]
+            if not email.endswith('@kmitl.ac.th') or len(username_part) != 8:
+                self.add_error('email', 'อีเมลต้องใช้โดเมน @kmitl.ac.th')
+
+        phone = cleaned_data.get('phone')
+        if len(phone) != 10:
+            self.add_error('phone', 'เบอร์โทรศัพท์ต้องมี 10 หลัก')
+
+        student_ID = cleaned_data.get('stu_card')
+        if len(student_ID) != 8:
+            self.add_error('stu_card', 'หมายเลขนักเรียนต้องมี 8 หลัก')
+        
+        return cleaned_data
+
+
 class ReportForm(forms.ModelForm):
     class Meta:
         model = Report

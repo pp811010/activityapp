@@ -56,7 +56,7 @@ class RegisterForm(forms.ModelForm):
 
     def save(self, commit=True):
         user = super().save(commit=False)
-        user.set_password(self.cleaned_data['password'])  # ใช้ set_password แทน make_password
+        user.set_password(self.cleaned_data['password'])
         if commit:
             user.save()
             return user
