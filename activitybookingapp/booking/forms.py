@@ -56,10 +56,11 @@ class ReportForm(forms.ModelForm):
             self.fields['status'].disabled = True
 
     
-    def clean(self):
-        cleaned_data = super().clean()
-        return cleaned_data
-
+    def clean_details(self):
+        details = self.cleaned_data.get('details')
+        if details and len(details) < 10:
+            raise forms.ValidationError('Location must be at least 10 characters long.')
+        return details
 
     
 class PlaceForm(forms.ModelForm):
