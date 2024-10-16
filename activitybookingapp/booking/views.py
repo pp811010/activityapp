@@ -404,7 +404,7 @@ class Addplace(LoginRequiredMixin, PermissionRequiredMixin, View):
     def get(self, request, act_id):
         act = get_object_or_404(Activity, pk=act_id)
         form = PlaceForm(initial={'activity': act})
-     
+        return render(request, 'addplace.html', {'form': form, 'act': act}) 
     
     def post(self, request, act_id):
         act = get_object_or_404(Activity, pk=act_id)
@@ -416,7 +416,6 @@ class Addplace(LoginRequiredMixin, PermissionRequiredMixin, View):
             place.save()
             return redirect('activity', act_id)
         else:
-            messages.error(request, 'เกิดข้อผิดพลาดในการเพิ่มสถานที่ กรุณาตรวจสอบข้อมูลของคุณ')
             return render(request, 'addplace.html', {'form': form, 'act': act})
 
 # เเก้ไข place
