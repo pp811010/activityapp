@@ -68,7 +68,7 @@
         {%endif%}
 
     </ul>
-    {% if not user.is_authenticated%}
+    {% if not user.is_authenticated %}
       <div class='w-[248px] flex justify-end'>
         <a href="http://127.0.0.1:8000/authen/">
           <button  for='profile'
@@ -86,9 +86,12 @@
           <span class="pr-3 text-black font-semibold duration-300">{{user.first_name}} {{user.last_name}}</span>
         </button>
         <div id="profileDropdown" class="absolute hidden bg-white shadow-lg rounded mt-10 w-8/12 duration-300">
-          <a href="{% url 'my-profile' %}" class="block px-4 py-2 text-gray-800 hover:bg-[#fff7dc] rounded duration-300"><i class="fa-solid fa-user-pen pr-2"></i>Profile</a>
+          {% if user.is_authenticated and not user.is_staff%}
+            <a href="{% url 'my-profile' %}" class="block px-4 py-2 text-gray-800 hover:bg-[#fff7dc] rounded duration-300"><i class="fa-solid fa-user-pen pr-2"></i>Profile</a>
+          {% endif %}
           <a href="{% url 'logout' %}" class="block px-4 py-2 text-gray-800 hover:bg-[#fff7dc] rounded duration-300"><i class="fa-solid fa-right-from-bracket pr-2"></i>Logout</a>
-        </div>
+          
+          </div>
       </div>
     {% endif %}
 

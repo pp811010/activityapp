@@ -5,15 +5,17 @@
 {% block content %}
 <div class="flex flex-col pt-16 px-10 gap-3 justify-center items-center w-full h-full">
     <div class="flex w-full justify-between py-4 items-center">
-        <h1 class="font-bold text-3xl">Total staff : {{num_staff}}</h1>
-        <a href="{% url 'add-staff' %}">
-            <button 
-                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                type="button"
-            >
-            Add
-            </button>
-        </a>
+        <h1 class="text-2xl font-semibold mt-5">Total Staff : {{num_staff}}</h1>
+        {% if perms.booking.add_staff%}
+            <a href="{% url 'add-staff' %}">
+                <button 
+                    class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                    type="button"
+                >
+                Add
+                </button>
+            </a>
+        {% endif%}
     </div>
     <div class="overflow-x-auto overflow-y-auto max-h-[500px] h-3/4 rounded-xl w-full border border-gray-200">
         <table class="min-w-full bg-white shadow-md">
@@ -24,7 +26,9 @@
                     <th class="py-3 px-4 text-left">Last name</th>
                     <th class="py-3 px-4 text-left">Email</th>
                     <th class="py-3 px-4 text-left">Telephone</th>
-                    <th class="py-3 px-4 text-left w-1/12">Delete</th>
+                    {% if perms.booking.delete_staff%}
+                        <th class="py-3 px-4 text-left w-1/12">Delete</th>
+                    {% endif %}
                 </tr>
             </thead>
             <tbody>
@@ -36,6 +40,7 @@
                     <td class="py-3 px-4">{{ data.email}}</td>
                     <td class="py-3 px-4">{{ data.phone}}</td>
                     <td class="py-3 px-4 justify-center items-center">
+                        {% if perms.booking.delete_staff%}
                         <form action="{% url 'delete-staff' data.id %}" method="post" style="display:inline;">
                             {% csrf_token %}
                             <input type="hidden" name="action" value="delete">
@@ -43,6 +48,7 @@
                                 <i class="fa-solid fa-trash-can"></i>
                             </button>
                         </form>
+                        {%endif%}
                     </td>           
                 </tr>
             {% endfor %}
