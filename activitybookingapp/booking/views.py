@@ -178,7 +178,6 @@ class MyReportsView(View):
 # get list of report in this place and save form
 class PlaceReport(LoginRequiredMixin, PermissionRequiredMixin, View):
     login_url = '/authen/'
-    permission_required = "booking.add_report"
     def get(self, request, place_id):
         place = Place.objects.get(pk=place_id)
         reports = Report.objects.filter(place=place).order_by('-created_at')
