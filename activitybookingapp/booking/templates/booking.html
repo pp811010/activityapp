@@ -4,7 +4,7 @@
 {% endblock %}
 
 {% block content %}
-    <div class='flex items-center justify-center px-20 py-28 bg-slate-100'>
+    <div class='flex items-center justify-center px-20 py-28 '>
         <div class='p-10 rounded-3xl shadow-md w-[600px] bg-white'>
             <p class='text-lg font-normal'>Booking</p>
             <p class="text-[10px] text-gray-500 mt-1">{{booking}}</p>
@@ -32,32 +32,35 @@
                     </div>
                 </div>
 
-                <p class='font-base mt-4 text-gray-400'>Place Description</p>
-                <hr>
+                <p class='font-base mt-8     text-gray-400'>Place Description</p>
+                <hr class='mb-2'>
                 <div>
                     <p class="text-sm text-gray-500">Location</p>
-                    <p class="text-base text-gray-900">{{booking.place.location}}</p> 
+                    <p class="text-sm text-gray-900">{{booking.place.location}}</p> 
                 </div>
 
                 <div>
                     <p class="text-sm text-gray-500">Description</p>
-                    <p class="text-base text-gray-900">{{booking.place.description}}</p> 
+                    <p class="text-sm text-gray-900">{{booking.place.description}}</p> 
                     
                 </div>
 
                 <div>
                     <p class="text-sm text-gray-500">Staff</p>
-                    <p class="text-base text-gray-900">{{booking.place.staff}}</p> 
-                    
+                    {% for staff in booking.place.staff.all %}
+                        <p class="text-sm text-gray-900">{{staff}}</p>
+                    {% endfor %}                    
                 </div>
 
 
                 <div class='flex justify-end mt-4'>
-                    <button class='p-2 rounded-md text-sm text-red-400' onclick='deleteBooking({{booking.id}}, "{{csrf_token}}")' >ยกเลิกการจอง</button>
+                    <button class='p-2 rounded-md text-sm text-red-600' onclick='deleteBooking({{booking.id}}, "{{csrf_token}}")' >ยกเลิกการจอง</button>
                 </div>
-                <a href="{% url 'mybooking' %}">
-                    <button  class='bg-orange-500 p-1 text-white rounded-md text-[15px] w-full'>ย้อนกลับ</button>
-                </a>
+                {% if perms.booking.delete_booking%}
+                    <a href="{% url 'mybooking' %}">
+                        <button  class='bg-[#3A4F54] p-1 text-white rounded-md text-[15px] w-full'>ย้อนกลับ</button>
+                    </a>
+                {% endif %}
             </div>
         </div>
     </div>
