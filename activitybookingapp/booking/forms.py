@@ -11,11 +11,11 @@ class StudentForm(forms.ModelForm):
         widgets = {
             'first_name': forms.TextInput(attrs={
                 'class': "text-xs rounded-lg p-2.5 border-solid border-2 border-gray-200 w-18",
-                'placeholder': 'First Name'  # Changed to First Name
+                'placeholder': 'First Name'  
             }),
             'last_name': forms.TextInput(attrs={
                 'class': "text-xs rounded-lg p-2.5 border-solid border-2 border-gray-200 w-18",
-                'placeholder': 'Last Name'  # Changed to Last Name
+                'placeholder': 'Last Name' 
             }),
             'faculty': forms.Select(
                 attrs={
@@ -52,6 +52,38 @@ class StudentForm(forms.ModelForm):
         student_ID = cleaned_data.get('stu_card')
         if len(student_ID) != 8:
             self.add_error('stu_card', 'หมายเลขนักเรียนต้องมี 8 หลัก')
+        
+        return cleaned_data
+    
+class StaffForm(forms.ModelForm):
+    class Meta:
+        model = Staff 
+        fields = "__all__"
+        widgets = {
+            'first_name': forms.TextInput(attrs={
+                'class': "text-xs rounded-lg p-2.5 border-solid border-2 border-gray-200 w-18",
+                'placeholder': 'First Name'  
+            }),
+            'last_name': forms.TextInput(attrs={
+                'class': "text-xs rounded-lg p-2.5 border-solid border-2 border-gray-200 w-18",
+                'placeholder': 'Last Name' 
+            }),
+            'email': forms.TextInput(attrs={
+                'class': "text-xs rounded-lg p-2.5 border-solid border-2 border-gray-200 w-18",
+                'placeholder': 'Eamil' 
+            }),
+            'phone': forms.TextInput(attrs={
+                'class': "text-xs rounded-lg p-2.5 border-solid border-2 border-gray-200 w-18",
+                'placeholder': 'phone'
+            })
+        }
+    
+    def clean(self):
+        cleaned_data = super().clean()
+      
+        phone = cleaned_data.get('phone')
+        if len(phone) != 10:
+            self.add_error('phone', 'เบอร์โทรศัพท์ต้องมี 10 หลัก')
         
         return cleaned_data
 

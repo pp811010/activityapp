@@ -19,13 +19,20 @@
             <div class='grid grid-cols-4 gap-10 w-full px-14'>
             {% for place in activity.place_set.all %}
                 <a href='{% url "booking-list" place.id %}' >
-                    <div id="activity" class="w-full p-5 flex flex-col shadow-md rounded-xl border border-gray-200 duration-200">
+                    <div id="activity" class="w-full p-5 flex flex-col shadow-md  border border-gray-200 duration-200">
                         <img class = "rounded-xl" style="width: 400px; height: 170px;" src="{{place.photo.url}}" alt="">
                         <p class="text-base text-gray-900 mb-2 mt-4 font-bold">{{place.name}}</p>
                         <p class="text-sm text-gray-500 mb-2 ">Location : {{place.location}}</p>
                         <p class="text-sm text-gray-500 mb-2 ">Deception : {{ place.description|truncatewords:3 }}</p>
                         <hr class="my-4">
-                        <p class="text-sm  mb-2 text-[#F86F03]">Manage by <span style="color: black;">: {{place.staff}}</span> </p>
+                        <p class="text-sm mb-2 text-[#24679d]">
+                            Manage by 
+                            {% if i.staff %}
+                                <span style="color: black;">: {{ i.staff.first }}</span>
+                            {% else %}
+                                <span style="color: black;">: Not Have Staff</span>
+                            {% endif %}
+                        </p>
                     </div>
                 </a>
                 {% endfor %}

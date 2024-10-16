@@ -6,8 +6,20 @@
 {% block content %}
     <div class='flex items-center justify-center px-20 py-28 '>
         <div class='p-10 rounded-3xl shadow-md w-[600px] bg-white'>
-            <p class='text-lg font-normal'>Booking</p>
-            <p class="text-[10px] text-gray-500 mt-1">{{booking}}</p>
+            <div class='flex justify-between mb-5'>
+                <div class='flex flex-col'>
+                    <p class='text-lg font-normal'>Booking</p>
+                    <p class="text-[10px] text-gray-500 mt-1">{{booking}}</p>
+                </div>
+                <form action="{% url 'change-booking-status' booking.id %}" method="post" style="display:inline;">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="approve">
+                    <button type="submit" class="text-sm p-2 rounded-lg text-green-500 border border-green-500 bg-green-100 hover:bg-green-400 hover:text-white duration-200">
+                        <i class="fa-regular fa-circle-check"></i> Approve
+                    </button>
+                </form>
+            </div>
+            <hr>
             <div class="mt-4 p-3 flex flex-col gap-2">
                 
                 <div class='flex justify-between'>
@@ -53,13 +65,20 @@
                 </div>
 
 
-                <div class='flex justify-end mt-4'>
-                    <button class='p-2 rounded-md text-sm text-red-600' onclick='deleteBooking({{booking.id}}, "{{csrf_token}}")' >ยกเลิกการจอง</button>
-                </div>
                 {% if perms.booking.delete_booking%}
+                    
+                    <div class='flex justify-end mt-4'>
+                        <button class='bg-[#f85b56] hover:bg-[#ff2a22] p-1 text-white rounded-md text-[15px] w-full' onclick='deleteBooking({{booking.id}}, "{{csrf_token}}")' >Cancel</button>
+                    </div>
+                
                     <a href="{% url 'mybooking' %}">
-                        <button  class='bg-[#3A4F54] p-1 text-white rounded-md text-[15px] w-full'>ย้อนกลับ</button>
-                    </a>
+                        <button  class='bg-[#256784] hover:bg-[#8ABCD4] p-1  rounded-md text-[15px] w-full'>Back</button>
+                    </a> 
+                {% else %}
+                    <button onclick='deleteBooking({{booking.id}}, "{{csrf_token}}")'class="mt-10 text-sm p-2 rounded-lg text-red-500 border border-red-500 bg-red-100 hover:bg-red-400 hover:text-white duration-200">
+                        <i class="fa-regular fa-circle-xmark"></i> Reject
+                    </button>     
+                
                 {% endif %}
             </div>
         </div>
