@@ -45,13 +45,17 @@
 		
 						<div class="flex justify-between">
 							{% if i.status == 'PENDING' %}
-								<button class="text-yellow-400 font-semibold text-sm">{{i.status}}</button>
+								<div class="text-yellow-400 font-semibold text-sm">{{i.status}}</div>
 							{% elif i.status == 'APPROVED' %}
-								<button class="text-green-600 font-semibold text-sm">{{i.status}}</button>
+								<div class="text-green-600 font-semibold text-sm">{{i.status}}</div>
+							{% elif i.status == 'REJECTED' %}
+								<div class="text-red-500 font-semibold text-sm">{{i.status}}</div>
 							{% else %}
-								<button class="text-brown-200 font-semibold text-sm">{{i.status}}</button>
+							<div class="text-gray-500 font-semibold text-sm">{{i.status}}</div>
 							{% endif%}
+							{% if not i.status == 'CANCELED' %}
 							<button  onclick="deleteBooking({{ i.id }}, '{{csrf_token}}')" class="text-sm text-red-500">ยกเลิก</button>
+							{% endif %}
 						</div>
 					</div>
 				</a>

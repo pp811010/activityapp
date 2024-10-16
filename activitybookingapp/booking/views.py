@@ -7,6 +7,7 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib import messages
 from django.views import View
+from django.db.models import Case, When
 from booking.forms import *
 from booking.models import *
 from authen.forms import RegisterForm
@@ -36,14 +37,21 @@ class MyBooking(LoginRequiredMixin, PermissionRequiredMixin, View):
     permission_required = "booking.view_booking"
     def get(self, request):
         user = request.user
+        status_order = Case(
+            When(status='PENDING', then=1),
+            When(status='APPROVED', then=2),
+            When(status='REJECTED', then=3),
+            When(status='CANCELED', then=4),
+        )
         student = Student.objects.get(user = user)
-        booking = Booking.objects.filter(student = student).order_by('-id')
+        booking = Booking.objects.filter(student = student).order_by(status_order,'-created_at')
         return render(request, 'mybooking.html', {"booking": booking, 'student': student})
     
     def delete(self, request, booking_id):
         print(booking_id)
         booking = Booking.objects.get(id=booking_id)
-        booking.delete()
+        booking.status = "CANCELED"
+        booking.save()
         return HttpResponse(booking_id)
 
 class BookingView(LoginRequiredMixin, PermissionRequiredMixin,  View):
@@ -302,8 +310,9 @@ class ReportList(View):
   
 class ReportDetail(LoginRequiredMixin, PermissionRequiredMixin, View):
     login_url = '/authen/'
+    permission_required = 'booking.change_report'
     def get(self, request, report_id):
-        report = Report.objstudent_idects.get(pk=report_id)
+        report = Report.objects.get(pk=report_id)
         form = ReportForm(instance=report)
         return render(request, 'report-detail.html', {
             "form":form,

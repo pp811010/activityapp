@@ -68,7 +68,7 @@ class Booking(models.Model):
     created_at = models.DateTimeField(default=timezone.now)
     status = models.CharField(
         max_length=50,
-        choices=[('PENDING', 'Pending'), ('APPROVED', 'Approved'), ('REJECTED', 'Rejected')]
+        choices=[('PENDING', 'Pending'), ('APPROVED', 'Approved'), ('REJECTED', 'Rejected'), ('CANCELED', 'Canceled')]
     )
     def __str__(self):
         return f"Booking by {self.student} for {self.place}"

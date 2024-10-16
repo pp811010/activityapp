@@ -4,7 +4,7 @@
 {% endblock  %}
 {% block content %}
 <div class="flex flex-col pt-20 px-10 gap-3 justify-center items-center w-full h-full">
-    <p class='text-2xl font-bold mt-7 mb-4'>My Report</p>
+    {% if reports %}
     <div class="overflow-x-auto overflow-y-auto max-h-[600px] h-3/4 rounded-xl w-full border border-gray-200">
         <table class="min-w-full bg-white shadow-md">
             <thead>
@@ -13,8 +13,8 @@
                     <th class="py-3 px-4 text-left">Image</th>
                     <th class="py-3 px-4 text-left">Date</th>
                     <th class="py-3 px-4 text-left">Time</th>
-                    <th class="py-3 px-4 text-left">Status</th>
                     <th class="py-3 px-4 text-left">Details</th>
+                    <th class="py-3 px-4 text-left">Status</th>
                 </tr>
             </thead>
             <tbody>
@@ -30,17 +30,23 @@
                     </td>
                     <td class="py-3 px-4">{{ data.created_at|date:"d/m/Y" }}</td>
                     <td class="py-3 px-4">{{ data.created_at|date:"H:i" }}</td>
-                    <td class="py-3 px-4">
-                        <span class="py-1 px-3 rounded-full text-sm status-cell">{{data.status}}</span>
-                    </td>
                     <td class="py-3 px-4 w-4/12">
                         {{ data.details|truncatechars:60 }}
-                    </td>                  
+                    </td>
+                    <td class="py-3 px-4">
+                        <span class="py-1 px-3 rounded-full text-sm status-cell">{{data.status}}</span>
+                    </td>        
                 </tr>
             {% endfor %}
             </tbody>
         </table>
     </div>
+    {% else %}
+    <div class="flex w-full justify-center items-center">
+        <p class="text-gray-500">คุณไม่มีรายการการรายงานในขณะนี้ คุณสามารถรายงานสถานที่ได้ที่สถานที่นั้นๆ</p>
+    </div>
+    {% endif %}
+
 
 </div>
 {% endblock  %}
