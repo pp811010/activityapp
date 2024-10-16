@@ -4,17 +4,19 @@
 {% endblock  %}
 {% block content %}
 <div class="flex flex-col pt-20 px-10 gap-3 justify-center items-center w-full h-full">
+    <p class='text-xl font-bold mt-10 w-full text-right px-10 py-2'>Total reports : {{reports | length}}</p>
     {% if reports %}
     <div class="overflow-x-auto overflow-y-auto max-h-[600px] h-3/4 rounded-xl w-full border border-gray-200">
         <table class="min-w-full bg-white shadow-md">
             <thead>
-                <tr class="bg-blue-500 text-white sticky top-0 z-10">
+                <tr class="bg-red-500 text-white sticky top-0 z-10">
                     <th class="py-3 px-4 text-left">Place</th>
                     <th class="py-3 px-4 text-left">Image</th>
                     <th class="py-3 px-4 text-left">Date</th>
                     <th class="py-3 px-4 text-left">Time</th>
                     <th class="py-3 px-4 text-left">Details</th>
                     <th class="py-3 px-4 text-left">Status</th>
+                    <th class="py-3 px-4 text-left">delete</th>
                 </tr>
             </thead>
             <tbody>
@@ -35,7 +37,12 @@
                     </td>
                     <td class="py-3 px-4">
                         <span class="py-1 px-3 rounded-full text-sm status-cell">{{data.status}}</span>
-                    </td>        
+                    </td>
+                    <td class="py-3 px-4">
+                        <button type="submit" onclick="deleteReport({{data.id}}, '{{ csrf_token }}', {{ student.id }})" class="text-sm w-10 h-10 p-2 rounded-full text-red-500 border border-red-500 bg-red-100 hover:bg-red-400 hover:text-white duration-200">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                    </td>     
                 </tr>
             {% endfor %}
             </tbody>
@@ -52,7 +59,21 @@
 {% endblock  %}
 {% block script %}
 {{block.super}}
-    // Function to update styles based on the value inside the tag
+    function deleteReport(report_id, csrf_token) {
+        stu = {{student.id}}
+        fetch(`/booking/myreport/${stu}/${report_id}/`, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": csrf_token,
+        },
+        })
+        .then((data) => {
+            console.log("Item deleted successfully");
+            window.location.reload();
+        })
+        .catch((error) => console.error("Error:", error));
+    }
     function updateStylesByValue() {
         const statusCells = document.querySelectorAll('.status-cell'); // Get all status cells
 
@@ -72,6 +93,5 @@
         });
     }
 
-    // Call the function when the page loads
     document.addEventListener('DOMContentLoaded', updateStylesByValue);
 {% endblock %}

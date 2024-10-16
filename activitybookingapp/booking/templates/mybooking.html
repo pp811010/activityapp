@@ -24,8 +24,8 @@
 				
 						
 						<div class="mt-4">
-							<p class="text-sm text-gray-500">Service</p>
-							<p class="text-base text-gray-900">{{i.place.location}}</p>
+							<p class="text-sm text-gray-500">Activity</p>
+							<p class="text-base text-gray-900">{{i.place.activity}}</p>
 						</div>
 				
 						
@@ -52,8 +52,8 @@
 							{% else %}
 								<div class="text-gray-500 font-semibold text-sm">{{i.status}}</div>
 							{% endif%}
-							{% if not i.status == 'CANCELED' %}
-							<button  onclick="deleteBooking({{ i.id }}, '{{csrf_token}}')" class="text-sm text-red-500">ยกเลิก</button>
+							{% if i.status != 'CANCELED' and i.status != 'REJECTED' and i.status != 'APPROVED' %}
+								<button  onclick="deleteBooking({{ i.id }}, '{{csrf_token}}')" class="text-sm text-red-500">ยกเลิก</button>
 							{% endif %}
 						</div>
 				</div>
