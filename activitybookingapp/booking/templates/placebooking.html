@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 {% block head %}
-<title>Activity booking</title>
+<title>Select Date</title>
 {% endblock  %}
 {% block content %}
 <div class="grid grid-cols-3 h-screen pt-16">
@@ -53,43 +53,19 @@
 {% block script %}
     {{block.super}}
         const lang = navigator.language;
+        console.log(lang)
         const calendarContainer = document.getElementById('calendarContainer');
         const selectedDateContainer = document.getElementById('selectedDateContainer');
         let currentDate = new Date();
         let selectedDate = null;
-
-
-        function selectCalendar(dayDiv, day, month, year) {
-            if (selectedDate) {
-                selectedDate.classList.remove('bg-yellow-300');
-            }
-
-            dayDiv.classList.add('bg-yellow-300');
-            selectedDate = dayDiv;
-
-            // Set the selected date for display
-            let bookingDate = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-            sendSelectedDate(bookingDate);
-        }
-
-        function sendSelectedDate(date) {
-            const placeId = {{ place.id }};
-            const url = `/booking/placebooking2/${placeId}/?selected_date=${encodeURIComponent(date)}`;
-            console.log('Redirecting to:', url);
-        
-            // Redirect to the constructed URL
-            window.location.href = url;
-        }
-        
-        
 
         for (let i = 0; i < 4; i++) {
             let date = new Date(currentDate);
             date.setDate(currentDate.getDate() + i);
 
             let dayNumber = date.getDate();
-            let monthName = date.toLocaleString(lang, { month: 'long' });
             let month = date.getMonth() + 1;
+            let monthName = date.toLocaleString(lang, { month: 'long' });
             let dayName = date.toLocaleString(lang, { weekday: 'long' });
             let year = date.getFullYear();
 
@@ -111,5 +87,27 @@
 
             calendarContainer.appendChild(dayDiv);
         }
+
+
+        function selectCalendar(dayDiv, day, month, year) {
+            if (selectedDate) {
+                selectedDate.classList.remove('bg-yellow-300');
+            }
+
+            dayDiv.classList.add('bg-yellow-300');
+            selectedDate = dayDiv;
+
+            let bookingDate = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+            sendSelectedDate(bookingDate);
+        }
+
+        function sendSelectedDate(date) {
+            const placeId = {{ place.id }};
+            const url = `/booking/placebooking2/${placeId}/?selected_date=${encodeURIComponent(date)}`;
+            window.location.href = url;
+        }
+        
+        
+
 
 {% endblock %}

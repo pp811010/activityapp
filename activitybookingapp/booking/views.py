@@ -82,7 +82,6 @@ class PlaceBooking(LoginRequiredMixin, PermissionRequiredMixin,  View):
     login_url = '/authen/'
     permission_required = "booking.add_booking"
     def get(self, request, place_id):
-        user = request.user
         place = Place.objects.get(pk=place_id)
         return render(request, 'placebooking.html', {
             'place': place
@@ -93,6 +92,8 @@ class PlaceBooking2(LoginRequiredMixin, PermissionRequiredMixin, View):
     permission_required = "booking.add_booking"
     def get(self, request, place_id):
         date = request.GET.get('selected_date')
+        print(date)
+        print(type(date))
         place = Place.objects.get(pk=place_id)
 
         #ิbooking pending status
@@ -102,7 +103,6 @@ class PlaceBooking2(LoginRequiredMixin, PermissionRequiredMixin, View):
             b['start_time'] = str(b['start_time'])
             b['end_time'] = str(b['end_time'])
             b['created_at'] = str(b['created_at'])
-        print(list(bookingpending))
         bookingpending_json = json.dumps(list(bookingpending))
 
         #ิbooking confirm status booked
@@ -126,7 +126,7 @@ class PlaceBooking2(LoginRequiredMixin, PermissionRequiredMixin, View):
         user = request.user
         stu = Student.objects.get(user=user)
 
-        selected_time = json.loads(request.POST.get('select_time', '[]'))  # ตั้งค่าเริ่มต้นเป็น list ว่าง
+        selected_time = json.loads(request.POST.get('select_time', '[]')) #แปลง string json ให้เป็น List เพราะ JSON ส่งมา JSON array
         date_booking = request.POST.get('date')
         date_booking = datetime.strptime(date_booking, "%Y-%m-%d").date()
 
@@ -141,7 +141,7 @@ class PlaceBooking2(LoginRequiredMixin, PermissionRequiredMixin, View):
 
         place = Place.objects.get(id=place_id)
 
-        # ตรวจสอบ
+        
         image_files = request.FILES.getlist('image')
         if (len(image_files) != place.card):
             return JsonResponse({"status": 'error', "message": f"กรุณาอัปโหลดไฟล์ให้ตรงกับจำนวนที่กำหนด (จำนวนบัตรนักเรียนต้องเป็น {place.card} ไฟล์)"}, status=400)
@@ -163,7 +163,7 @@ class PlaceBooking2(LoginRequiredMixin, PermissionRequiredMixin, View):
 
 class ReportFormView(LoginRequiredMixin, PermissionRequiredMixin, View):
     login_url = '/authen/'
-    permission_required = "booking.view_report"
+    permission_required = ["booking.view_report","bboking.add_report"]
     def get(self, request, place_id):
         form = ReportForm()
         student = Student.objects.get(user=request.user)
@@ -191,7 +191,7 @@ class ReportFormView(LoginRequiredMixin, PermissionRequiredMixin, View):
 
 class MyReportsView(LoginRequiredMixin, PermissionRequiredMixin, View):
     login_url = '/authen/'
-    permission_required = "booking.view_report"
+    permission_required = ["booking.view_report", "booking.delete_report"]
     def get(self, request, student_id):
         user = User.objects.get(pk=student_id)
         student = Student.objects.get(user=user)
@@ -205,7 +205,6 @@ class MyReportsView(LoginRequiredMixin, PermissionRequiredMixin, View):
 
 
 
-# get list of report in this place and save form
 class PlaceReport(LoginRequiredMixin, PermissionRequiredMixin, View):
     login_url = '/authen/'
     permission_required = 'booking.add_report'
@@ -262,30 +261,28 @@ class ManageProfileView(LoginRequiredMixin, View):
         })
             
 
-class ReportList(LoginRequiredMixin, PermissionRequiredMixin,View):
+class ReportList(LoginRequiredMixin, View):
     login_url = '/authen/'
     def post(self, request):
-        user = User.objects.get(pk=request.user.id)  # Retrieve the user instance
-        form = RegisterForm(request.POST, instance=user)  # Use request.POST and pass the instance
+        user = User.objects.get(pk=request.user.id)  
+        form = RegisterForm(request.POST, instance=user)  
 
         if form.is_valid():
-            user = form.save()  # Save user instance
-
-            # Get the associated student instance
+            user = form.save()  
             student = Student.objects.get(user=user)
-            student.first_name = form.cleaned_data['first_name']  # Update fields
+            student.first_name = form.cleaned_data['first_name']
             student.last_name = form.cleaned_data['last_name']
-            student.email = user.email  # Update the email
+            student.email = user.email  
             student.stu_card = form.cleaned_data['student_ID']
             student.faculty = form.cleaned_data['faculty']
             student.phone = form.cleaned_data['phone']
             print(student)
-            student.save()  # Save the student instance
+            student.save()  
 
             return redirect('my-profile')
         
         print(form.errors)
-        student = Student.objects.get(user=user)  # Retrieve the student again
+        student = Student.objects.get(user=user)
         return render(request, 'manage-profile.html', {
             "user": user,
             "form": form,

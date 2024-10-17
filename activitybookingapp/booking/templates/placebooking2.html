@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 {% block head %}
-<title>Activity booking</title>
+<title>Select Time</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 {% endblock  %}
 {% block content %}
@@ -81,8 +81,8 @@
     {{block.super}}
 
             document.addEventListener('DOMContentLoaded', (event) => {
-                const today = new Date(); // วันที่และเวลาปัจจุบัน
-                const selectedDate = new Date('{{ date }}'); // วันที่ที่เลือกจาก template
+                const today = new Date(); 
+                const selectedDate = new Date('{{ date }}');
             
                 if (today.toDateString() === selectedDate.toDateString()) {
                     const currentHour = today.getHours();
@@ -138,30 +138,27 @@
             }
 
 
-            
-            //ฟัวชั่นการเพิ่มเวลาที่เลือก
             let selected_time = [];
             function div_time(e) {
+                console.log(e.textContent)
                 const time = parseInt(e.textContent);
+                console.log(time)
                 const timeIndex = selected_time.indexOf(time);
             
                 if (timeIndex !== -1) {
-                    // ถ้าเวลานั้นมีอยู่แล้ว ให้ลบออก
                     selected_time.splice(timeIndex, 1);
-                    e.classList.remove('bg-blue-200'); // เปลี่ยนกลับไปเป็นสีเดิม
+                    e.classList.remove('bg-blue-200'); 
                 } else if (selected_time.length < 3) {
                     if (selected_time.length === 0) {
                         // ถ้าไม่มีเวลาเลย เพิ่มอะไรก้ได้
                         selected_time.push(time);
-                        e.classList.add('bg-blue-200'); // เปลี่ยนเป็นสีที่เลือก
+                        e.classList.add('bg-blue-200'); 
                     } else {
-                        // ตรวจสอบว่ามีเวลาเริ่มต้นที่เล็กกว่าหรือไม่
                         const lastSelectedTime = selected_time[selected_time.length - 1];
                         if (time === lastSelectedTime + 1) {
                             selected_time.push(time);
-                            e.classList.add('bg-blue-200'); // เปลี่ยนเป็นสีที่เลือก
+                            e.classList.add('bg-blue-200');
                         } else {
-                            // ถ้าไม่เรียงกัน
                             alert('กรุณาเลือกเวลาในลำดับที่ต่อเนื่องกันเท่านั้น');
                         }
                     }
@@ -175,7 +172,7 @@
                 const date = '{{date}}';
             
                 const formData = new FormData();
-                formData.append('select_time', JSON.stringify(selected_time)); //แปลงให้อยู่ในรูป JSON
+                formData.append('select_time', JSON.stringify(selected_time)); 
                 formData.append('date', date);
                 const files = document.getElementById('upload-button').files;
                 for (let i = 0; i < files.length; i++) {
@@ -190,11 +187,11 @@
                     }
                 })
                 .then((response) => {
-                    return response.json(); // อ่านข้อมูลเป็น JSON ก่อน
+                    return response.json();
                 }).then((data) => {
                     if (data.status === "success") {
                         alert('การจองสำเร็จ');
-                        window.location.href = "{% url 'mybooking'%}"; // เปลี่ยนไปที่หน้าการจองของฉัน
+                        window.location.href = "{% url 'mybooking'%}";
                     } else if (data.status === "error") {
                         alert(data.message);
                     }
@@ -217,7 +214,7 @@
                     img.src = URL.createObjectURL(file);
                     
                     img.onload = function() {
-                        URL.revokeObjectURL(img.src); // free memory
+                        URL.revokeObjectURL(img.src); 
                     };
             
                     outputContainer.appendChild(img);
