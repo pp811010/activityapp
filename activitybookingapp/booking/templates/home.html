@@ -79,7 +79,7 @@
                     {% if i.place_set.all|length > 0 %}
                         <a href="{%url 'activity' i.id%}">
                     {% endif %}
-                        <div class="bg-white rounded-lg shadow-md p-6 w-80">
+                        <div class="bg-white  transition duration-300 hover:bg-[#8ABCD4] rounded-lg shadow-md p-6 w-80">
                                 <div class="flex justify-center mb-6">
                                     {% if i.photo %}
                                     <img src="{{ i.photo.url }}"  class="w-[200px] h-[200px]">
