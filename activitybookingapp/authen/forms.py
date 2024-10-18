@@ -66,7 +66,8 @@ class RegisterForm(forms.ModelForm):
         
         email = cleaned_data.get('email')
         if email:
-            if not email.endswith('@kmitl.ac.th'):
+            username_part = email.split('@')[0]
+            if not email.endswith('@kmitl.ac.th') or len(username_part) != 8:
                 self.add_error('email', 'อีเมลต้องใช้โดเมน @kmitl.ac.th')
 
         phone = cleaned_data.get('phone')

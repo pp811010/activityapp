@@ -93,10 +93,13 @@
                 </div>
 
                 <div>
-                    <p class="text-sm text-gray-500">Staff</p>
-                    {% for staff in booking.place.staff.all %}
-                        <p class="text-sm text-gray-900">{{staff}}</p>
-                    {% endfor %}                    
+                    <p class="text-sm text-gray-500 mb-2">Staff</p>
+
+                        {% for staff in booking.place.staff.all %}
+                            <a href="{% url 'staff-profile' staff.id %}" class="text-blue-500 hover:underline ">
+                                <p class="text-xs px-3">{{staff}}</p>
+                            </a>
+                        {% endfor %}                   
                 </div>
 
 
