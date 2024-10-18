@@ -163,7 +163,7 @@ class PlaceBooking2(LoginRequiredMixin, PermissionRequiredMixin, View):
 
 class ReportFormView(LoginRequiredMixin, PermissionRequiredMixin, View):
     login_url = '/authen/'
-    permission_required = ["booking.view_report","bboking.add_report"]
+    permission_required = ["booking.view_report","booking.add_report"]
     def get(self, request, place_id):
         form = ReportForm()
         student = Student.objects.get(user=request.user)
